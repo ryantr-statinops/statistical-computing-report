@@ -6,7 +6,7 @@
 - `r/Nhom_D_TKTT.R` implements the bootstrap examples and simulations using base R.
 - `assets/` holds shared static resources, including fonts, licenses, and checksums.
 - `output/figures/`, `output/tables/`, and `output/logs/` receive new R results. `assets/simulate-results/` holds the report snapshot copied from `archive/previous-results/`; LaTeX and build scripts use this snapshot. Validate new results before promoting them into the report snapshot.
-- `scripts/` contains platform build commands; `slide/` is reserved for slide sources. No dedicated test directory exists.
+- `slide/beamer.tex` is the single-file Beamer deck; `slide/README.md` maps frames to report sources. `scripts/` contains Windows and macOS build commands. No dedicated test directory exists.
 
 ## Build, Test, and Development Commands
 
@@ -22,7 +22,7 @@ Generates figures, CSV tables, and environment logs. The full simulation uses K 
 powershell -NoProfile -File scripts/build.ps1
 ```
 
-Windows build; on macOS use `bash scripts/build.sh`. Both check required inputs and run XeLaTeX three times. The PDF is `tex-report/code/main.pdf`. Alternatively, open `main.tex` in TeXstudio and use Build & View.
+Windows build; on macOS use `bash scripts/build.sh`. Add `-Target slides` or `slides` to build Beamer, `all` to build both; default remains report. Each selected target checks inputs and runs XeLaTeX three times. PDFs are `tex-report/code/main.pdf` and `slide/beamer.pdf`; both are tracked. Alternatively, open a source in TeXstudio and use Build & View.
 
 ## Coding Style & Naming Conventions
 
@@ -34,4 +34,4 @@ There is no test framework or coverage threshold. Preserve existing R `stopifnot
 
 ## Commit & Pull Request Guidelines
 
-Use short, action-oriented messages without a prescribed prefix, such as `Update report introduction`. Work on branches such as `report/update-methods`; open pull requests into `main` and request another member's review. Describe changes, validation, and related issues when applicable; include PDF excerpts for layout changes. Commit regenerated figures, tables, logs, and the report PDF together. Exclude auxiliary build files and personal editor state; never force-push `main`. See `CONTRIBUTING.md` for setup details.
+Every change goes on a dedicated branch and through a pull request to `main`; do not push directly to `main` or merge your own PR. The repository owner `ryantr-statinops` reviews and merges. Name branches `report/<task>`, `slides/<task>`, or `docs/<task>`. Describe scope and validation in the PR; attach updated PDFs for document/layout changes. Commit relevant generated figures, tables, logs, and PDFs with source changes. Exclude auxiliary build files and personal editor state; never force-push `main`. See `CONTRIBUTING.md` and `.github/pull_request_template.md`.
