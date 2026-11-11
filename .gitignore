@@ -19,6 +19,9 @@
 *.run.xml
 tex-report/code/main.pdf
 tex-report/code/build/
+*.txss
+*.tex.bak
+*.tex~
 
 # R session and local project state
 .Rhistory
@@ -30,3 +33,6 @@ tex-report/code/build/
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# Temporary local build verification
+.build-check/
