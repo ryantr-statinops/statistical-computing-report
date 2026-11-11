@@ -1,0 +1,9 @@
+R version: 4.3.3
+K: 10000
+B: 1999
+alpha: 0.05
+Seed: 20260925
+RNGkind: Mersenne-Twister, Inversion, Rejection
+Example quantile type: 1; simulation quantile type: 7
+Invariance quantile type: 1
+Example sample for log invariance: 2, 3, 4, 5, 9

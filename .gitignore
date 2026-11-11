@@ -1,0 +1,32 @@
+# LaTeX build artifacts (keep source figures and result PDFs)
+*.aux
+*.log
+*.toc
+*.lof
+*.lot
+*.loa
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.xdv
+*.nav
+*.snm
+*.vrb
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+tex-report/code/main.pdf
+tex-report/code/build/
+
+# R session and local project state
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
