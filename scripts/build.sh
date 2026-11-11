@@ -18,17 +18,17 @@ for file in \
     assets/fonts/NotoSansMono-Regular.ttf \
     assets/fonts/NotoSansMono-Bold.ttf \
     assets/tdtu-logo.jpg \
-    output/figures/example-bootstrap-distributions.pdf \
-    output/figures/simulation-coverage.pdf \
-    output/figures/simulation-average-length.pdf \
-    output/figures/invariance-log-comparison.pdf; do
+    assets/simulate-results/example-bootstrap-distributions.pdf \
+    assets/simulate-results/simulation-coverage.pdf \
+    assets/simulate-results/simulation-average-length.pdf \
+    assets/simulate-results/invariance-log-comparison.pdf; do
     if [[ ! -f "$project_root/$file" ]]; then
         echo "Missing input: $file" >&2
         missing=1
     fi
 done
 if [[ "$missing" -ne 0 ]]; then
-    echo 'Generate figures with Rscript r/Nhom_D_TKTT.R first.' >&2
+    echo 'Check shared assets and the report snapshot in assets/simulate-results/.' >&2
     exit 1
 fi
 cd "$project_root/tex-report/code"
