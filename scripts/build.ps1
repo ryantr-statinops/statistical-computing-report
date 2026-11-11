@@ -15,16 +15,16 @@ $requiredFiles = @(
     'assets/fonts/NotoSansMono-Regular.ttf',
     'assets/fonts/NotoSansMono-Bold.ttf',
     'assets/tdtu-logo.jpg',
-    'output/figures/example-bootstrap-distributions.pdf',
-    'output/figures/simulation-coverage.pdf',
-    'output/figures/simulation-average-length.pdf',
-    'output/figures/invariance-log-comparison.pdf'
+    'assets/simulate-results/example-bootstrap-distributions.pdf',
+    'assets/simulate-results/simulation-coverage.pdf',
+    'assets/simulate-results/simulation-average-length.pdf',
+    'assets/simulate-results/invariance-log-comparison.pdf'
 )
 $missingFiles = @($requiredFiles | Where-Object {
     -not (Test-Path -LiteralPath (Join-Path $projectRoot $_) -PathType Leaf)
 })
 if ($missingFiles.Count -gt 0) {
-    throw ("Missing inputs. Generate figures with Rscript r/Nhom_D_TKTT.R first:`n" + ($missingFiles -join "`n"))
+    throw ("Missing report inputs. Check assets/fonts and assets/simulate-results:`n" + ($missingFiles -join "`n"))
 }
 Push-Location (Join-Path $projectRoot 'tex-report/code')
 try {
