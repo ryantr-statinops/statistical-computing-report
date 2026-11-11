@@ -19,10 +19,10 @@ if [[ "$target" == slides || "$target" == all ]]; then
     documents+=("slide/beamer.tex")
 fi
 for file in \
-    assets/fonts/LiberationSerif-Regular.ttf \
-    assets/fonts/LiberationSerif-Bold.ttf \
-    assets/fonts/LiberationSerif-Italic.ttf \
-    assets/fonts/LiberationSerif-BoldItalic.ttf \
+    assets/fonts/Arial-Regular.ttf \
+    assets/fonts/Arial-Bold.ttf \
+    assets/fonts/Arial-Italic.ttf \
+    assets/fonts/Arial-BoldItalic.ttf \
     assets/fonts/NotoSans-Regular.ttf \
     assets/fonts/NotoSans-Bold.ttf \
     assets/fonts/NotoSans-Italic.ttf \

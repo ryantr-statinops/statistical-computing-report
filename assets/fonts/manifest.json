@@ -1,28 +1,23 @@
 [
   {
-    "file": "LiberationSerif-BoldItalic.ttf",
-    "sha256": "f17db8af71e24d2066b587546021d4f0b296be389512b658dec3c09affeb11a7",
-    "source": "https://github.com/liberationfonts/liberation-fonts/files/7261482/liberation-fonts-ttf-2.1.5.tar.gz"
+    "file": "Arial-BoldItalic.ttf",
+    "sha256": "d68bdf8ebfe67a72e6db02b104e8062de5e75c358ba9bb7ef5d0e5c70272a1c5",
+    "source": "Windows Fonts (Arial 7.00)"
   },
   {
-    "file": "LiberationSerif-Italic.ttf",
-    "sha256": "0e3dea9f8d613e006ccfa62201f33e265d19167bd0907725c3e145368b04fc2e",
-    "source": "https://github.com/liberationfonts/liberation-fonts/files/7261482/liberation-fonts-ttf-2.1.5.tar.gz"
+    "file": "Arial-Italic.ttf",
+    "sha256": "4487a06c1b8de98deb0cab2c04a876cbc8f31b7e397dc1f2b2021c0746321d7c",
+    "source": "Windows Fonts (Arial 7.00)"
   },
   {
-    "file": "LiberationSerif-Bold.ttf",
-    "sha256": "d754ba427cfe0bca54ae052384baa8f842da5bd6550ad4da024ac441e7a7d5ce",
-    "source": "https://github.com/liberationfonts/liberation-fonts/files/7261482/liberation-fonts-ttf-2.1.5.tar.gz"
+    "file": "Arial-Bold.ttf",
+    "sha256": "4d59199834e7439c67ea4949407639961060b21b173833f566eb60ac6fd8f5af",
+    "source": "Windows Fonts (Arial 7.00)"
   },
   {
-    "file": "LiberationSerif-Regular.ttf",
-    "sha256": "058ea80864aef09a23f45cbec2bb5400bc3dfbdea01c3f10538a21fcb497fb74",
-    "source": "https://github.com/liberationfonts/liberation-fonts/files/7261482/liberation-fonts-ttf-2.1.5.tar.gz"
-  },
-  {
-    "file": "LICENSE-Liberation.txt",
-    "sha256": "93fed46019c38bbe566b479d22148e2e8a1e85ada614accb0211c37b2c61c19b",
-    "source": "https://github.com/liberationfonts/liberation-fonts/files/7261482/liberation-fonts-ttf-2.1.5.tar.gz"
+    "file": "Arial-Regular.ttf",
+    "sha256": "edfbd22a3d088fc2f5d7c79b8c9c732df6dc878a60f0a80be0f92a3c7a634404",
+    "source": "Windows Fonts (Arial 7.00)"
   },
   {
     "file": "NotoSans-Regular.ttf",
