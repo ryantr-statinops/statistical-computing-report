@@ -2,10 +2,10 @@
 
 ## Project Structure & Module Organization
 
-- `tex-report/code/main.tex` assembles the report; `preamble.tex` owns packages, fonts, and shared formatting. Edit individual topics in `sections/00-front-matter.tex` through `10-references.tex`.
+- `tex-report/code/main.tex` contains the entire report, packages, fonts, and shared formatting. Keep this single-file layout; do not split it into section or preamble files unless requested.
 - `r/Nhom_D_TKTT.R` implements the bootstrap examples and simulations using base R.
 - `assets/` holds shared static resources, including fonts, licenses, and checksums.
-- `output/figures/`, `output/tables/`, and `output/logs/` contain generated results. `archive/previous-results/` holds historical reference results; do not substitute these for fresh outputs.
+- `output/figures/`, `output/tables/`, and `output/logs/` receive new R results. `assets/simulate-results/` holds the report snapshot copied from `archive/previous-results/`; LaTeX and build scripts use this snapshot. Validate new results before promoting them into the report snapshot.
 - `scripts/` contains platform build commands; `slide/` is reserved for slide sources. No dedicated test directory exists.
 
 ## Build, Test, and Development Commands
@@ -26,7 +26,7 @@ Windows build; on macOS use `bash scripts/build.sh`. Both check required inputs 
 
 ## Coding Style & Naming Conventions
 
-Use UTF-8, LF line endings, four spaces for LaTeX, and two for R, following `.editorconfig` and `.gitattributes`. No formatter or linter is configured; avoid unrelated reformatting. Use descriptive ASCII filenames without spaces and numbered topic names for report sections. Preserve unique LaTeX labels. Use relative paths with `/` in LaTeX and `file.path()` in R; match filename case exactly.
+Use UTF-8, LF line endings, four spaces for LaTeX, and two for R, following `.editorconfig` and `.gitattributes`. No formatter or linter is configured; avoid unrelated reformatting. Use descriptive ASCII filenames without spaces for new assets and scripts. Preserve unique LaTeX labels. Use relative paths with `/` in LaTeX and `file.path()` in R; match filename case exactly.
 
 ## Testing Guidelines
 
