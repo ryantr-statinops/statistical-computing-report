@@ -30,8 +30,7 @@ cài trên máy. Không ghi đường dẫn máy cá nhân vào mã nguồn chun
 3. Trong Commands, kiểm tra XeLaTeX trỏ tới bản thuộc MiKTeX trên máy.
 4. Lưu file UTF-8; dùng 4 dấu cách cho LaTeX, 2 dấu cách cho R. `.editorconfig`
    dành cho editor hỗ trợ nó; nếu TeXstudio không đọc file, thiết lập qua giao diện.
-5. Mở `tex-report/code/main.tex` rồi Build & View. Các file thành phần có
-   `% !TeX root` để TeXstudio biên dịch đúng tài liệu gốc. Không đặt root thủ công
+5. Mở `tex-report/code/main.tex` rồi Build & View. Toàn bộ nội dung và cấu hình nằm trong file này. Không đặt root thủ công
    khác với `main.tex`. Biên dịch lại nếu mục lục hoặc tham chiếu cần cập nhật.
 
 `main.tex` đã chỉ định XeLaTeX và UTF-8 bằng magic comments. Font được nạp
@@ -40,7 +39,8 @@ cấu hình riêng từng máy. Không tự format toàn bộ file chỉ để �
 
 ## Chạy R và build báo cáo
 
-Từ gốc repo, tạo kết quả:
+Báo cáo dùng bộ kết quả lưu sẵn tại `assets/simulate-results/`, nên có thể
+build ngay. Khi cần tạo kết quả mới, từ gốc repo chạy:
 
 ```text
 Rscript r/Nhom_D_TKTT.R
@@ -78,29 +78,19 @@ Nếu chính sách PowerShell của máy chặn script, dùng TeXstudio để bu
 - Kết quả `output/` được phép commit. Một người phụ trách chạy mô phỏng đầy
   đủ và commit hình, bảng, log cùng nhau. Thành viên khác dùng kết quả đã kiểm
   tra, không cần chạy lại khi chỉ sửa chữ.
-- `archive/previous-results/` chỉ để đối chiếu. LaTeX không tự dùng các hình
-  này thay cho đầu ra mới.
+- `assets/simulate-results/` là bộ hình, bảng và log đang dùng cho báo cáo,
+  được copy từ `archive/previous-results/`. R vẫn xuất vào `output/`. Sau khi
+  kiểm tra kết quả mới, copy các file tương ứng vào bộ kết quả báo cáo và cập
+  nhật số liệu/nhận xét cùng nhau. Giữ `archive/previous-results/` để đối chiếu.
 
-## Phân chia nội dung
+## Chỉnh sửa nội dung
 
-Các file nằm trong `tex-report/code/sections/`:
+Toàn bộ báo cáo, package, font và định dạng nằm trong
+`tex-report/code/main.tex`. Giữ cấu trúc một file này, không tách thành
+`sections/` hoặc `preamble.tex` nếu chưa được yêu cầu.
 
-| File | Nội dung |
-| --- | --- |
-| `00-front-matter.tex` | Bìa, phân công, lời cảm ơn, mở đầu, mục lục |
-| `01-introduction.tex` | Giới thiệu |
-| `02-theory.tex` | ECDF và Monte Carlo |
-| `03-methods.tex` | Normal và Basic CI |
-| `04-comparison.tex` | So sánh phương pháp |
-| `05-examples.tex` | Ví dụ |
-| `06-simulation.tex` | Mô phỏng và kết quả |
-| `07-application.tex` | Ứng dụng y sinh |
-| `08-extensions.tex` | Percentile, BCa, tính bất biến |
-| `09-conclusion.tex` | Kết luận |
-| `10-references.tex` | Tài liệu tham khảo |
-
-Thống nhất người phụ trách mỗi phần. `preamble.tex` chứa định dạng chung;
-báo rõ khi thay đổi file này trong pull request. Giữ label duy nhất toàn bài.
+Thống nhất người phụ trách từng phần nội dung trước khi sửa cùng file để
+hạn chế xung đột. Giữ label duy nhất toàn bài và báo rõ khi thay đổi định dạng chung.
 
 ## Git
 
@@ -117,7 +107,7 @@ Chỉ stage file thuộc công việc của mình, ví dụ:
 
 ```text
 git diff
-git add tex-report/code/sections/01-introduction.tex
+git add tex-report/code/main.tex
 git commit -m "Update report introduction"
 git push -u origin report/ten-cong-viec
 ```
