@@ -1,0 +1,16 @@
+* text=auto
+*.tex text eol=lf
+*.R text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.txt text eol=lf
+*.csv text eol=lf
+*.sh text eol=lf
+*.ps1 text eol=lf
+.gitignore text eol=lf
+.gitattributes text eol=lf
+.editorconfig text eol=lf
+*.pdf binary
+*.png binary
+*.jpg binary
+*.ttf binary
