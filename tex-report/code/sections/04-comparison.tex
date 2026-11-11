@@ -1,0 +1,55 @@
+% !TeX root = ../main.tex
+% !TeX encoding = utf8
+\section{SO SÁNH NORMAL CI VÀ BASIC CI}
+	
+	\subsection{So sánh cơ sở toán học của Normal CI và Basic CI}
+	Bảng \ref{tab:comparison_math} so sánh các giả định và đặc điểm toán học của hai phương pháp \cite{efron1993, davison1997}.
+	\begin{table}[htbp]
+		\centering
+		\renewcommand{\arraystretch}{1.4}
+		\setlength{\tabcolsep}{6pt}
+		\caption{So sánh cơ sở toán học của Normal CI và Basic CI}
+		\label{tab:comparison_math}
+		\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{3.2cm}XX}
+			\toprule
+			\textbf{Tiêu chí} & \textbf{Normal Bootstrap CI} & \textbf{Basic Bootstrap CI} \\
+			\midrule
+			\textbf{Giả định phân phối} & Giả định $\hat{\theta}_n$ xấp xỉ phân phối Chuẩn $N(\theta, se^2)$ \cite{efron1993}. & Không giả định phân phối Chuẩn; giả định tính tương đồng độ lệch $\hat{\theta}_n - \theta \approx \hat{\theta}_n^* - \hat{\theta}_n$ \cite{davison1997}. \\
+			\textbf{Thông tin Bootstrap} & Khai thác phương sai và sai số chuẩn $\widehat{se}^*$ \cite{efron1993}. & Khai thác hình dạng phân phối thực nghiệm qua các phân vị $q^*$ \cite{davison1997}. \\
+			\textbf{Tính đối xứng} & Khoảng đối xứng quanh ước lượng điểm $\hat{\theta}_n$ \cite{efron1993}. & Khoảng có thể bất đối xứng, phản ánh độ lệch của phân phối \cite{davison1997}. \\
+			\textbf{Hiệu chỉnh độ lệch} & Không hiệu chỉnh độ lệch \cite{efron1993}. & Phản chiếu phân vị; không bảo đảm loại bỏ độ chệch \cite{davison1997}. \\
+			\textbf{Độ chính xác tiệm cận} & Bậc nhất, dưới điều kiện chính quy \cite{efron1993}. & Bậc nhất, dưới điều kiện chính quy \cite{davison1997}. \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
+	
+	\subsection{Hai phương pháp khi phân phối lệch}
+	
+Khi tổng thể lệch phải, phân phối lấy mẫu của $\hat{\theta}_n$ cũng có thể lệch, nhất là với cỡ mẫu nhỏ. Dưới đây là cách hai khoảng phản ánh độ lệch đó \cite{davison1997}.
+	
+	\subsubsection{Đặc điểm của Normal CI}
+Công thức $CI_{\text{Normal}} = \hat{\theta}_n \pm z_{1-\alpha/2}\widehat{se}^*$ tạo khoảng đối xứng quanh ước lượng điểm nên không phản ánh trực tiếp độ lệch của phân phối Bootstrap \cite{efron1993}. Tùy tham số và dữ liệu, một cận có thể nằm ngoài miền giá trị hợp lý hoặc coverage có thể khác mức danh nghĩa \cite{davison1997}.
+
+\subsubsection{Cách Basic CI phản ánh độ lệch qua phép đảo phân vị}
+	Trong trường hợp phân phối Bootstrap lệch phải và khoảng cách từ $\hat{\theta}_n$ đến phân vị trên $q_{1-\alpha/2}^*$ lớn hơn khoảng cách đến phân vị dưới $q_{\alpha/2}^*$ \cite{davison1997}:
+	\begin{equation}
+		(q_{1-\alpha/2}^* - \hat{\theta}_n) > (\hat{\theta}_n - q_{\alpha/2}^*)
+	\end{equation}
+	Áp dụng công thức Basic CI:
+	\begin{itemize}
+		\item Cận dưới: $2\hat{\theta}_n - q_{1-\alpha/2}^* = \hat{\theta}_n - (q_{1-\alpha/2}^* - \hat{\theta}_n)$. Vì $(q_{1-\alpha/2}^* - \hat{\theta}_n)$ lớn, cận dưới bị đẩy lùi mạnh về bên trái \cite{davison1997}.
+		\item Cận trên: $2\hat{\theta}_n - q_{\alpha/2}^* = \hat{\theta}_n + (\hat{\theta}_n - q_{\alpha/2}^*)$. Vì $(\hat{\theta}_n - q_{\alpha/2}^*)$ nhỏ, cận trên tiến nhẹ về bên phải \cite{davison1997}.
+			Cơ chế trên được minh họa bằng cùng dữ liệu lệch phải ở Ví dụ~\ref{sec:example-skewed}; các phân vị và cận khoảng được tính từ mã nguồn R thống nhất của báo cáo.
+	\end{itemize}
+	Quantile flipping phản chiếu các phân vị Bootstrap quanh ước lượng điểm và vì vậy có thể tạo khoảng bất đối xứng. Cơ chế này không đảm bảo Basic CI có coverage cao hơn Normal CI; hiệu năng cần được so sánh theo thiết kế mô phỏng, bằng các chỉ số như coverage và độ dài khoảng \cite{efron1993, davison1997}.
+
+\subsubsection{Điều kiện áp dụng và giới hạn của Bootstrap}
+
+Bootstrap phi tham số thông thường lấy mẫu lại từ các quan sát độc lập cùng
+phân phối. Vì vậy, kết quả phụ thuộc vào việc mẫu ban đầu có đại diện cho
+tổng thể và cách lấy mẫu lại có giữ đúng cấu trúc dữ liệu hay không. Với dữ
+liệu ghép cặp, phân cụm hoặc phụ thuộc theo thời gian, cần chọn cách lấy mẫu
+lại phù hợp với cấu trúc đó thay vì xem mọi quan sát là độc lập.
+
+Mẫu nhỏ không tự động làm Bootstrap chính xác hơn \cite{efron1993, davison1997}. Khi có ít quan sát, các bản sao chỉ chứa một số giá trị hạn chế, khiến phân vị và cận khoảng có thể thiếu ổn định. Cần nêu rõ giả định, đơn vị lấy mẫu lại và giới hạn khi diễn giải kết quả.
+

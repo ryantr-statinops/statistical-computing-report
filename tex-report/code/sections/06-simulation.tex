@@ -1,0 +1,101 @@
+% !TeX root = ../main.tex
+% !TeX encoding = utf8
+\section{NGHIÊN CỨU MÔ PHỎNG MONTE CARLO BẰNG R}
+
+\subsection{Thiết kế mô phỏng}
+
+Mô phỏng đánh giá coverage và độ dài trung bình của Normal, Basic và
+Percentile CI với mức tin cậy danh nghĩa $95\%$. Mỗi trong bốn kịch bản
+được lặp $K=10{,}000$ lần; mỗi lần lặp tạo $B=1{,}999$ mẫu Bootstrap.
+Các kịch bản gồm tổng thể chuẩn $N(0,1)$ và mũ $\operatorname{Exp}(1)$,
+đều ở hai cỡ mẫu $n=12$ và $n=40$. Seed được cố định ở $20260925$ để có
+thể tái lập kết quả.
+
+Coverage là tỷ lệ các khoảng chứa tham số thật; độ dài trung bình là trung
+bình của $U_k-L_k$ qua các lần lặp. Sai số chuẩn Monte Carlo của coverage
+được ước lượng bởi
+\[
+\widehat{MCSE}=\sqrt{\widehat{CP}(1-\widehat{CP})/K}.
+\]
+Trong ví dụ liệt kê chính xác ở Phần~\ref{sec:examples}, phân vị dùng
+quy ước type~1; mô phỏng dùng phân vị nội suy type~7 của R. Tệp
+\texttt{run-info.txt} trong thư mục kết quả ghi lại các thiết lập này.
+
+Đoạn mã sau thể hiện phần tính các cận từ một mẫu Bootstrap. Vòng lặp đầy
+đủ qua bốn kịch bản, tổng hợp chỉ số và xuất kết quả được triển khai trong
+mã mô phỏng R.
+
+\begin{lstlisting}[style=Rstyle, caption={Tính các khoảng tin cậy}]
+means <- colMeans(matrix(
+  x[sample.int(n, n * B, replace = TRUE)], nrow = n))
+se <- sd(means)
+q <- quantile(means, c(alpha / 2, 1 - alpha / 2), type = 7)
+ci <- rbind(
+  Normal = c(theta_hat - z * se, theta_hat + z * se),
+  Basic = c(2 * theta_hat - q[2], 2 * theta_hat - q[1]),
+  Percentile = q
+)
+\end{lstlisting}
+
+\subsection{Kết quả mô phỏng}
+
+Bảng~\ref{tab:simulation-results} tổng hợp kết quả từ lần chạy có seed cố
+định. Coverage và MCSE được trình bày theo phần trăm; AL giữ nguyên đơn vị
+của thống kê trung bình.
+
+\begin{table}[htbp]
+\centering
+\scriptsize
+\renewcommand{\arraystretch}{1.12}
+\setlength{\tabcolsep}{4pt}
+\caption{Coverage, độ dài khoảng trung bình và MCSE trong mô phỏng ($K=10{,}000$, $B=1{,}999$)}
+\label{tab:simulation-results}
+\begin{tabular}{llrrr}
+\toprule
+Phân phối & Phương pháp & Coverage (\%) & AL & MCSE (điểm \%) \\
+\midrule
+\multirow{3}{*}{$N(0,1),\ n=12$}
+& Normal & 91.05 & 1.0585 & 0.29 \\
+& Basic & 91.01 & 1.0528 & 0.29 \\
+& Percentile & 90.74 & 1.0528 & 0.29 \\
+\addlinespace
+\multirow{3}{*}{$N(0,1),\ n=40$}
+& Normal & 93.91 & 0.6081 & 0.24 \\
+& Basic & 93.89 & 0.6065 & 0.24 \\
+& Percentile & 93.79 & 0.6065 & 0.24 \\
+\addlinespace
+\multirow{3}{*}{$\operatorname{Exp}(1),\ n=12$}
+& Normal & 87.06 & 1.0153 & 0.34 \\
+& Basic & 85.47 & 1.0002 & 0.35 \\
+& Percentile & 87.59 & 1.0002 & 0.33 \\
+\addlinespace
+\multirow{3}{*}{$\operatorname{Exp}(1),\ n=40$}
+& Normal & 91.92 & 0.5971 & 0.27 \\
+& Basic & 90.99 & 0.5939 & 0.29 \\
+& Percentile & 92.21 & 0.5939 & 0.27 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.95\textwidth]{simulation-coverage.pdf}
+\caption{Coverage của ba phương pháp trong bốn kịch bản; đường đứt biểu thị mức danh nghĩa $95\%$.}
+\label{fig:simulation-coverage}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.95\textwidth]{simulation-average-length.pdf}
+\caption{Độ dài khoảng trung bình của ba phương pháp trong bốn kịch bản.}
+\label{fig:simulation-average-length}
+\end{figure}
+
+Trong tổng thể chuẩn, coverage của ba phương pháp khá gần nhau và tăng từ
+khoảng $91\%$ ở $n=12$ lên khoảng $94\%$ ở $n=40$. Với tổng thể mũ, ở cả
+hai cỡ mẫu, Basic có coverage thấp hơn Normal trong lần mô phỏng này;
+Percentile có coverage cao nhất trong ba phương pháp ở cả $n=12$ và $n=40$.
+AL của Basic và Percentile trùng nhau trong từng kịch bản do hai khoảng
+được phản chiếu từ cùng cặp phân vị. Các kết quả này mô tả đúng bốn kịch
+bản đã xét, không khẳng định thứ hạng phương pháp cho mọi phân phối.
+

@@ -1,0 +1,211 @@
+% !TeX root = ../main.tex
+% !TeX encoding = utf8
+\section{NỘI DUNG MỞ RỘNG: PERCENTILE CI VÀ TÍNH BẤT BIẾN}
+
+\subsection{Khoảng tin cậy Bootstrap phân vị (Percentile CI)}
+
+Bên cạnh Normal CI và Basic CI, Percentile CI lấy trực tiếp các phân vị của phân phối Bootstrap làm hai cận khoảng \cite{efron1993}.
+
+\subsubsection{Cơ sở và công thức}
+Percentile CI đặt giả định rằng phân phối của bản sao Bootstrap $\hat{\theta}^*$ xấp xỉ trực tiếp phân phối lấy mẫu của ước lượng điểm $\hat{\theta}_n$ \cite{efron1993}. Tức là, các phân vị thực nghiệm của tập hợp $\{\hat{\theta}^{*(1)}, \dots, \hat{\theta}^{*(B)}\}$ được sử dụng trực tiếp làm cận của khoảng tin cậy mà không qua phép biến đổi độ lệch nào \cite{efron1993}:
+
+\begin{equation}
+	CI_{\text{Percentile}} = \left[ q_{\alpha/2}^*, \quad q_{1-\alpha/2}^* \right]
+\end{equation}
+trong đó $q_{\alpha/2}^*$ và $q_{1-\alpha/2}^*$ tương ứng là phân vị thực nghiệm mức $\alpha/2$ và $1-\alpha/2$ của các bản sao Bootstrap \cite{buithuytrang2026}.
+\subsection{Khoảng tin cậy Bootstrap BCa}
+
+Khoảng tin cậy Bootstrap BCa (Bias-Corrected and Accelerated) điều chỉnh
+các phân vị Bootstrap để phản ánh độ chệch và độ bất đối xứng của phân phối
+ước lượng \cite{efron1993, davison1997}.
+
+Gọi $\hat{\theta}_n$ là ước lượng từ mẫu gốc và
+$\hat{\theta}^{*(1)},\ldots,\hat{\theta}^{*(B)}$ là các bản sao Bootstrap.
+Hệ số hiệu chỉnh độ chệch được ước lượng bởi:
+\begin{equation}
+	\widehat{z}_0
+	=
+	\Phi^{-1}\left(
+	\frac{1}{B}\sum_{b=1}^{B}
+	\mathbf{1}\left\{
+	\hat{\theta}^{*(b)} < \hat{\theta}_n
+	\right\}
+	\right),
+\end{equation}
+trong đó $\Phi^{-1}$ là hàm phân vị của phân phối Chuẩn tắc.
+
+Tiếp theo, gọi $\hat{\theta}_{(i)}$ là giá trị thống kê tính khi bỏ quan sát
+thứ $i$ khỏi mẫu, và
+$\bar{\theta}_{(.)}=n^{-1}\sum_{i=1}^{n}\hat{\theta}_{(i)}$. Hệ số gia tốc
+được ước lượng bằng:
+\begin{equation}
+	\widehat{a}
+	=
+	\frac{
+		\displaystyle\sum_{i=1}^{n}
+		\left(\bar{\theta}_{(.)}-\hat{\theta}_{(i)}\right)^3
+	}{
+		\displaystyle
+		6\left[
+		\sum_{i=1}^{n}
+		\left(\bar{\theta}_{(.)}-\hat{\theta}_{(i)}\right)^2
+		\right]^{3/2}
+	}.
+\end{equation}
+
+Với mức ý nghĩa $\alpha$, hai mức phân vị điều chỉnh được xác định bởi:
+\begin{equation}
+	p_L
+	=
+	\Phi\left[
+	\widehat{z}_0+
+	\frac{\widehat{z}_0+z_{\alpha/2}}
+	{1-\widehat{a}(\widehat{z}_0+z_{\alpha/2})}
+	\right],
+\end{equation}
+\begin{equation}
+	p_U
+	=
+	\Phi\left[
+	\widehat{z}_0+
+	\frac{\widehat{z}_0+z_{1-\alpha/2}}
+	{1-\widehat{a}(\widehat{z}_0+z_{1-\alpha/2})}
+	\right],
+\end{equation}
+trong đó $z_p=\Phi^{-1}(p)$. Hai mức $p_L$ và $p_U$ nói chung không có tổng bằng $1$. Khoảng tin cậy BCa được tính bằng:
+\begin{equation}
+	CI_{\mathrm{BCa}}
+	=
+	\left[
+	q_{p_L}^{*},
+	q_{p_U}^{*}
+	\right].
+\end{equation}
+
+Các công thức trên yêu cầu $\widehat z_0$ hữu hạn, mẫu Jackknife không suy biến và các mẫu số của phép hiệu chỉnh khác $0$. Nếu các điều kiện này không thỏa mãn, cần kiểm tra tính khả dụng của BCa trước khi báo cáo khoảng.
+
+Percentile CI lấy trực tiếp hai phân vị Bootstrap thông thường, còn BCa
+điều chỉnh các mức phân vị để xét đến độ chệch và độ bất đối xứng.
+BCa có thể cải thiện độ chính xác trong những điều kiện thích hợp, nhưng
+không bảo đảm tốt hơn trong mọi trường hợp; kết quả còn phụ thuộc vào dữ
+liệu, thống kê đang xét và số lần lấy mẫu Bootstrap
+\cite{efron1993, davison1997}.
+\subsection{So sánh Normal CI, Basic CI và Percentile CI}
+
+Bảng \ref{tab:trio_comparison} so sánh ba phương pháp khoảng tin cậy Bootstrap \cite{efron1993, davison1997}. Đặt $q_L^*=q_{\alpha/2}^*$ và $q_U^*=q_{1-\alpha/2}^*$.
+
+\begin{table}[htbp]
+	\centering
+	\renewcommand{\arraystretch}{1.4}
+	\setlength{\tabcolsep}{5pt}
+	\caption{So sánh Normal CI, Basic CI và Percentile CI}
+	\label{tab:trio_comparison}
+	\small
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.5cm}XXX}
+		\toprule
+		\textbf{Tiêu chí} & \textbf{Normal CI} & \textbf{Basic CI} & \textbf{Percentile CI} \\
+		\midrule
+		\textbf{Công thức} & $\hat{\theta}_n \pm z_{1-\alpha/2}\widehat{se}^*$ \cite{buithuytrang2026} & $[2\hat{\theta}_n-q_U^*,\;2\hat{\theta}_n-q_L^*]$ \cite{buithuytrang2026} & $[q_L^*,q_U^*]$ \cite{buithuytrang2026} \\
+		\textbf{Cơ sở} & Dựa trên xấp xỉ chuẩn của ước lượng \cite{efron1993}. & Dựa trên xấp xỉ phân phối sai số Bootstrap \cite{davison1997}. & Dùng trực tiếp các phân vị Bootstrap \cite{efron1993}. \\
+		\textbf{Phân phối lệch phải} & Khoảng đối xứng quanh $\hat{\theta}_n$ \cite{efron1993}. & Quantile Flipping có thể tạo khoảng bất đối xứng \cite{davison1997}. & Hai cận theo hướng phân phối Bootstrap \cite{efron1993}. \\
+		\textbf{Bất biến qua $g(\theta)$} & Nói chung không bất biến \cite{efron1993}. & Nói chung không bất biến \cite{davison1997}. & Bất biến qua biến đổi đơn điệu, nếu quy tắc phân vị tương thích \cite{efron1993}. \\
+		\textbf{Độ chính xác tiệm cận} & Bậc nhất, tùy điều kiện \cite{efron1993}. & Bậc nhất, tùy điều kiện \cite{davison1997}. & Bậc nhất, tùy điều kiện \cite{efron1993}. \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+\subsection{Tính bất biến dưới phép biến đổi tham số $g(\theta)$}
+
+\begin{definition}[\textbf{Tính Bất biến của Khoảng Tin cậy}]
+	Một phương pháp xây dựng khoảng tin cậy cho tham số $\theta$ được gọi là \textbf{bất biến (invariant)} dưới phép biến đổi đơn điệu $g(\cdot)$ nếu khoảng tin cậy cho tham số mới $\eta = g(\theta)$ đúng bằng việc áp dụng ánh xạ $g(\cdot)$ lên các cận của khoảng tin cậy cho $\theta$ \cite{efron1993}:
+	\begin{equation}
+		CI_{g(\theta)} =
+    \begin{cases}
+      [g(L_{\theta}),g(U_{\theta})], & g\ \text{đồng biến},\\
+      [g(U_{\theta}),g(L_{\theta})], & g\ \text{nghịch biến}.
+    \end{cases}
+	\end{equation}
+	\end{definition}
+		
+		\subsubsection{Tính bất biến của Percentile CI}
+		Giả sử $g(\cdot)$ là một hàm số đồng biến nghiêm ngặt (strictly monotonic increasing function), chẳng hạn như phép biến đổi Logarithm $g(x) = \ln(x)$ hoặc phép biến đổi Lũy thừa $g(x) = x^2$ với $x > 0$.
+		Trong chứng minh này, dùng phân vị thực nghiệm type~1 (nghịch đảo tổng quát của ECDF), không nội suy giữa hai giá trị. Với nội suy tuyến tính type~7, phép biến đổi phi tuyến nói chung không giao hoán với nội suy. Vì $g(\cdot)$ đồng biến, thứ tự các phần tử trong tập hợp bản sao Bootstrap được giữ nguyên hoàn toàn \cite{efron1993}:
+		\begin{equation}
+			\hat{\theta}^{*(1)} \le \hat{\theta}^{*(2)} \le \dots \le \hat{\theta}^{*(B)} \iff g(\hat{\theta}^{*(1)}) \le g(\hat{\theta}^{*(2)}) \le \dots \le g(\hat{\theta}^{*(B)})
+		\end{equation}
+		Do đó, phân vị thực nghiệm mức $p$ của tham số mới $g(\hat{\theta}^*)$ chính bằng giá trị $g(\cdot)$ áp dụng lên phân vị thực nghiệm mức $p$ của $\hat{\theta}^*$ \cite{efron1993}:
+		\begin{equation}
+			q_p^*\left(g(\hat{\theta}^*)\right) = g\left(q_p^*(\hat{\theta}^*)\right)
+		\end{equation}
+		
+		Từ đó, khoảng tin cậy Percentile CI cho tham số $g(\theta)$ là \cite{efron1993}:
+		\begin{equation}
+			CI_{\text{Percentile}}(g(\theta)) = \left[ q_{\alpha/2}^*(g(\hat{\theta}^*)), \quad q_{1-\alpha/2}^*(g(\hat{\theta}^*)) \right] = \left[ g(q_{\alpha/2}^*), \quad g(q_{1-\alpha/2}^*) \right] \quad (\text{đpcm})
+		\end{equation}
+		
+		\subsubsection{Normal CI và Basic CI dưới phép biến đổi phi tuyến}
+		Với phép biến đổi phi tuyến, Normal CI và Basic CI nói chung không bất biến \cite{efron1993, davison1997}:
+		\begin{itemize}
+			\item \textbf{Normal CI:} Sai số chuẩn và phép biến đổi phi tuyến nói chung không giao hoán; khoảng tính trực tiếp trên thang mới có thể khác với khoảng cũ sau biến đổi \cite{efron1993}.
+			\item \textbf{Basic CI:} Phép phản chiếu phân vị quanh ước lượng điểm nói chung không giao hoán với phép biến đổi phi tuyến \cite{davison1997}.
+		\end{itemize}
+		
+		\subsubsection{Kiểm chứng bằng phép biến đổi log}
+
+Dùng cùng các bản sao Bootstrap của mẫu dương $(2,3,4,5,9)$ để so sánh
+khoảng tính trên thang $\theta$ rồi lấy log với khoảng tính trực tiếp
+trên thang $\eta=\log(\theta)$. Phân vị dùng type~1 trong kiểm chứng này,
+để phép biến đổi đơn điệu tăng bảo toàn thứ tự và phân vị thực nghiệm. Đoạn mã là trích đoạn của \texttt{r/Nhom\_D\_TKTT.R}; để tái lập các số ở Bảng~\ref{tab:invariance-log}, chạy toàn bộ tệp với seed và chuỗi mô phỏng đã nêu ở Phần 6.
+
+\begin{lstlisting}[style=Rstyle, caption={Bất biến dưới log}]
+invariance_sample <- c(2, 3, 4, 5, 9)
+invariance_n <- length(invariance_sample)
+invariance_indices <- matrix(
+  sample.int(invariance_n, invariance_n * B, replace = TRUE),
+  nrow = invariance_n)
+bootstrap_theta <- colMeans(matrix(
+  invariance_sample[invariance_indices], nrow = invariance_n))
+theta_hat <- mean(invariance_sample)
+eta_hat <- log(theta_hat)
+bootstrap_eta <- log(bootstrap_theta)
+q_theta <- quantile(bootstrap_theta, tail_probs, type = 1)
+q_eta <- quantile(bootstrap_eta, tail_probs, type = 1)
+ci_theta <- c(2 * theta_hat - q_theta[2],
+              2 * theta_hat - q_theta[1])
+ci_eta_transformed <- log(ci_theta)
+ci_eta_direct <- c(2 * eta_hat - q_eta[2],
+                   2 * eta_hat - q_eta[1])
+max_abs_difference <- max(abs(ci_eta_transformed - ci_eta_direct))
+\end{lstlisting}
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Sai khác lớn nhất giữa hai cách tính khoảng trên thang log}
+\label{tab:invariance-log}
+\begin{tabular}{lrr}
+\toprule
+Phương pháp & Sai khác lớn nhất & Khớp trong sai số $10^{-12}$ \\
+\midrule
+Normal & 0.1566453 & Không \\
+Basic & 0.3177451 & Không \\
+Percentile & 0 & Có \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.78\textwidth]{invariance-log-comparison.pdf}
+\caption{Sai khác giữa hai cách tính khoảng sau phép biến đổi $\eta=\log(\theta)$.}
+\label{fig:invariance-log}
+\end{figure}
+
+Trong kiểm chứng này, hai cách tính Percentile trùng nhau đến sai số máy;
+Normal và Basic cho kết quả khác nhau sau phép biến đổi log. Các số liệu
+chỉ minh họa ba công thức trên mẫu đã chọn. Với biến đổi đơn điệu giảm,
+thứ tự hai cận sau biến đổi được đảo lại; kết quả cũng phụ thuộc vào quy
+ước tính phân vị của phân phối thực nghiệm rời rạc. Cụ thể, với $g$ giảm, phân vị type~1 tại mức $p$ của mẫu đã biến đổi lấy phần tử gốc có hạng $B+1-\lceil Bp\rceil$, có thể khác hạng $\lceil B(1-p)\rceil$. Vì vậy, phép đảo hai cận chỉ khớp chính xác với khoảng tính lại khi quy tắc chọn hạng tương thích; không suy ra bất biến tuyệt đối cho mọi quy ước phân vị rời rạc.
+
+% ==================== PHẦN 9 ====================

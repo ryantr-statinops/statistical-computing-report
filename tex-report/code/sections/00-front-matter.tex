@@ -1,0 +1,156 @@
+% !TeX root = ../main.tex
+% !TeX encoding = utf8
+
+\justifying
+	
+	% ==================== TRANG BÌA ====================
+	\begin{titlepage}
+		\centering
+		{\small TỔNG LIÊN ĐOÀN LAO ĐỘNG VIỆT NAM\par}
+		\vspace{0.5cm}
+		{\large\bfseries TRƯỜNG ĐẠI HỌC TÔN ĐỨC THẮNG\par}
+		\vspace{0.1cm}
+		{\large\bfseries KHOA TOÁN – THỐNG KÊ\par}
+		\vspace{0.35cm}
+		\includegraphics[width=7cm]{tdtu-logo.jpg}\par
+		\vspace{0.8cm}
+
+		{\Large \bfseries BÁO CÁO CUỐI KỲ\par}
+		\vspace{0.2cm}
+		{\small MÔN HỌC: THỐNG KÊ TÍNH TOÁN – MÃ MH: C03107\par}
+		{\small HỌC KỲ: 1/2026-2027\par}
+		\vspace{0.8cm}
+		
+		{\Large \bfseries KHOẢNG TIN CẬY BOOTSTRAP CHUẨN TẮC VÀ BOOTSTRAP CƠ BẢN:\par}
+		\vspace{0.3cm}
+		{\large \bfseries CƠ SỞ LÝ THUYẾT, PHƯƠNG PHÁP XÂY DỰNG VÀ ĐÁNH GIÁ HIỆU NĂNG\par}
+		\vspace{1.8cm}
+		
+		\begin{center}
+			\textbf{Giảng viên hướng dẫn:} ThS. Bùi Thùy Trang \\[0.2cm]
+			\textbf{Nhóm thực hiện:} Nhóm D \\[0.1cm]
+			\begin{tabular}{r l}
+				MSSV & | Họ và Tên \\
+				C2400121 & | Phan Trí Thịnh \\
+				C2400115 & | Ngô Cẩm Quí \\
+				C2400203 & | Nguyễn Văn Kiệt \\
+				C2400199 & | Trần Quốc Khang \\
+			\end{tabular}
+		\end{center}
+		
+		\vfill
+		{\small TP. HỒ CHÍ MINH, NGÀY 29 THÁNG 9 NĂM 2026\par}
+	\end{titlepage}
+	
+	\newpage
+	
+	% ==================== BẢNG PHÂN CÔNG ====================
+	\section*{BẢNG PHÂN CÔNG NHIỆM VỤ}
+	\begin{table}[htbp]
+		\centering
+		\small
+		\renewcommand{\arraystretch}{1.25}
+		\setlength{\tabcolsep}{7pt}
+		\arrayrulecolor{gray!45}
+		\caption{Phân công nhiệm vụ nhóm}
+		\vspace{0.5cm}
+
+		\label{tab:phan-cong}
+		\begin{tabularx}{\textwidth}{
+			|>{\centering\arraybackslash}m{0.06\textwidth}
+			|>{\centering\arraybackslash}m{0.12\textwidth}
+			|>{\raggedright\arraybackslash}m{0.19\textwidth}
+			|>{\raggedright\arraybackslash}X
+			|>{\centering\arraybackslash}m{0.15\textwidth}|
+			}
+			\hline
+			\textbf{STT} & \textbf{MSSV} & \textbf{Họ và tên} &
+			\textbf{Nhiệm vụ} & \textbf{Hoàn thành} \\
+			\hline
+			1 & C2400121 & Phan Trí Thịnh &
+			\textbf{Phần 1:} Giới thiệu tổng quan và bối cảnh nghiên cứu.\par\smallskip
+			\textbf{Phần 2:} Cơ sở toán học ECDF, nguyên lý Plug-in và thuật toán Monte Carlo. &
+			100\% \\
+			\hline
+			2 & C2400115 & Ngô Cẩm Quí &
+			\textbf{Phần 3:} Normal CI, Basic CI và Quantile Flipping.\par\smallskip
+			\textbf{Phần 4:} So sánh Normal CI và Basic CI. &
+			100\% \\
+			\hline
+			3 & C2400203 & Nguyễn Văn Kiệt &
+			\textbf{Phần 5:} Xây dựng và phân tích hai ví dụ Bootstrap (mẫu đối xứng, mẫu lệch phải); liệt kê chính xác bằng R.\par\smallskip
+			\textbf{Phần 6:} Mô phỏng Monte Carlo bằng R. &
+			100\% \\
+			\hline
+			4 & C2400199 & Trần Quốc Khang &
+			\textbf{Phần 7:} Phân tích ứng dụng trong bài báo.\par\smallskip
+			\textbf{Phần 8:} Percentile CI và tính bất biến.\par\smallskip
+			\textbf{Phần 9:} Kết luận. &
+			100\% \\
+			\hline
+		\end{tabularx}
+		\arrayrulecolor{black}
+	\end{table}
+	
+	\vspace{1cm}
+	
+	\begin{flushright}
+		\textit{TP. Hồ Chí Minh, ngày 29 tháng 09 năm 2026}\\[0.2cm]
+		\textbf{Nhóm trưởng Nhóm D}\\[1.2cm]
+	\end{flushright}
+	
+	\newpage
+	
+	% ==================== LỜI CẢM ƠN ====================
+	\addcontentsline{toc}{section}{LỜI CẢM ƠN}
+
+	\begin{center}
+		{\Large\bfseries LỜI CẢM ƠN}
+	\end{center}
+
+	\vspace{0.5cm}
+	Nhóm D xin chân thành cảm ơn ThS. Bùi Thùy Trang, giảng viên môn Thống kê Tính toán (C03107), Khoa Toán – Thống kê, Trường Đại học Tôn Đức Thắng, vì những hướng dẫn trong quá trình học tập và thực hiện báo cáo. Tài liệu bài giảng về Bootstrap và Jackknife là nguồn tham khảo chính cho phần cơ sở lý thuyết của nhóm \cite{buithuytrang2026}.
+
+Qua quá trình tìm hiểu các khoảng tin cậy Bootstrap và triển khai mô phỏng bằng R, nhóm có cơ hội vận dụng kiến thức của học phần vào các ví dụ và kịch bản cụ thể. Báo cáo vẫn còn những hạn chế; nhóm mong nhận được góp ý của cô để tiếp tục hoàn thiện. Nhóm xin chân thành cảm ơn cô!
+
+	\newpage
+	
+	% ==================== LỜI MỞ ĐẦU ====================
+	\addcontentsline{toc}{section}{LỜI MỞ ĐẦU}
+
+	\begin{center}
+		{\Large\bfseries LỜI MỞ ĐẦU}
+	\end{center}
+
+	\vspace{0.5cm}
+	Trong suy diễn thống kê, khoảng tin cậy thường được xây dựng dựa trên giả định về phân phối hoặc các xấp xỉ tiệm cận, chẳng hạn xấp xỉ Chuẩn khi cỡ mẫu đủ lớn \cite{buithuytrang2026}. Với mẫu nhỏ, phân phối lệch hoặc dữ liệu có ngoại lai, các xấp xỉ này có thể chưa phù hợp và xác suất bao phủ thực tế có thể khác mức danh nghĩa \cite{efron1993, davison1997}.
+
+Bootstrap thay phân phối tổng thể chưa biết bằng phân phối thực nghiệm của mẫu và lấy mẫu lại có hoàn lại. Phân phối Bootstrap có điều kiện này được dùng để xấp xỉ phân phối lấy mẫu của thống kê; khi chỉ tạo hữu hạn bản sao, ta còn có xấp xỉ Monte Carlo của phân phối Bootstrap \cite{efron1979, efron1993}. Chất lượng xấp xỉ phụ thuộc vào dữ liệu, thống kê và cách lấy mẫu lại.
+
+	Báo cáo gồm chín phần, trình bày cơ sở lý thuyết, ví dụ, mô phỏng và ứng dụng:
+	\begin{itemize}
+		\item \textbf{Phần 1: Giới thiệu tổng quan và bối cảnh nghiên cứu:} Nêu động lực, mục tiêu, phạm vi và một số mốc phát triển của kỹ thuật lấy mẫu lại (resampling) \cite{efron1979}.
+		\item \textbf{Phần 2: Cơ sở toán học của ECDF và thuật toán Monte Carlo:} Trình bày các tính chất của $F_n^*$, nguyên lý Plug-in và mô hình xác suất Bootstrap \cite{buithuytrang2026}.
+		\item \textbf{Phần 3: Phương pháp xây dựng khoảng tin cậy Normal CI và Basic CI:} Trình bày cơ sở, công thức và thuật toán xây dựng hai khoảng; với Basic CI, giải thích phép đảo phân vị (quantile flipping) \cite{efron1993}.
+		\item \textbf{Phần 4: So sánh Normal CI và Basic CI:} So sánh giả định và cách hai phương pháp phản ánh độ lệch của phân phối \cite{davison1997}.
+		\item \textbf{Phần 5: Ví dụ Bootstrap:} Phân tích mẫu đối xứng và mẫu lệch phải bằng cách liệt kê các mẫu Bootstrap trong R.
+		\item \textbf{Phần 6: Mô phỏng Monte Carlo bằng R:} Đánh giá coverage và độ dài trung bình trong bốn kịch bản đã xác định.
+		\item \textbf{Phần 7: Ứng dụng trong bài báo khoa học:} Trình bày cách Deng và cộng sự dùng khoảng BCa để phân tích relative validity \cite{deng2013}.
+		\item \textbf{Phần 8: Percentile CI và tính bất biến:} So sánh ba phương pháp và xét tính bất biến dưới phép biến đổi tham số $g(\theta)$ \cite{efron1993}.
+		\item \textbf{Phần 9: Kết luận và khuyến nghị:} Tóm tắt kết quả và nêu khuyến nghị trong phạm vi các ví dụ, kịch bản đã xét.
+	\end{itemize}
+	
+	\newpage
+	
+	% ==================== MỤC LỤC TỰ ĐỘNG ====================
+	\pagenumbering{roman}
+	\setcounter{page}{1}
+	
+	\renewcommand{\contentsname}{\Large\bfseries MỤC LỤC}
+	\tableofcontents
+	
+	\newpage
+	\pagenumbering{arabic}
+	\setcounter{page}{1}
+	
+	% ==================== PHẦN 1 ====================

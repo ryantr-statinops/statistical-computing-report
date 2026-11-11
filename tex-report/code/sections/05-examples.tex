@@ -1,0 +1,83 @@
+% !TeX root = ../main.tex
+% !TeX encoding = utf8
+\section{VÍ DỤ BOOTSTRAP VÀ SO SÁNH KHOẢNG TIN CẬY}
+\label{sec:examples}
+
+Hai ví dụ dưới đây dùng các mẫu minh họa do nhóm xây dựng. Ví dụ thứ nhất
+làm rõ cách lập phân phối Bootstrap có điều kiện; ví dụ thứ hai dùng phân
+phối lệch phải để so sánh cách ba phương pháp đặt cận khoảng. Cả hai phân
+phối Bootstrap được liệt kê chính xác bằng cách xét toàn bộ $n^n$ mẫu có
+thứ tự, nên không có sai số Monte Carlo trong phần ví dụ.
+
+\subsection{Ví dụ 1: Mẫu đối xứng}
+
+Xét mẫu $x=(1,2,3)$ gồm $n=3$ quan sát. Thống kê quan tâm là trung bình mẫu, có giá trị $\hat\theta=2$; có $3^3=27$ mẫu Bootstrap có thứ tự. Đoạn mã dưới đây đếm tần số của từng giá trị trung bình. Chương trình đầy đủ và các kiểm tra được cung cấp trong tệp R kèm theo.
+
+
+
+\begin{lstlisting}[style=Rstyle, caption={Bootstrap đối xứng}]
+x <- c(1, 2, 3)
+n <- length(x)
+indices <- as.matrix(do.call(expand.grid,
+  c(rep(list(seq_len(n)), n), KEEP.OUT.ATTRS = FALSE)))
+means <- rowMeans(matrix(x[indices], ncol = n))
+support <- sort(unique(means))
+frequency <- tabulate(match(means, support), length(support))
+probability <- frequency / length(means)
+q <- quantile(means, c(0.025, 0.975), type = 1)
+\end{lstlisting}
+
+Từ phân phối liệt kê chính xác, sai số chuẩn Bootstrap là $0.4714$ và hai
+phân vị đuôi là $1$ và $3$. Khoảng Normal là $[1.076,2.924]$, trong khi
+Basic và Percentile đều là $[1,3]$. Hai khoảng sau trùng nhau trong ví dụ
+đối xứng; khoảng Normal giữ đối xứng quanh trung bình mẫu.
+
+\subsection{Ví dụ 2: Mẫu lệch phải}
+\label{sec:example-skewed}
+
+Xét mẫu minh họa $x=(1,1,1,9)$, có $n=4$, trung bình mẫu $\hat\theta=3$
+và $4^4=256$ mẫu Bootstrap có thứ tự. Giá trị lớn $9$ làm phân phối trung
+bình Bootstrap lệch phải. Ví dụ này dùng để xem hình dạng phân phối lệch
+liên hệ thế nào với vị trí hai cận của Normal, Basic và Percentile CI.
+
+Sai số chuẩn Bootstrap bằng $1.7321$; hai phân vị đuôi theo quy ước phân vị
+thực nghiệm type~1 là $1$ và $7$. Khoảng Normal là
+$[-0.395,6.395]$, Basic là $[-1,5]$, còn Percentile là $[1,7]$. Basic phản
+chiếu hai phân vị quanh $\hat\theta=3$, vì vậy khoảng dịch sang trái so
+với Percentile. Kết quả minh họa cơ chế Quantile Flipping, nhưng tự nó
+không chứng minh Basic có coverage tốt hơn.
+
+\begin{table}[htbp]
+\centering
+\small
+\renewcommand{\arraystretch}{1.15}
+\caption{Sai số chuẩn và khoảng tin cậy từ hai ví dụ liệt kê chính xác}
+\label{tab:example-confidence-intervals}
+\begin{tabular}{llrrrr}
+\toprule
+Ví dụ & Phương pháp & $\hat\theta$ & $\widehat{se}^{*}$ & Cận dưới & Cận trên \\
+\midrule
+Đối xứng & Normal & 2 & 0.4714 & 1.076 & 2.924 \\
+         & Basic & 2 & 0.4714 & 1.000 & 3.000 \\
+         & Percentile & 2 & 0.4714 & 1.000 & 3.000 \\
+Lệch phải & Normal & 3 & 1.7321 & -0.395 & 6.395 \\
+          & Basic & 3 & 1.7321 & -1.000 & 5.000 \\
+          & Percentile & 3 & 1.7321 & 1.000 & 7.000 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.95\textwidth]{example-bootstrap-distributions.pdf}
+\caption{Phân phối Bootstrap chính xác của trung bình trong mẫu đối xứng và mẫu lệch phải; đường đứt biểu thị trung bình mẫu.}
+\label{fig:example-bootstrap-distributions}
+\end{figure}
+
+Hình~\ref{fig:example-bootstrap-distributions} cho thấy ví dụ thứ nhất có
+phân phối đối xứng quanh $2$, còn ví dụ thứ hai có khối xác suất kéo dài
+về phía phải. Bảng~\ref{tab:example-confidence-intervals} cho thấy ba
+phương pháp cho các cận khác nhau ở ví dụ lệch; lựa chọn khoảng cần dựa
+trên giả định và hiệu năng thực nghiệm, không chỉ dựa vào hình dạng của
+một phân phối Bootstrap.
+

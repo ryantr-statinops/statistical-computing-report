@@ -1,0 +1,81 @@
+% !TeX root = ../main.tex
+% !TeX encoding = utf8
+	\section{KẾT LUẬN VÀ KHUYẾN NGHỊ THỰC HÀNH}
+	
+	\subsection{Kết quả chính}
+	
+	Báo cáo trình bày cơ sở Bootstrap, ba cách xây dựng khoảng tin cậy, hai ví dụ liệt kê chính xác và mô phỏng Monte Carlo với $K=10{,}000$ lần lặp. Các kết luận sau được giới hạn trong phạm vi đó \cite{buithuytrang2026, efron1993, davison1997}:
+	
+	\begin{enumerate}
+		\item Phân phối thực nghiệm xác định phân phối Bootstrap có điều kiện; số lần lấy mẫu hữu hạn tạo thêm sai số Monte Carlo. Độ chính xác của xấp xỉ còn phụ thuộc vào mẫu và thống kê đang xét \cite{efron1993}.
+		\item Basic CI phản chiếu các phân vị Bootstrap quanh $\hat{\theta}_n$ và có thể tạo khoảng bất đối xứng. Trong các kịch bản mô phỏng của báo cáo, coverage của Basic thấp hơn Normal ở cả hai mẫu từ phân phối mũ.
+		\item \textbf{Tính bất biến của Percentile CI:} Với phép biến đổi đơn điệu tăng và quy ước phân vị tương thích, hai cận Percentile biến đổi theo cùng hàm $g$. Ví dụ log minh họa tính chất này trên mẫu đã chọn; với phép biến đổi giảm, cần đảo thứ tự hai cận.
+	\end{enumerate}
+	
+	\subsection{Sơ đồ lựa chọn phương pháp}
+	
+	Sơ đồ dưới đây tóm tắt các yếu tố liên quan đến việc chọn khoảng tin cậy. Lựa chọn cần phù hợp với mô hình, dữ liệu và mục tiêu suy luận \cite{efron1993, davison1997}. Với dữ liệu phụ thuộc hoặc ngoại lai, cần kiểm tra mô hình và cơ chế lấy mẫu lại trước khi sử dụng sơ đồ.
+	
+	\begin{figure}[H]
+		\centering
+		\begin{adjustbox}{max width=\textwidth}
+			\begin{tikzpicture}[
+				node distance=1.5cm and 1.8cm,
+				font=\small,
+				start/.style={
+					rectangle, rounded corners=3pt, draw=blue!60!black,
+					fill=blue!8, text width=5.2cm, minimum height=1cm,
+					align=center, very thick
+				},
+				decision/.style={
+					diamond, aspect=2.1, draw=orange!75!black,
+					fill=orange!12, text width=3.3cm, align=center,
+					inner sep=2pt, thick
+				},
+				outcome/.style={
+					rectangle, rounded corners=3pt, draw=green!50!black,
+					fill=green!8, text width=3.8cm, minimum height=1cm,
+					align=center, thick
+				},
+				arrow/.style={draw, -stealth, thick},
+				label/.style={fill=white, inner sep=2pt, font=\footnotesize}
+				]
+				
+				\node[start] (start) {Chọn phương pháp xây dựng khoảng tin cậy};
+				\node[decision, below=of start] (skew)
+				{Xấp xỉ chuẩn của thống kê có hợp lý?};
+				
+				\node[outcome, below left=1.8cm and 2.0cm of skew] (normal)
+				{\textbf{Cân nhắc Normal CI}\\Kiểm tra độ chệch và coverage};
+				
+				\node[decision, below right=1.8cm and 2.0cm of skew] (inv)
+				{Cần tính bất biến dưới phép biến đổi $g(\theta)$?};
+				
+				\node[outcome, below left=1.8cm and 1.0cm of inv] (perc)
+				{\textbf{Cân nhắc Percentile / BCa}\\Kiểm tra điều kiện và coverage};
+				
+				\node[outcome, below right=1.8cm and 1.0cm of inv] (basic)
+				{\textbf{So sánh Basic, Percentile, BCa}\\Đánh giá coverage và độ dài};
+				
+				\draw[arrow] (start) -- (skew);
+				\draw[arrow] (skew) -- node[label, above left] {Có} (normal);
+				\draw[arrow] (skew) -- node[label, above right] {Không} (inv);
+				\draw[arrow] (inv) -- node[label, above left] {Có} (perc);
+				\draw[arrow] (inv) -- node[label, above right] {Không} (basic);
+				
+			\end{tikzpicture}
+		\end{adjustbox}
+		\caption{Sơ đồ cân nhắc phương pháp khoảng tin cậy Bootstrap; không phải quy tắc bảo đảm phương pháp tối ưu.}
+		\label{fig:bootstrap-decision}
+	\end{figure}
+	
+	\newpage
+\subsection{Khuyến nghị thực hành}
+	
+	Các khuyến nghị dưới đây giới hạn trong các thiết lập của báo cáo \cite{buithuytrang2026, efron1993}:
+	\begin{itemize}
+    \item \textbf{Trong các kịch bản đã mô phỏng:} Coverage của cả ba phương pháp thấp hơn mức danh nghĩa $95\%$, nhưng cao hơn ở $n=40$ so với $n=12$. Kết quả chỉ áp dụng cho hai phân phối và hai cỡ mẫu đã xét; chưa đủ căn cứ để kết luận về $n\ge100$.
+    \item \textbf{Với dữ liệu lệch và mẫu nhỏ:} Không phương pháp nào luôn dẫn đầu. Trong mô phỏng phân phối mũ ở $n=12$, Percentile có coverage $87.59\%$, Normal $87.06\%$, còn Basic $85.47\%$. Cần cân nhắc coverage, độ dài khoảng, giả định và mục tiêu phân tích; có thể khảo sát BCa như một phương pháp mở rộng.
+    \item \textbf{Với tham số được biến đổi $g(\theta)$:} Cần xác định thang tham số phù hợp và miền xác định của phép biến đổi. Percentile có thể giữ quan hệ biến đổi của hai cận khi $g$ đơn điệu tăng và quy tắc phân vị tương thích; với $g$ giảm, cần đảo thứ tự hai cận.
+\end{itemize}
+	

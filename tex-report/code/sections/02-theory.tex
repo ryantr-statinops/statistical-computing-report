@@ -1,0 +1,244 @@
+% !TeX root = ../main.tex
+% !TeX encoding = utf8
+	\section{CƠ SỞ TOÁN HỌC CỦA ECDF VÀ THUẬT TOÁN MONTE CARLO}
+	
+	\subsection{Phân phối thực nghiệm (\textit{Empirical Distribution}) và các đặc trưng đại số}
+	Cho $x = (x_1, x_2, \dots, x_n)$ là một mẫu ngẫu nhiên gồm $n$ quan sát độc lập cùng phân phối (i.i.d.) rút từ hàm phân phối tích lũy $F(t) = \mathbb{P}(X \le t)$ chưa biết của tổng thể \cite{buithuytrang2026}.
+	
+	\begin{definition}[\textbf{Hàm phân phối thực nghiệm ECDF}]
+		Hàm phân phối thực nghiệm $F_n^*(t)$ (hoặc $F_x^*(t)$) của mẫu quan sát $x$ được định nghĩa là hàm nấc thang đo tỷ lệ các quan sát trong mẫu nhỏ hơn hoặc bằng $t$ \cite{buithuytrang2026}:
+		\begin{equation}
+			F_n^*(t) = \frac{1}{n}\sum_{i=1}^{n} \mathbb{I}_{(-\infty, t]}(x_i) = \frac{\#\{x_i \le t\}}{n}, \quad \forall t \in \mathbb{R}
+		\end{equation}
+		trong đó $\mathbb{I}_A(\cdot)$ là hàm chỉ thị (indicator function):
+		\begin{equation}
+			\mathbb{I}_A(y) = \begin{cases} 
+				1 & \text{nếu } y \in A \\ 
+				0 & \text{nếu } y \notin A 
+			\end{cases}
+		\end{equation}
+	\end{definition}
+		Xét mẫu minh họa $x=\{12,15,18,21,24\}$. Tại mỗi giá trị quan sát
+		$x_{(i)}$, hàm ECDF bằng tỷ lệ số quan sát không vượt quá giá trị đó:
+		
+		\begin{table}[htbp]
+			\centering
+			\caption{Tính hàm phân phối thực nghiệm từ một mẫu}
+			\label{tab:ecdf-values}
+			\begin{tabular}{ccc}
+				\toprule
+				Giá trị $x_{(i)}$ & Số quan sát $\leq x_{(i)}$ & $F_n^*(x_{(i)})$ \\
+				\midrule
+				12 & 1 & 0.2 \\
+				15 & 2 & 0.4 \\
+				18 & 3 & 0.6 \\
+				21 & 4 & 0.8 \\
+				24 & 5 & 1.0 \\
+				\bottomrule
+			\end{tabular}
+		\end{table}
+	
+	\textbf{Các tính chất xác suất của $F_n^*(t)$:}
+	\begin{enumerate}
+		\item \textbf{Tính chất phân phối nhị thức:}
+		Trước khi quan sát dữ liệu, ký hiệu $X_1,\dots,X_n$ là các biến ngẫu
+		nhiên độc lập cùng phân phối theo $F$. Với một giá trị $t$ cố định, đặt
+		$Y_i=\mathbf{1}\{X_i\leq t\}$. Khi đó $Y_i$ là biến Bernoulli với xác
+		suất thành công $F(t)$, nên:
+		\begin{equation}
+			nF_n^*(t)=\sum_{i=1}^{n}Y_i
+			\sim \operatorname{Binomial}\bigl(n,F(t)\bigr).
+		\end{equation}
+		\item \textbf{Tính không chệch (Unbiasedness):} Kỳ vọng của $F_n^*(t)$ đúng bằng phân phối tổng thể thực sự $F(t)$ tại mọi điểm $t$ \cite{buithuytrang2026}:
+		\begin{equation}
+			\mathbb{E}[F_n^*(t)] = \mathbb{E}\left[\frac{1}{n}\sum_{i=1}^n Y_i\right] = \frac{1}{n} \cdot n F(t) = F(t)
+		\end{equation}
+		\item \textbf{Phương sai và hội tụ tại từng điểm:} Phương sai của $F_n^*(t)$ tiến về 0 khi $n \to \infty$ \cite{buithuytrang2026}:
+		\begin{equation}
+			\text{Var}\left(F_n^*(t)\right) = \text{Var}\left(\frac{1}{n}\sum_{i=1}^n Y_i\right) = \frac{n F(t)(1 - F(t))}{n^2} = \frac{F(t)(1 - F(t))}{n} \xrightarrow{n \to \infty} 0
+		\end{equation}
+		Với mỗi $t$ cố định, bất đẳng thức Chebyshev cho thấy:
+		\begin{equation}
+			\mathbb{P}\left(\left|F_n^*(t)-F(t)\right|>\varepsilon\right)
+			\leq
+			\frac{F(t)(1-F(t))}{n\varepsilon^2}
+			\longrightarrow 0.
+		\end{equation}
+		Vì vậy, với mỗi $t$ cố định, $F_n^*(t)$ hội tụ theo xác suất về $F(t)$.
+		\item \textbf{Định lý Glivenko-Cantelli:} Hàm phân phối thực nghiệm $F_n^*(t)$ hội tụ đều về hàm phân phối tổng thể $F(t)$ hầu chắc chắn trên toàn bộ đường thẳng thực $\mathbb{R}$ \cite{efron1993}:
+		\begin{equation}
+			\mathbb{P}\left( \lim_{n \to \infty} \sup_{t \in \mathbb{R}} |F_n^*(t) - F(t)| = 0 \right) = 1
+		\end{equation}
+
+	\newpage
+		\item \textbf{Minh họa bằng mô phỏng R:} Mô phỏng dưới đây lấy mẫu từ phân phối Chuẩn $N(0,1)$ với các cỡ mẫu $n=10,30,100,1000$, sau đó so sánh ECDF với hàm phân phối lý thuyết $F(t)=\Phi(t)$.
+
+	\begin{lstlisting}[style=Rstyle, caption={Mô phỏng ECDF}]
+		# 1. Thiet lap tham so va phan phoi tong the N(0, 1)
+		set.seed(2026)
+		n_sizes <- c(10, 30, 100, 1000)
+		colors  <- c("red", "orange", "blue", "green3")
+		
+		# 2. Ve CDF ly thiet
+		curve(pnorm(x), from = -3, to = 3, col = "black", lwd = 3, lty = 1,
+		main = "Minh hoa Dinh ly Glivenko-Cantelli (Hoi tu ECDF -> CDF)",
+		xlab = "t", ylab = "F(t)")
+		
+		# 3. Ve ECDF cho cac kich thuoc mau n khac nhau
+		for (i in 1:length(n_sizes)) {
+			n <- n_sizes[i]
+			sample_data <- rnorm(n)
+			fn <- ecdf(sample_data)
+			plot(fn, add = TRUE, col = colors[i], lwd = 2, do.points = FALSE)
+		}
+		
+		legend("topleft", 
+		legend = c("CDF Ly thiet N(0,1)", "n = 10", "n = 30", "n = 100", "n = 1000"),
+		col = c("black", colors), lty = 1, lwd = 2)
+	\end{lstlisting}
+	\end{enumerate}
+	
+	
+	\subsection{Nguyên lý Plug-in và Mô hình Không gian Xác suất Bootstrap}
+	
+	\begin{definition}[\textbf{Nguyên lý Plug-in}]
+		Giả sử tham số tổng thể cần nghiên cứu có thể biểu diễn dưới dạng một phiếm hàm (functional) $\theta = \theta(F)$ phụ thuộc vào hàm phân phối tổng thể $F$ \cite{buithuytrang2026}. Ước lượng Plug-in $\hat{\theta}_n$ của $\theta$ được xác định bằng cách thay thế hàm phân phối $F$ chưa biết bằng hàm phân phối thực nghiệm $F_n^*$ \cite{buithuytrang2026}:
+		\begin{equation}
+			\hat{\theta}_n = \theta(F_n^*)
+		\end{equation}
+	\end{definition}
+	
+	\textbf{Khai triển Đại số cho các Ước lượng Plug-in Thường gặp:}
+	\begin{itemize}
+		\item \textbf{Trung bình tổng thể $\mu(F) = \int x dF(x)$:} Thay $F$ bằng $F_n^*$, ta thu được trung bình mẫu $\bar{x}$ \cite{buithuytrang2026}:
+		\begin{equation}
+			\hat{\mu}_{\text{plug-in}} = \mu(F_n^*) = \int x dF_n^*(x) = \sum_{i=1}^n x_i \cdot \mathbb{P}_X^*(X^* = x_i) = \frac{1}{n}\sum_{i=1}^n x_i = \bar{x}
+		\end{equation}
+		\item \textbf{Phương sai tổng thể $\sigma^2(F) = \int (x - \mu)^2 dF(x)$:} Thay $F$ bằng $F_n^*$ và $\mu$ bằng $\bar{x}$, ta thu được phương sai thực nghiệm mẫu (mẫu số $n$) \cite{buithuytrang2026}:
+		\begin{equation}
+			\hat{\sigma}^2_{\text{plug-in}} = \sigma^2(F_n^*) = \int (x - \bar{x})^2 dF_n^*(x) = \frac{1}{n}\sum_{i=1}^n (x_i - \bar{x})^2
+		\end{equation}
+	\end{itemize}
+	
+	\newpage
+
+	\textbf{Sơ đồ Tương đương trong "Thế giới Bootstrap":}
+	Trong cơ chế Bootstrap, phân phối thực nghiệm $F_n^*$ đóng vai trò phân phối tổng thể thay thế; mẫu quan sát $x$ vì vậy được xem như một tổng thể giả lập \cite{efron1993}:
+	\begin{equation}
+		\begin{array}{r c l c l c l}
+			\textbf{Thế giới thực:}
+			& F
+			& \xrightarrow{\text{lấy mẫu ngẫu nhiên}}
+			& x
+			& \xrightarrow{\text{tính thống kê}}
+			& \hat{\theta}_n
+			& \\[1.2em]
+			
+			\textbf{Thế giới Bootstrap:}
+			& F_n^*
+			& \xrightarrow{\text{lấy mẫu có hoàn lại}}
+			& x^*
+			& \xrightarrow{\text{tính thống kê}}
+			& \hat{\theta}_n^*
+			&
+		\end{array}
+	\end{equation}
+	
+	\subsection{Mẫu Bootstrap và Thuật toán Lấy mẫu lại Monte Carlo}
+	
+	Một \textbf{Mẫu Bootstrap} $x^* = (x_1^*, x_2^*, \dots, x_n^*)$ là một mẫu ngẫu nhiên kích thước $n$ được rút ngẫu nhiên có hoàn lại từ mẫu quan sát gốc $x = (x_1, \dots, x_n)$ \cite{efron1993}. Mọi phần tử $x_i^*$ đều nhận giá trị $x_j$ bất kỳ trong mẫu gốc với xác suất đồng đều $\mathbb{P}(x_i^* = x_j) = 1/n$ \cite{buithuytrang2026}. Giá trị $\hat{\theta}_n^* = t(x^*)$ tính trên mẫu Bootstrap được gọi là một \textbf{Bản sao Bootstrap (Bootstrap Replicate)}.
+	
+	Nếu $n$ quan sát ban đầu đôi một khác nhau, số mẫu Bootstrap khác
+	nhau khi xem mỗi mẫu như một đa tập, không xét thứ tự, là
+	$\binom{2n-1}{n}$. Với $n=20$, con số này bằng
+	$\binom{39}{20}=68{,}923{,}264{,}410$. Số lượng lớn này cho thấy việc
+	liệt kê toàn bộ các cấu hình thường không thuận tiện, vì vậy ta dùng
+	mô phỏng Monte Carlo để xấp xỉ phân phối Bootstrap \cite{efron1993}.
+	
+	\begin{algorithm}[H]
+	\Input{Mẫu dữ liệu gốc $x=(x_1,\dots,x_n)$; số lần lấy mẫu lại $B$; hàm thống kê $t(\cdot)$ \cite{buithuytrang2026}.}
+	\Output{$B$ bản sao Bootstrap $\{\hat{\theta}^{*(1)},\dots,\hat{\theta}^{*(B)}\}$ và sai số chuẩn Bootstrap $\widehat{se}^*$ \cite{buithuytrang2026}.}
+		\BlankLine
+		Tính giá trị ước lượng điểm trên mẫu gốc: $\hat{\theta}_n = t(x)$ \cite{buithuytrang2026}\;
+		\For{$b = 1, 2, \dots, B$}{
+			Rút ngẫu nhiên có hoàn lại $n$ phần tử từ mẫu $x$ để tạo mẫu Bootstrap $x^{*(b)} = (x_1^{*(b)}, \dots, x_n^{*(b)})$ \cite{buithuytrang2026}\;
+			Tính giá trị bản sao Bootstrap thứ $b$: $\hat{\theta}^{*(b)} = t\left(x^{*(b)}\right)$ \cite{buithuytrang2026}\;
+		}
+		Tính trung bình đại số của $B$ bản sao Bootstrap: $\bar{\theta}^* = \frac{1}{B}\sum_{b=1}^{B} \hat{\theta}^{*(b)}$ \cite{buithuytrang2026}\;
+		Tính Ước lượng Sai số chuẩn Bootstrap $\widehat{se}^*$:
+		\begin{equation}
+			\widehat{se}^* = \sqrt{\frac{1}{B-1}\sum_{b=1}^{B} \left(\hat{\theta}^{*(b)} - \bar{\theta}^*\right)^2} \quad \cite{buithuytrang2026}
+		\end{equation}\
+		\Return Tập hợp các bản sao $\{\hat{\theta}^{*(b)}\}_{b=1}^B$ và $\widehat{se}^*$ \cite{buithuytrang2026}\;
+		\caption{Thuật toán lấy mẫu lại Monte Carlo cho Bootstrap}
+	\end{algorithm}
+	\subsubsection{Ảnh hưởng của số lần lấy mẫu Bootstrap $B$}
+	
+	Sau khi cố định mẫu gốc, ký hiệu phân phối có điều kiện của bản sao
+	Bootstrap là
+	\[
+	G_n^*(t)
+	=
+	\mathbb{P}^*\left(\hat{\theta}_n^* \leq t \mid x\right).
+	\]
+	Trong tính toán, ta chỉ tạo $B$ bản sao Bootstrap nên ước lượng phân phối
+	này là
+	\[
+	\widehat{G}_{n,B}^*(t)
+	=
+	\frac{1}{B}\sum_{b=1}^{B}
+	\mathbf{1}\left\{\hat{\theta}^{*(b)}\leq t\right\}.
+	\]
+	
+	Với mẫu gốc đã cố định, các chỉ báo trong tổng có phân phối Bernoulli
+	với xác suất thành công $G_n^*(t)$. Do đó:
+	\begin{align}
+		\mathbb{E}^*\left[\widehat{G}_{n,B}^*(t)\right]
+		&=G_n^*(t),\\
+		\operatorname{Var}^*\left[\widehat{G}_{n,B}^*(t)\right]
+		&=\frac{G_n^*(t)\left[1-G_n^*(t)\right]}{B}.
+	\end{align}
+	
+	Khi tăng $B$, phương sai Monte Carlo của $\widehat{G}_{n,B}^*(t)$ giảm.
+	Điều này làm xấp xỉ phân phối Bootstrap có điều kiện ổn định hơn, nhưng
+	không khắc phục được việc mẫu gốc thiếu tính đại diện hoặc cách lấy mẫu
+	lại không phù hợp với cấu trúc dữ liệu. Sai số mô phỏng do $B$ hữu hạn
+	cần được phân biệt với sai số của phép xấp xỉ Bootstrap.
+	
+\subsubsection{Điều kiện để phép xấp xỉ Bootstrap có ý nghĩa}
+
+Bootstrap thay phân phối tổng thể chưa biết $F$ bằng phân phối thực
+nghiệm $F_n^*$. Tuy nhiên, việc thay thế này không bảo đảm mọi phân phối
+Bootstrap đều xấp xỉ tốt phân phối lấy mẫu của mọi thống kê. Ta cần xét
+điều kiện áp dụng và tính chất của thống kê đang nghiên cứu
+\cite{bickelfreedman1981}.
+
+Xét trường hợp thống kê là trung bình mẫu. Giả sử
+$X_1,\ldots,X_n$ độc lập cùng phân phối, có kỳ vọng $\mu$ và phương sai
+hữu hạn, dương $\sigma^2$. Ký hiệu $\bar{X}^*$ là trung bình của một mẫu
+Bootstrap và $s_n$ là độ lệch chuẩn mẫu. Khi đó, dưới các điều kiện trên,
+phân phối có điều kiện của thống kê Bootstrap chuẩn hóa hội tụ về phân
+phối Chuẩn tắc:
+\begin{equation}
+	\sup_{z\in\mathbb{R}}
+	\left|
+	\mathbb{P}^*\left(
+	\frac{\sqrt{n}(\bar{X}^*-\bar{X})}{s_n}\leq z
+	\right)
+	-\Phi(z)
+	\right|
+	\xrightarrow{P} 0,
+\end{equation}
+trong đó $\mathbb{P}^*$ là xác suất có điều kiện khi giữ cố định mẫu quan
+sát ban đầu, còn sự hội tụ theo xác suất được xét theo cơ chế lấy mẫu ban
+đầu. Kết quả này là cơ sở để dùng các bản sao Bootstrap xấp xỉ phân phối
+lấy mẫu của trung bình mẫu trong các điều kiện đã nêu.
+
+Kết quả trên chỉ áp dụng cho trung bình mẫu dưới các điều kiện đã nêu.
+Với mẫu nhỏ, phân phối thực nghiệm có thể chưa thể hiện tốt phần đuôi của
+tổng thể; với dữ liệu phụ thuộc, cách lấy mẫu lại cần giữ cấu trúc phụ
+thuộc. Khi áp dụng Bootstrap, cần xác định thống kê quan tâm, giả định về
+dữ liệu và đơn vị lấy mẫu lại
+\cite{bickelfreedman1981, davison1997}.
+	
+	% ==================== PHẦN 3 ====================
