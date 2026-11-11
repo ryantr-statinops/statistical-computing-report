@@ -1,4 +1,23 @@
 #!/usr/bin/env Rscript
+# Resolve paths before running the simulation. Rscript works from any directory;
+# source("r/Nhom_D_TKTT.R") must be run from the repository root.
+script_arg <- grep("^--file=", commandArgs(), value = TRUE)
+project_root <- if (length(script_arg)) {
+  script_file <- normalizePath(sub("^--file=", "", script_arg[1]), mustWork = TRUE)
+  normalizePath(file.path(dirname(script_file), ".."), mustWork = TRUE)
+} else {
+  normalizePath(getwd(), mustWork = TRUE)
+}
+if (!file.exists(file.path(project_root, "tex-report", "code", "main.tex"))) {
+  stop("Run source() from the repository root, or use Rscript r/Nhom_D_TKTT.R")
+}
+figures_dir <- file.path(project_root, "output", "figures")
+tables_dir <- file.path(project_root, "output", "tables")
+logs_dir <- file.path(project_root, "output", "logs")
+for (directory in c(figures_dir, tables_dir, logs_dir)) {
+  dir.create(directory, recursive = TRUE, showWarnings = FALSE)
+}
+
 # 1. Tham số và công thức dùng chung.
 K <- 10000L
 B <- 1999L
@@ -145,29 +164,20 @@ stopifnot(all(is.finite(as.matrix(invariance_results[, -1]))),
                 c(FALSE, FALSE, TRUE)))
 
 # 6. Xuất bảng, thông tin lần chạy và đồ thị.
-script_arg <- grep("^--file=", commandArgs(), value = TRUE)
-script_dir <- if (length(script_arg)) {
-  dirname(normalizePath(sub("^--file=", "", script_arg[1])))
-} else {
-  file.path(getwd(), "Latex_code")
-}
-output_dir <- file.path(script_dir, "sua_bai", "assets", "simulate-result-image")
-dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
-
 write.csv(example_distributions[[1]],
-          file.path(output_dir, "example-symmetric-distribution.csv"),
+          file.path(tables_dir, "example-symmetric-distribution.csv"),
           row.names = FALSE, fileEncoding = "UTF-8")
 write.csv(example_distributions[[2]],
-          file.path(output_dir, "example-skewed-distribution.csv"),
+          file.path(tables_dir, "example-skewed-distribution.csv"),
           row.names = FALSE, fileEncoding = "UTF-8")
 write.csv(example_results,
-          file.path(output_dir, "example-confidence-intervals.csv"),
+          file.path(tables_dir, "example-confidence-intervals.csv"),
           row.names = FALSE, fileEncoding = "UTF-8")
 write.csv(simulation_results,
-          file.path(output_dir, "simulation-summary.csv"),
+          file.path(tables_dir, "simulation-summary.csv"),
           row.names = FALSE, fileEncoding = "UTF-8")
 write.csv(invariance_results,
-          file.path(output_dir, "invariance-log-comparison.csv"),
+          file.path(tables_dir, "invariance-log-comparison.csv"),
           row.names = FALSE, fileEncoding = "UTF-8")
 
 writeLines(c(
@@ -179,7 +189,10 @@ writeLines(c(
   "Invariance quantile type: 1",
   paste("Example sample for log invariance:",
         paste(invariance_sample, collapse = ", "))),
-  file.path(output_dir, "run-info.txt"), useBytes = TRUE)
+  file.path(logs_dir, "run-info.txt"), useBytes = TRUE)
+
+writeLines(capture.output(sessionInfo()),
+           file.path(logs_dir, "session-info.txt"), useBytes = TRUE)
 
 plot_examples <- function() {
   old_par <- par(mfrow = c(1, 2), mar = c(4, 4.5, 3, 1), las = 1)
@@ -229,11 +242,11 @@ plot_invariance <- function() {
 }
 
 save_plot <- function(stem, plot_function) {
-  grDevices::pdf(file.path(output_dir, paste0(stem, ".pdf")),
+  grDevices::pdf(file.path(figures_dir, paste0(stem, ".pdf")),
                  width = 10, height = 6.5, onefile = TRUE)
   plot_function()
   grDevices::dev.off()
-  grDevices::png(file.path(output_dir, paste0(stem, ".png")),
+  grDevices::png(file.path(figures_dir, paste0(stem, ".png")),
                  width = 1800, height = 1170, res = 180)
   plot_function()
   grDevices::dev.off()
