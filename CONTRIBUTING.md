@@ -101,11 +101,7 @@ hạn chế xung đột. Giữ label duy nhất toàn bài và báo rõ khi thay
 
 ## Git
 
-Mọi thay đổi phải đi qua nhánh riêng và pull request. Chỉ tài khoản chủ repo
-`ryantr-statinops` duyệt rồi merge vào `main`; không commit hoặc push trực tiếp
-lên `main`, và không tự merge pull request của mình. Quy tắc này hiện được ghi
-trong tài liệu và PR template; cần bật branch protection trên GitHub nếu muốn
-GitHub chặn trực tiếp thao tác push/merge ngoài quy trình.
+Chỉ có chủ sở hữu repo `ryantr-statinops` được phép làm việc, commit và push trực tiếp trên nhánh `main`. Đối với tất cả thành viên khác, mọi thay đổi phải đi qua nhánh riêng và mở pull request. Chỉ tài khoản chủ repo `ryantr-statinops` duyệt rồi merge vào `main`; thành viên khác tuyệt đối không commit hoặc push trực tiếp lên `main`, và không tự merge pull request. Không ai được phép force-push lên `main`. Quy tắc này hiện được ghi trong tài liệu và PR template; cần bật branch protection trên GitHub nếu muốn GitHub chặn trực tiếp thao tác push/merge ngoài quy trình.
 
 Trước khi bắt đầu, cập nhật `main` và tạo nhánh ngắn gọn theo dạng
 `report/<viec-can-lam>`, `slides/<viec-can-lam>` hoặc `docs/<viec-can-lam>`:
