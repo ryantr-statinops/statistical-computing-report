@@ -1,44 +1,59 @@
 # Báo cáo Thống kê tính toán
 
-## Cấu trúc thư mục
+Dự án dùng MiKTeX + XeLaTeX + TeXstudio trên Windows và macOS.
 
-```text
-assets/                    Tài nguyên tĩnh dùng chung: logo, hình có sẵn
-r/                         Mã nguồn R (chưa triển khai)
-output/
-  figures/                 Biểu đồ PDF, PNG do R sinh ra
-  tables/                  Bảng kết quả CSV do R sinh ra
-  logs/                    Seed, tham số, phiên bản R và thông tin lần chạy
-tex-report/code/main.tex   Mã nguồn báo cáo LaTeX
-slide/                     Mã nguồn slide (chưa triển khai)
-archive/previous-results/  Kết quả cũ để tham khảo, không phải đầu ra hiện hành
+## Bắt đầu
+
+1. Clone repo, cài MiKTeX, TeXstudio và R. Thống nhất phiên bản trong team;
+   kết quả lưu trữ trước đây dùng R 4.3.3.
+2. Từ thư mục gốc, chạy `Rscript r/Nhom_D_TKTT.R` để tạo hình, bảng và log.
+   Đây là mô phỏng đầy đủ (K = 10000, B = 1999), có thể mất thời gian.
+   Script dùng base R, không cần package bên ngoài.
+3. Mở `tex-report/code/main.tex` trong TeXstudio và chọn Build & View.
+   File đã chỉ định XeLaTeX và UTF-8, font được đọc từ repo.
+   Biên dịch lại nếu mục lục hoặc tham chiếu cần cập nhật.
+
+Hoặc build bằng terminal từ gốc repo:
+
+```powershell
+# Windows
+powershell -NoProfile -File scripts/build.ps1
 ```
 
-## Quy ước đường dẫn
+```bash
+# macOS
+bash scripts/build.sh
+```
 
-- Chạy mã R từ thư mục gốc dự án; ghi kết quả vào `output/`.
-- Báo cáo và slide dùng chung tài nguyên trong `assets/` và `output/`.
-- Không sao chép kết quả sinh ra vào thư mục mã nguồn LaTeX hoặc slide.
-- Biên dịch báo cáo từ `tex-report/code/`. `main.tex` đã khai báo
-  `\graphicspath{{../../assets/}{../../output/figures/}}`.
-- Dùng XeLaTeX hoặc LuaLaTeX vì báo cáo sử dụng `fontspec`.
+Hai script kiểm tra đầu vào và chạy XeLaTeX ba lượt.
+PDF: `tex-report/code/main.pdf` (không được Git theo dõi).
 
-## Trạng thái sau khi sắp xếp
+## Cấu trúc
 
-Logo đã được chuyển vào `assets/`. Các hình, CSV và thông tin lần chạy cũ
-được lưu ở `archive/previous-results/`. `output/` đang chờ kết quả mới từ R.
+```text
+assets/
+  tdtu-logo.jpg            Logo dùng chung
+  fonts/                   Font cố định, giấy phép và SHA-256
+r/Nhom_D_TKTT.R            Mô phỏng và xuất kết quả
+output/
+  figures/                 Hình PDF, PNG do R tạo
+  tables/                  Bảng CSV do R tạo
+  logs/                    Tham số, seed và sessionInfo()
+tex-report/code/
+  main.tex                 Điểm vào để biên dịch
+  preamble.tex             Package, font, định dạng chung
+  sections/                Phần đầu, chín phần nội dung, tài liệu tham khảo
+slide/                     Mã nguồn slide sau này
+scripts/                   Lệnh build Windows và macOS
+archive/previous-results/  Kết quả cũ chỉ để đối chiếu
+CONTRIBUTING.md            Hướng dẫn thiết lập và làm việc nhóm
+```
 
-Báo cáo vẫn giữ các đoạn R minh họa, bảng số liệu và nhận xét đã viết trước
-đó; chúng chưa được kiểm chứng lại bằng mã R độc lập. Báo cáo có nhắc đến
-`bootstrap_simulation.R`, nhưng file này chưa được tạo.
+## Trạng thái kết quả
 
-Bốn hình kết quả mà báo cáo đang chờ trong `output/figures/`:
+`output/` đang chờ lần chạy mới. Số liệu, nhận xét và các đoạn R minh họa
+trong báo cáo được giữ nguyên khi tách file; chưa đối chiếu lại với đầu ra
+của script hiện tại. Kết quả cũ ở `archive/previous-results/` không được
+LaTeX tự dùng thay cho kết quả mới.
 
-- `example-bootstrap-distributions.pdf`
-- `simulation-coverage.pdf`
-- `simulation-average-length.pdf`
-- `invariance-log-comparison.pdf`
-
-Chưa thể biên dịch đầy đủ báo cáo với các đường dẫn mới cho đến khi những
-hình này được tạo. Thư mục lưu trữ không nằm trong đường dẫn tìm hình của
-LaTeX, để kết quả cũ không bị dùng nhầm như kết quả mới.
+Xem [CONTRIBUTING.md](CONTRIBUTING.md) để thiết lập TeXstudio và làm việc nhóm.
