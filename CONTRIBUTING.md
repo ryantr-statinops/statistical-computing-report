@@ -63,7 +63,7 @@ bash scripts/build.sh
 ```
 
 Hai script kiểm tra đầu vào, chuyển tới `tex-report/code/` rồi chạy XeLaTeX
-ba lượt. PDF nằm tại `tex-report/code/main.pdf`, không được Git theo dõi.
+ba lượt. PDF nằm tại `tex-report/code/main.pdf` và được lưu trong Git.
 Nếu chính sách PowerShell của máy chặn script, dùng TeXstudio để build.
 
 ## Đường dẫn và kết quả
@@ -115,7 +115,7 @@ git push -u origin report/ten-cong-viec
 Mở pull request vào `main`, nhờ một thành viên khác review trước khi merge.
 Không force push `main`. Đây là quy ước nhóm; chưa bật branch protection
 trên GitHub. `.gitattributes` thống nhất LF trong repo, không cần sửa Git
-config toàn cục của từng máy. `.gitignore` loại file phụ LaTeX và session cá nhân.
+config toàn cục của từng máy. `.gitignore` loại file phụ LaTeX và session cá nhân; giữ các file PDF trong Git.
 
 ## Tài liệu chính thức
 

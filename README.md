@@ -27,7 +27,7 @@ bash scripts/build.sh
 ```
 
 Hai script kiểm tra đầu vào và chạy XeLaTeX ba lượt.
-PDF: `tex-report/code/main.pdf` (không được Git theo dõi).
+PDF: `tex-report/code/main.pdf` (được lưu trong Git).
 
 ## Cấu trúc
 

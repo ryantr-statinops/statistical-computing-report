@@ -17,7 +17,6 @@
 *.blg
 *.bcf
 *.run.xml
-tex-report/code/main.pdf
 tex-report/code/build/
 *.txss
 *.tex.bak
