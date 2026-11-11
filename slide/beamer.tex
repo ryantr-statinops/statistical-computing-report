@@ -1,0 +1,242 @@
+% !TeX program = xelatex
+% !TeX encoding = utf8
+% Khung trình bày; nội dung chuyên môn sẽ được bổ sung sau.
+\documentclass[aspectratio=43,11pt]{beamer}
+\usetheme{Madrid}
+\usecolortheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize items}[circle]
+\setbeamertemplate{headline}{%
+  \leavevmode%
+  \begin{beamercolorbox}[wd=0.55\paperwidth,ht=2.5ex,dp=1ex,leftskip=0.35cm]{section in head/foot}%
+    \scriptsize\thesection.\arabic{subsection}.\hspace{0.35em}\insertsubsectionhead
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=0.45\paperwidth,ht=2.5ex,dp=1ex]{subsection in head/foot}\hfill\end{beamercolorbox}%
+}
+\setbeamertemplate{frametitle}{%
+  \nointerlineskip%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=1.05cm,dp=0.18cm,leftskip=0.35cm,rightskip=0.3cm]{frametitle}%
+    \usebeamerfont{frametitle}\insertframetitle\hfill%
+    \raisebox{-0.12cm}{\includegraphics[width=1.05cm]{../assets/tdtu-logo.jpg}}%
+  \end{beamercolorbox}%
+}
+\setbeamertemplate{footline}{%
+  \leavevmode%
+  \begin{beamercolorbox}[wd=0.31\paperwidth,ht=2.5ex,dp=1ex,center]{author in head/foot}%
+    \tiny THỐNG KÊ TÍNH TOÁN
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=0.29\paperwidth,ht=2.5ex,dp=1ex,center]{title in head/foot}%
+    \tiny C03107 -- Bootstrap
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=0.26\paperwidth,ht=2.5ex,dp=1ex,center]{date in head/foot}%
+    \tiny Ngày trình bày
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=0.14\paperwidth,ht=2.5ex,dp=1ex,center]{section in head/foot}%
+    \tiny\insertframenumber/26
+  \end{beamercolorbox}%
+}
+\setbeamercolor{author in head/foot}{fg=white,bg=TDTUBlue}
+\setbeamercolor{title in head/foot}{fg=white,bg=TDTUBlue!85}
+\setbeamercolor{date in head/foot}{fg=white,bg=TDTUBlue!70}
+\setbeamercolor{section in head/foot}{fg=white,bg=TDTUBlue}
+\setbeamercolor{subsection in head/foot}{fg=white,bg=TDTUBlue!35}
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{vietnamese}
+\setmainfont{LiberationSerif}[Path=../assets/fonts/,Extension=.ttf,UprightFont=*-Regular,BoldFont=*-Bold,ItalicFont=*-Italic,BoldItalicFont=*-BoldItalic]
+\setsansfont{NotoSans}[Path=../assets/fonts/,Extension=.ttf,UprightFont=*-Regular,BoldFont=*-Bold,ItalicFont=*-Italic,BoldItalicFont=*-BoldItalic]
+\setmonofont{NotoSansMono}[Path=../assets/fonts/,Extension=.ttf,UprightFont=*-Regular,BoldFont=*-Bold]
+\usepackage{graphicx}
+\usepackage{booktabs}
+\definecolor{TDTUBlue}{RGB}{58,56,176}
+\setbeamercolor{structure}{fg=TDTUBlue}
+\setbeamercolor{title}{fg=TDTUBlue}
+\setbeamercolor{frametitle}{fg=TDTUBlue,bg=white}
+\setbeamercolor{palette primary}{fg=white,bg=TDTUBlue}
+\setbeamercolor{palette secondary}{fg=white,bg=TDTUBlue!85}
+\setbeamercolor{palette tertiary}{fg=white,bg=TDTUBlue!70}
+\setbeamercolor{palette quaternary}{fg=white,bg=TDTUBlue}
+
+\title[Khoảng tin cậy Bootstrap]{Khoảng tin cậy Bootstrap chuẩn tắc và Bootstrap cơ bản}
+\subtitle{Cơ sở lý thuyết, phương pháp xây dựng và đánh giá hiệu năng}
+\author[Nhóm D]{Nhóm D}
+\institute{Thống kê tính toán -- C03107\\Trường Đại học Tôn Đức Thắng}
+\date{}
+\newcommand{\placeholder}[1]{\vfill\begin{center}\color{gray}\small Khung nội dung sẽ được bổ sung.\\[0.4em]\footnotesize #1\end{center}\vfill}
+\newcounter{appendixslide}
+\newcommand{\appendixframe}[3]{\stepcounter{appendixslide}\begin{frame}[noframenumbering]{#1}\placeholder{Phụ lục A\arabic{appendixslide}/4}\end{frame}}
+\begin{document}
+% Frame 01. Source: Bìa. Goal: Giới thiệu học phần, đề tài và nhóm. Planned asset: ../assets/tdtu-logo.jpg.
+\begin{frame}[plain]
+\centering
+\includegraphics[height=1.25cm]{../assets/tdtu-logo.jpg}\par\vspace{0.15cm}
+{\small TỔNG LIÊN ĐOÀN LAO ĐỘNG VIỆT NAM\par}
+{\small\bfseries TRƯỜNG ĐẠI HỌC TÔN ĐỨC THẮNG -- KHOA TOÁN -- THỐNG KÊ\par}\vspace{0.25cm}
+{\Large\bfseries BÁO CÁO CUỐI KỲ\par}\vspace{0.15cm}
+{\usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle\par}
+{\small\insertsubtitle\par}\vspace{0.25cm}
+{\small Môn học: Thống kê tính toán -- C03107; Học kỳ 1/2026--2027\par}
+{\small Giảng viên: ThS. Bùi Thùy Trang\par}
+{\scriptsize Nhóm D\par}
+{\scriptsize C2400121 Phan Trí Thịnh \quad C2400115 Ngô Cẩm Quí\par}
+{\scriptsize C2400203 Nguyễn Văn Kiệt \quad C2400199 Trần Quốc Khang\par}
+\end{frame}
+\section{Giới thiệu tổng quan}
+\subsection{Lộ trình trình bày}
+% Frame 02. Source: Tổng quan. Goal: Nêu mạch trình bày. Planned asset: none.
+\begin{frame}[label=frame:02]{Lộ trình trình bày}
+\placeholder{Tổng quan -- Nêu mạch trình bày.}
+\end{frame}
+\subsection{Vì sao cần khoảng tin cậy Bootstrap?}
+% Frame 03. Source: Phần 1. Goal: Động lực và bối cảnh. Planned asset: none.
+\begin{frame}[label=frame:03]{Vì sao cần khoảng tin cậy Bootstrap?}
+\placeholder{Phần 1 -- Động lực và bối cảnh.}
+\end{frame}
+\subsection{Mục tiêu và phạm vi khảo sát}
+% Frame 04. Source: Phần 1. Goal: Mục tiêu, phạm vi, giới hạn. Planned asset: none.
+\begin{frame}[label=frame:04]{Mục tiêu và phạm vi khảo sát}
+\placeholder{Phần 1 -- Mục tiêu, phạm vi, giới hạn.}
+\end{frame}
+\section{ECDF và Monte Carlo}
+\subsection{Phân phối thực nghiệm ECDF}
+% Frame 05. Source: Phần 2. Goal: Định nghĩa và vai trò. Planned asset: none.
+\begin{frame}[label=frame:05]{Phân phối thực nghiệm ECDF}
+\placeholder{Phần 2 -- Định nghĩa và vai trò.}
+\end{frame}
+\subsection{Nguyên lý Plug-in}
+% Frame 06. Source: Phần 2. Goal: Xấp xỉ tổng thể bằng ECDF. Planned asset: none.
+\begin{frame}[label=frame:06]{Nguyên lý Plug-in}
+\placeholder{Phần 2 -- Xấp xỉ tổng thể bằng ECDF.}
+\end{frame}
+\subsection{Quy trình lấy mẫu Bootstrap}
+% Frame 07. Source: Phần 2. Goal: Lấy mẫu lại và tính thống kê. Planned asset: none.
+\begin{frame}[label=frame:07]{Quy trình lấy mẫu Bootstrap}
+\placeholder{Phần 2 -- Lấy mẫu lại và tính thống kê.}
+\end{frame}
+\subsection{B khác K: hai nguồn biến thiên Monte Carlo}
+% Frame 08. Source: Phần 2 và 6. Goal: Phân biệt số bản sao Bootstrap và số lần mô phỏng. Planned asset: ../assets/simulate-results/run-info.txt.
+\begin{frame}[label=frame:08]{B khác K: hai nguồn biến thiên Monte Carlo}
+\placeholder{Phần 2 và 6 -- Phân biệt số bản sao Bootstrap và số lần mô phỏng.}
+\end{frame}
+\section{Xây dựng Normal và Basic CI}
+\subsection{Normal CI: ý tưởng và công thức}
+% Frame 09. Source: Phần 3. Goal: Giả định và khoảng đối xứng. Planned asset: none.
+\begin{frame}[label=frame:09]{Normal CI: ý tưởng và công thức}
+\placeholder{Phần 3 -- Giả định và khoảng đối xứng.}
+\end{frame}
+\subsection{Basic CI và phép đảo phân vị}
+% Frame 10. Source: Phần 3. Goal: Phản chiếu phân vị quanh ước lượng gốc. Planned asset: none.
+\begin{frame}[label=frame:10]{Basic CI và phép đảo phân vị}
+\placeholder{Phần 3 -- Phản chiếu phân vị quanh ước lượng gốc.}
+\end{frame}
+\section{So sánh Normal và Basic CI}
+\subsection{Normal CI và Basic CI khác nhau thế nào?}
+% Frame 11. Source: Phần 4. Goal: So sánh giả định và giới hạn. Planned asset: none.
+\begin{frame}[label=frame:11]{Normal CI và Basic CI khác nhau thế nào?}
+\placeholder{Phần 4 -- So sánh giả định và giới hạn.}
+\end{frame}
+\section{Ví dụ Bootstrap}
+\subsection{Ví dụ mẫu đối xứng}
+% Frame 12. Source: Phần 5. Goal: Liệt kê chính xác phân phối Bootstrap. Planned asset: ../assets/simulate-results/example-bootstrap-distributions.pdf.
+\begin{frame}[label=frame:12]{Ví dụ mẫu đối xứng}
+\placeholder{Phần 5 -- Liệt kê chính xác phân phối Bootstrap.}
+\end{frame}
+\subsection{Ví dụ mẫu lệch phải}
+% Frame 13. Source: Phần 5. Goal: Đối chiếu cách đặt cận; số liệu theo báo cáo. Planned asset: ../assets/simulate-results/example-confidence-intervals.csv.
+\begin{frame}[label=frame:13]{Ví dụ mẫu lệch phải}
+\placeholder{Phần 5 -- Đối chiếu cách đặt cận; số liệu theo báo cáo.}
+\end{frame}
+\subsection{Đối chiếu các khoảng trong hai ví dụ}
+% Frame 14. Source: Phần 5. Goal: So sánh Normal, Basic, Percentile. Planned asset: ../assets/simulate-results/example-confidence-intervals.csv.
+\begin{frame}[label=frame:14]{Đối chiếu các khoảng trong hai ví dụ}
+\placeholder{Phần 5 -- So sánh Normal, Basic, Percentile.}
+\end{frame}
+\section{Mô phỏng Monte Carlo}
+\subsection{Thiết kế mô phỏng Monte Carlo}
+% Frame 15. Source: Phần 6. Goal: Thiết lập, seed và MCSE. Planned asset: ../assets/simulate-results/run-info.txt.
+\begin{frame}[label=frame:15]{Thiết kế mô phỏng Monte Carlo}
+\placeholder{Phần 6 -- Thiết lập, seed và MCSE.}
+\end{frame}
+\subsection{Kết quả coverage}
+% Frame 16. Source: Phần 6. Goal: Bốn kịch bản và mức danh nghĩa. Planned asset: ../assets/simulate-results/simulation-coverage.pdf; simulation-summary.csv.
+\begin{frame}[label=frame:16]{Kết quả coverage}
+\placeholder{Phần 6 -- Bốn kịch bản và mức danh nghĩa.}
+\end{frame}
+\subsection{Kết quả độ dài khoảng trung bình}
+% Frame 17. Source: Phần 6. Goal: Đọc AL cùng coverage. Planned asset: ../assets/simulate-results/simulation-average-length.pdf; simulation-summary.csv.
+\begin{frame}[label=frame:17]{Kết quả độ dài khoảng trung bình}
+\placeholder{Phần 6 -- Đọc AL cùng coverage.}
+\end{frame}
+\subsection{Những điều rút ra từ mô phỏng}
+% Frame 18. Source: Phần 6. Goal: Giới hạn kết luận trong thiết kế đã chạy. Planned asset: ../assets/simulate-results/simulation-summary.csv.
+\begin{frame}[label=frame:18]{Những điều rút ra từ mô phỏng}
+\placeholder{Phần 6 -- Giới hạn kết luận trong thiết kế đã chạy.}
+\end{frame}
+\section{Ứng dụng Bootstrap}
+\subsection{Ví dụ giả định: Hazard Ratio}
+% Frame 19. Source: Phần 7. Goal: Phân biệt ví dụ giả định với nghiên cứu. Planned asset: none.
+\begin{frame}[label=frame:19]{Ví dụ giả định: Hazard Ratio}
+\placeholder{Phần 7 -- Phân biệt ví dụ giả định với nghiên cứu.}
+\end{frame}
+\subsection{Ứng dụng: relative validity}
+% Frame 20. Source: Phần 7. Goal: Ứng dụng BCa của Deng và cộng sự. Planned asset: none.
+\begin{frame}[label=frame:20]{Ứng dụng: relative validity}
+\placeholder{Phần 7 -- Ứng dụng BCa của Deng và cộng sự.}
+\end{frame}
+\section{Percentile CI và BCa}
+\subsection{Percentile CI}
+% Frame 21. Source: Phần 8. Goal: Lấy trực tiếp phân vị Bootstrap. Planned asset: none.
+\begin{frame}[label=frame:21]{Percentile CI}
+\placeholder{Phần 8 -- Lấy trực tiếp phân vị Bootstrap.}
+\end{frame}
+\subsection{BCa: vai trò và giới hạn}
+% Frame 22. Source: Phần 8. Goal: Hiệu chỉnh độ chệch, gia tốc, điều kiện. Planned asset: none.
+\begin{frame}[label=frame:22]{BCa: vai trò và giới hạn}
+\placeholder{Phần 8 -- Hiệu chỉnh độ chệch, gia tốc, điều kiện.}
+\end{frame}
+\subsection{Tính bất biến qua biến đổi log}
+% Frame 23. Source: Phần 8. Goal: So sánh thang gốc và log. Planned asset: ../assets/simulate-results/invariance-log-comparison.pdf; invariance-log-comparison.csv.
+\begin{frame}[label=frame:23]{Tính bất biến qua biến đổi log}
+\placeholder{Phần 8 -- So sánh thang gốc và log.}
+\end{frame}
+\subsection{Điều kiện áp dụng và giới hạn kết luận}
+% Frame 24. Source: Phần 2, 4 và 9. Goal: Giả định và giới hạn tổng quát hóa. Planned asset: none.
+\begin{frame}[label=frame:24]{Điều kiện áp dụng và giới hạn kết luận}
+\placeholder{Phần 2, 4 và 9 -- Giả định và giới hạn tổng quát hóa.}
+\end{frame}
+\section{Kết luận và giới hạn}
+\subsection{Kết luận và khuyến nghị}
+% Frame 25. Source: Phần 9. Goal: Tóm tắt kết quả trong phạm vi khảo sát. Planned asset: none.
+\begin{frame}[label=frame:25]{Kết luận và khuyến nghị}
+\placeholder{Phần 9 -- Tóm tắt kết quả trong phạm vi khảo sát.}
+\end{frame}
+\subsection{Cảm ơn và hỏi đáp}
+% Frame 26. Source: Kết thúc. Goal: Mở trao đổi. Planned asset: none.
+\begin{frame}[plain]{Cảm ơn và hỏi đáp}
+\centering\Large Cảm ơn cô và các bạn đã lắng nghe.\par\vspace{0.8em}
+\normalsize Trao đổi và câu hỏi
+\end{frame}
+\appendix
+\setcounter{section}{0}
+\renewcommand{\thesection}{A}
+\section{Phụ lục}
+\setbeamertemplate{footline}{%
+  \leavevmode%
+  \begin{beamercolorbox}[wd=0.31\paperwidth,ht=2.5ex,dp=1ex,center]{author in head/foot}\tiny THỐNG KÊ TÍNH TOÁN\end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=0.29\paperwidth,ht=2.5ex,dp=1ex,center]{title in head/foot}\tiny C03107 -- Bootstrap\end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=0.26\paperwidth,ht=2.5ex,dp=1ex,center]{date in head/foot}\tiny Ngày trình bày\end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=0.14\paperwidth,ht=2.5ex,dp=1ex,center]{section in head/foot}\tiny A\arabic{appendixslide}/4\end{beamercolorbox}%
+}
+\subsection{Chi tiết suy luận Basic CI}
+% Appendix source: Phần 3. Goal: Bổ sung các bước phép đảo phân vị. Planned asset: none.
+\appendixframe{Chi tiết suy luận Basic CI}{Phần 3}{Bổ sung các bước phép đảo phân vị.}
+\subsection{Bảng kết quả mô phỏng đầy đủ}
+% Appendix source: Phần 6. Goal: Các số liệu cho hỏi đáp. Planned asset: ../assets/simulate-results/simulation-summary.csv.
+\appendixframe{Bảng kết quả mô phỏng đầy đủ}{Phần 6}{Các số liệu cho hỏi đáp.}
+\subsection{Thiết lập R và khả năng tái lập}
+% Appendix source: Mã R, log. Goal: Seed, phiên bản R, B, K, quy ước phân vị. Planned asset: ../assets/simulate-results/run-info.txt; ../output/logs/session-info.txt.
+\appendixframe{Thiết lập R và khả năng tái lập}{Mã R, log}{Seed, phiên bản R, B, K, quy ước phân vị.}
+\subsection{Tài liệu tham khảo}
+% Appendix source: Danh mục cuối báo cáo. Goal: Nguồn trích dẫn trong báo cáo. Planned asset: tex-report/code/main.tex: bibliography.
+\appendixframe{Tài liệu tham khảo}{Danh mục cuối báo cáo}{Nguồn trích dẫn trong báo cáo.}
+\end{document}

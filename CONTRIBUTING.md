@@ -62,8 +62,9 @@ powershell -NoProfile -File scripts/build.ps1
 bash scripts/build.sh
 ```
 
-Hai script kiểm tra đầu vào, chuyển tới `tex-report/code/` rồi chạy XeLaTeX
-ba lượt. PDF nằm tại `tex-report/code/main.pdf` và được lưu trong Git.
+Hai script kiểm tra đầu vào rồi chạy XeLaTeX ba lượt. Mặc định build báo cáo;
+thêm `-Target slides` (PowerShell) hoặc `slides` (Bash) để build slide, `all`
+để build cả hai. PDF báo cáo và slide đều được lưu trong Git.
 Nếu chính sách PowerShell của máy chặn script, dùng TeXstudio để build.
 
 ## Đường dẫn và kết quả
@@ -83,6 +84,12 @@ Nếu chính sách PowerShell của máy chặn script, dùng TeXstudio để bu
   kiểm tra kết quả mới, copy các file tương ứng vào bộ kết quả báo cáo và cập
   nhật số liệu/nhận xét cùng nhau. Giữ `archive/previous-results/` để đối chiếu.
 
+## Slide Beamer
+
+Khung Madrid tỷ lệ 4:3 cho bài nói 25–30 phút nằm trong `slide/beamer.tex`, với 26 frame chính và 4 frame phụ lục. Mỗi frame ghi nguồn báo cáo, mục tiêu và tài nguyên dự kiến trong comment. Nội dung hiện là placeholder; khi báo cáo đổi, đối chiếu bảng ánh xạ trong `slide/README.md`. Dùng cùng logo và font tại `assets/` và kết quả tại `assets/simulate-results/`.
+
+Build slide bằng `powershell -NoProfile -File scripts/build.ps1 -Target slides` trên Windows hoặc `bash scripts/build.sh slides` trên macOS. Dùng `all` để build cả báo cáo và slide. PDF slide được lưu trong Git.
+
 ## Chỉnh sửa nội dung
 
 Toàn bộ báo cáo, package, font và định dạng nằm trong
@@ -94,28 +101,41 @@ hạn chế xung đột. Giữ label duy nhất toàn bài và báo rõ khi thay
 
 ## Git
 
-Lưu hoặc commit công việc đang làm trước khi chuyển nhánh. Bắt đầu việc mới:
+Mọi thay đổi phải đi qua nhánh riêng và pull request. Chỉ tài khoản chủ repo
+`ryantr-statinops` duyệt rồi merge vào `main`; không commit hoặc push trực tiếp
+lên `main`, và không tự merge pull request của mình. Quy tắc này hiện được ghi
+trong tài liệu và PR template; cần bật branch protection trên GitHub nếu muốn
+GitHub chặn trực tiếp thao tác push/merge ngoài quy trình.
+
+Trước khi bắt đầu, cập nhật `main` và tạo nhánh ngắn gọn theo dạng
+`report/<viec-can-lam>`, `slides/<viec-can-lam>` hoặc `docs/<viec-can-lam>`:
 
 ```text
 git switch main
 git pull --ff-only
-git switch -c report/ten-cong-viec
+git switch -c slides/update-beamer-layout
 ```
 
-Sửa phần được giao, build khi có đủ hình, xem PDF và diff trước khi commit.
-Chỉ stage file thuộc công việc của mình, ví dụ:
+Chỉ sửa phạm vi đã nhận. Trước khi push, build tài liệu bị ảnh hưởng, xem PDF
+và `git diff`. Commit bằng thông điệp ngắn mô tả hành động. Ví dụ:
 
 ```text
 git diff
-git add tex-report/code/main.tex
-git commit -m "Update report introduction"
-git push -u origin report/ten-cong-viec
+git add slide/beamer.tex slide/beamer.pdf slide/README.md
+git commit -m "Refine Beamer layout"
+git push -u origin slides/update-beamer-layout
 ```
 
-Mở pull request vào `main`, nhờ một thành viên khác review trước khi merge.
-Không force push `main`. Đây là quy ước nhóm; chưa bật branch protection
-trên GitHub. `.gitattributes` thống nhất LF trong repo, không cần sửa Git
-config toàn cục của từng máy. `.gitignore` loại file phụ LaTeX và session cá nhân; giữ các file PDF trong Git.
+Mở pull request từ nhánh công việc vào `main`. Mô tả mục đích và phạm vi,
+liệt kê kiểm tra đã chạy, nêu ảnh hưởng đến số liệu/kết quả nếu có, và đính
+kèm ảnh trang PDF khi đổi bố cục. Gắn file PDF đã build cùng mã nguồn khi
+thay đổi ảnh hưởng đến tài liệu. Đánh dấu sẵn sàng review; sau đó chờ
+`ryantr-statinops` duyệt và merge. Nếu có yêu cầu chỉnh sửa, cập nhật trên
+cùng nhánh/pull request rồi báo reviewer. Không force push `main`.
+
+`.gitattributes` thống nhất LF trong repo, không cần sửa Git config toàn cục.
+`.gitignore` loại file phụ LaTeX và session cá nhân; PDF hoàn chỉnh được lưu
+trong Git.
 
 ## Tài liệu chính thức
 

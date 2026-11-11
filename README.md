@@ -26,7 +26,9 @@ powershell -NoProfile -File scripts/build.ps1
 bash scripts/build.sh
 ```
 
-Hai script kiểm tra đầu vào và chạy XeLaTeX ba lượt.
+Hai script kiểm tra đầu vào và chạy XeLaTeX ba lượt. Thêm `-Target slides`
+hoặc `slides` để build Beamer, `all` để build cả hai; mặc định là `report`.
+Slide nguồn nằm tại `slide/beamer.tex`, PDF tại `slide/beamer.pdf`.
 PDF: `tex-report/code/main.pdf` (được lưu trong Git).
 
 ## Cấu trúc
@@ -43,11 +45,13 @@ output/
   logs/                    Tham số, seed và sessionInfo()
 tex-report/code/
   main.tex                 Toàn bộ nội dung, package, font và định dạng báo cáo
-slide/                     Mã nguồn slide sau này
+slide/                     Beamer source and presentation PDF
 scripts/                   Lệnh build Windows và macOS
 archive/previous-results/  Kết quả cũ chỉ để đối chiếu
 CONTRIBUTING.md            Hướng dẫn thiết lập và làm việc nhóm
 ```
+
+Xem [slide/README.md](slide/README.md) để đối chiếu từng frame với báo cáo.
 
 ## Trạng thái kết quả
 
@@ -58,4 +62,6 @@ chưa phải lần chạy lại bằng script hiện tại. R vẫn xuất kết
 `output/`; sau khi kiểm tra và đối chiếu số liệu, cập nhật bộ kết quả trong
 `assets/simulate-results/` cùng nội dung báo cáo nếu cần.
 
-Xem [CONTRIBUTING.md](CONTRIBUTING.md) để thiết lập TeXstudio và làm việc nhóm.
+Mọi thay đổi được gửi qua nhánh riêng và pull request; chờ chủ repo
+`ryantr-statinops` duyệt, merge vào `main`. Xem
+[CONTRIBUTING.md](CONTRIBUTING.md) để biết quy trình đầy đủ.
