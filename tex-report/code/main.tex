@@ -4,23 +4,9 @@
 \usepackage{fontspec}
 \usepackage{polyglossia}
 \setdefaultlanguage{vietnamese}
-% Read the exact font files tracked in this repository on every OS.
-\setmainfont{Arial}[
-    Path=../../assets/fonts/,
-    Extension=.ttf,
-    UprightFont=*-Regular,
-    BoldFont=*-Bold,
-    ItalicFont=*-Italic,
-    BoldItalicFont=*-BoldItalic
-]
-\setsansfont{Arial}[
-    Path=../../assets/fonts/,
-    Extension=.ttf,
-    UprightFont=*-Regular,
-    BoldFont=*-Bold,
-    ItalicFont=*-Italic,
-    BoldItalicFont=*-BoldItalic
-]
+% Use the system-installed Times New Roman for report text on both operating systems.
+\setmainfont{Times New Roman}
+\setsansfont{Times New Roman}
 \setmonofont{NotoSansMono}[
     Path=../../assets/fonts/,
     Extension=.ttf,
@@ -50,6 +36,7 @@
 \setlength{\parskip}{0pt}
 \setlength{\parindent}{1.5em}
 \usepackage{fancyhdr}
+\usepackage[para]{footmisc}
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\small BÁO CÁO CUỐI KỲ -- THỐNG KÊ TÍNH TOÁN}
