@@ -33,9 +33,10 @@ cài trên máy. Không ghi đường dẫn máy cá nhân vào mã nguồn chun
 5. Mở `tex-report/code/main.tex` rồi Build & View. Toàn bộ nội dung và cấu hình nằm trong file này. Không đặt root thủ công
    khác với `main.tex`. Biên dịch lại nếu mục lục hoặc tham chiếu cần cập nhật.
 
-`main.tex` đã chỉ định XeLaTeX và UTF-8 bằng magic comments. Font được nạp
-trực tiếp từ `assets/fonts/`. Đường dẫn executable và session editor là
-cấu hình riêng từng máy. Không tự format toàn bộ file chỉ để đổi thụt lề.
+`main.tex` đã chỉ định XeLaTeX và UTF-8 bằng magic comments. Phần thân báo cáo
+dùng Times New Roman cài trên hệ điều hành; code dùng Noto Sans Mono từ
+`assets/fonts/`, còn slide dùng Arial trong cùng thư mục. Đường dẫn executable
+và session editor là cấu hình riêng từng máy. Không tự format toàn bộ file chỉ để đổi thụt lề.
 
 ## Chạy R và build báo cáo
 

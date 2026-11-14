@@ -11,7 +11,7 @@ Dự án dùng MiKTeX + XeLaTeX + TeXstudio trên Windows và macOS.
    Đây là mô phỏng đầy đủ (K = 10000, B = 1999), có thể mất thời gian.
    Script dùng base R, không cần package bên ngoài.
 3. Mở `tex-report/code/main.tex` trong TeXstudio và chọn Build & View.
-   File đã chỉ định XeLaTeX và UTF-8, font được đọc từ repo.
+   File dùng XeLaTeX và UTF-8. Nội dung báo cáo dùng Times New Roman cài trên hệ điều hành; font code và font Beamer lấy từ repo.
    Biên dịch lại nếu mục lục hoặc tham chiếu cần cập nhật.
 
 Hoặc build bằng terminal từ gốc repo:
@@ -36,7 +36,7 @@ PDF: `tex-report/code/main.pdf` (được lưu trong Git).
 ```text
 assets/
   tdtu-logo.jpg            Logo dùng chung
-  fonts/                   Font cố định, giấy phép và SHA-256
+  fonts/                   Arial/Noto cho code và Beamer, giấy phép và SHA-256
   simulate-results/        Bộ kết quả lưu sẵn đang dùng cho báo cáo
 r/Nhom_D_TKTT.R            Mô phỏng và xuất kết quả
 output/
