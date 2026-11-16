@@ -1,263 +1,130 @@
-#!/usr/bin/env Rscript
-# Resolve paths before running the simulation. Rscript works from any directory;
-# source("r/Nhom_D_TKTT.R") must be run from the repository root.
-script_arg <- grep("^--file=", commandArgs(), value = TRUE)
-project_root <- if (length(script_arg)) {
-  script_file <- normalizePath(sub("^--file=", "", script_arg[1]), mustWork = TRUE)
-  normalizePath(file.path(dirname(script_file), ".."), mustWork = TRUE)
-} else {
-  normalizePath(getwd(), mustWork = TRUE)
-}
-if (!file.exists(file.path(project_root, "tex-report", "code", "main.tex"))) {
-  stop("Run source() from the repository root, or use Rscript r/Nhom_D_TKTT.R")
-}
-figures_dir <- file.path(project_root, "output", "figures")
-tables_dir <- file.path(project_root, "output", "tables")
-logs_dir <- file.path(project_root, "output", "logs")
-for (directory in c(figures_dir, tables_dir, logs_dir)) {
-  dir.create(directory, recursive = TRUE, showWarnings = FALSE)
-}
+# ==============================================================================
+# BÁO CÁO CUỐI KỲ: THỐNG KÊ TÍNH TOÁN - NHÓM D
+# Đề tài: Khoảng tin cậy Bootstrap Chuẩn tắc, Cơ bản và Phân vị
+# ==============================================================================
 
-# 1. Tham số và công thức dùng chung.
-K <- 10000L
-B <- 1999L
-alpha <- 0.05
-z <- qnorm(1 - alpha / 2)
-tail_probs <- c(alpha / 2, 1 - alpha / 2)
+# 1. Khởi tạo thư mục xuất kết quả và bảng màu
+out_fig <- file.path("output", "figures")
+dir.create(out_fig, recursive = TRUE, showWarnings = FALSE)
+colors <- c("#2474A5", "#D17B21", "#35865C")  # Normal, Basic, Percentile
 methods <- c("Normal", "Basic", "Percentile")
-colors <- c("#2474A5", "#D17B21", "#35865C")
 
-# 2. Hai ví dụ Bootstrap liệt kê chính xác.
-example_names <- c("Đối xứng", "Lệch phải")
-example_samples <- list(c(1, 2, 3), c(1, 1, 1, 9))
-example_distributions <- vector("list", 2L)
-example_rows <- vector("list", 2L)
-
-for (j in 1:2) {
-  x <- example_samples[[j]]
-  n <- length(x)
-  indices <- as.matrix(do.call(expand.grid,
-    c(rep(list(seq_len(n)), n), KEEP.OUT.ATTRS = FALSE)))
-  means <- rowMeans(matrix(x[indices], ncol = n))
-  support <- sort(unique(means))
-  frequency <- tabulate(match(means, support), length(support))
-  example_distributions[[j]] <- data.frame(
-    bootstrap_mean = support, frequency = frequency,
-    probability = frequency / length(means))
-  theta_hat <- mean(x)
-  se <- sqrt(mean((means - mean(means))^2))
-  q <- unname(quantile(means, tail_probs, type = 1))
-  bounds <- rbind(
-    Normal = c(theta_hat - z * se, theta_hat + z * se),
-    Basic = c(2 * theta_hat - q[2], 2 * theta_hat - q[1]),
-    Percentile = q)
-  example_rows[[j]] <- data.frame(
-    example = example_names[j], method = methods,
-    theta_hat = theta_hat, bootstrap_se = se,
-    q_lower = q[1], q_upper = q[2],
-    lower = bounds[, 1], upper = bounds[, 2])
+# Hàm hỗ trợ lưu đồng thời định dạng PDF và PNG (180 DPI)
+save_fig <- function(filename, w = 10, h = 6, plot_fn) {
+  pdf(file.path(out_fig, paste0(filename, ".pdf")), width = w, height = h)
+  plot_fn()
+  invisible(dev.off())
+  png(file.path(out_fig, paste0(filename, ".png")), width = w * 180, height = h * 180, res = 180)
+  plot_fn()
+  invisible(dev.off())
 }
-example_results <- do.call(rbind, example_rows)
-rownames(example_results) <- NULL
-stopifnot(identical(example_distributions[[1]]$frequency,
-                    c(1L, 3L, 6L, 7L, 6L, 3L, 1L)),
-          identical(example_distributions[[2]]$frequency,
-                    c(81L, 108L, 54L, 12L, 1L)))
 
-# 3. Mô phỏng bốn kịch bản độc lập.
-RNGkind("Mersenne-Twister", "Inversion", "Rejection")
-set.seed(20260925)
-scenario_names <- c("Normal", "Normal", "Exponential", "Exponential")
-scenario_n <- c(12L, 40L, 12L, 40L)
-scenario_theta <- c(0, 0, 1, 1)
-scenario_draw <- list(rnorm, rnorm, rexp, rexp)
-endpoint_names <- c("normal_lower", "normal_upper",
-                    "basic_lower", "basic_upper",
-                    "percentile_lower", "percentile_upper")
-simulation_blocks <- vector("list", 4L)
-
-for (j in 1:4) {
-  endpoints <- matrix(NA_real_, K, 6L,
-                      dimnames = list(NULL, endpoint_names))
-  for (k in seq_len(K)) {
-    x <- scenario_draw[[j]](scenario_n[j])
-    n <- length(x)
-    theta_hat <- mean(x)
-    means <- colMeans(matrix(
-      x[sample.int(n, n * B, replace = TRUE)], nrow = n))
-    se <- sd(means)
-    q <- unname(quantile(means, tail_probs, type = 7))
-    endpoints[k, ] <- c(
-      theta_hat - z * se, theta_hat + z * se,
-      2 * theta_hat - q[2], 2 * theta_hat - q[1],
-      q[1], q[2])
-  }
-  simulation_blocks[[j]] <- data.frame(
-    distribution = scenario_names[j], n = scenario_n[j],
-    theta = scenario_theta[j], replicate = seq_len(K),
-    endpoints, check.names = FALSE)
+# 2. Hàm tính 3 khoảng tin cậy Bootstrap: Normal, Basic, Percentile
+calc_boot_ci <- function(theta_hat, b_means, alpha = 0.05, type = 7) {
+  se <- sd(b_means)
+  z <- qnorm(1 - alpha / 2)
+  q <- unname(quantile(b_means, c(alpha / 2, 1 - alpha / 2), type = type))
+  rbind(
+    Normal     = c(theta_hat - z * se, theta_hat + z * se),
+    Basic      = c(2 * theta_hat - q[2], 2 * theta_hat - q[1]),
+    Percentile = q
+  )
 }
-simulation_raw <- do.call(rbind, simulation_blocks)
-rownames(simulation_raw) <- NULL
 
-# 4. Tính coverage và độ dài khoảng trung bình.
-simulation_rows <- vector("list", 12L)
-row <- 1L
-for (j in 1:4) {
-  d <- simulation_blocks[[j]]
-  for (m in 1:3) {
-    lo <- d[[endpoint_names[2 * m - 1]]]
-    hi <- d[[endpoint_names[2 * m]]]
-    covered <- lo <= scenario_theta[j] & scenario_theta[j] <= hi
-    cp <- mean(covered)
-    simulation_rows[[row]] <- data.frame(
-      distribution = scenario_names[j], n = scenario_n[j],
-      method = methods[m], coverage = cp,
-      average_length = mean(hi - lo),
-      coverage_mcse = sqrt(cp * (1 - cp) / K))
-    row <- row + 1L
-  }
-}
-simulation_results <- do.call(rbind, simulation_rows)
-rownames(simulation_results) <- NULL
+# 3. Phần 1: Liệt kê chính xác (Exact Enumeration) trên 2 mẫu nhỏ
+ex_samples <- list(c(1, 2, 3), c(1, 1, 1, 9))
+ex_dist <- lapply(ex_samples, function(x) {
+  grid <- as.matrix(expand.grid(rep(list(x), length(x))))
+  means <- rowMeans(grid)
+  val <- sort(unique(means))
+  freq <- tabulate(match(means, val))
+  data.frame(mean = val, prob = freq / length(means), label = paste0(freq, "/", length(means)))
+})
 
-# 5. Kiểm chứng tính bất biến dưới phép biến đổi eta = log(theta).
-# Dùng lại cùng các bản sao Bootstrap để tách tác động của phép biến đổi.
-invariance_sample <- c(2, 3, 4, 5, 9)
-invariance_n <- length(invariance_sample)
-invariance_B <- B
-invariance_indices <- matrix(
-  sample.int(invariance_n, invariance_n * invariance_B, replace = TRUE),
-  nrow = invariance_n)
-bootstrap_theta <- colMeans(matrix(
-  invariance_sample[invariance_indices], nrow = invariance_n))
-stopifnot(all(bootstrap_theta > 0))
-theta_hat <- mean(invariance_sample)
-eta_hat <- log(theta_hat)
-bootstrap_eta <- log(bootstrap_theta)
-q_theta <- unname(quantile(bootstrap_theta, tail_probs, type = 1))
-q_eta <- unname(quantile(bootstrap_eta, tail_probs, type = 1))
-se_theta <- sd(bootstrap_theta)
-se_eta <- sd(bootstrap_eta)
-ci_theta <- rbind(
-  Normal = c(theta_hat - z * se_theta, theta_hat + z * se_theta),
-  Basic = c(2 * theta_hat - q_theta[2], 2 * theta_hat - q_theta[1]),
-  Percentile = q_theta)
-ci_eta_direct <- rbind(
-  Normal = c(eta_hat - z * se_eta, eta_hat + z * se_eta),
-  Basic = c(2 * eta_hat - q_eta[2], 2 * eta_hat - q_eta[1]),
-  Percentile = q_eta)
-ci_eta_transformed <- log(ci_theta)
-invariance_results <- data.frame(
-  method = methods,
-  theta_lower = ci_theta[, 1], theta_upper = ci_theta[, 2],
-  log_transformed_lower = ci_eta_transformed[, 1],
-  log_transformed_upper = ci_eta_transformed[, 2],
-  direct_log_lower = ci_eta_direct[, 1],
-  direct_log_upper = ci_eta_direct[, 2],
-  max_abs_difference = apply(abs(ci_eta_transformed - ci_eta_direct), 1, max),
-  invariant_within_tolerance = apply(
-    abs(ci_eta_transformed - ci_eta_direct) <= 1e-12, 1, all))
-stopifnot(all(is.finite(as.matrix(invariance_results[, -1]))),
-          all(invariance_results$theta_lower <= invariance_results$theta_upper),
-          all(invariance_results$invariant_within_tolerance ==
-                c(FALSE, FALSE, TRUE)))
-
-# 6. Xuất bảng, thông tin lần chạy và đồ thị.
-write.csv(example_distributions[[1]],
-          file.path(tables_dir, "example-symmetric-distribution.csv"),
-          row.names = FALSE, fileEncoding = "UTF-8")
-write.csv(example_distributions[[2]],
-          file.path(tables_dir, "example-skewed-distribution.csv"),
-          row.names = FALSE, fileEncoding = "UTF-8")
-write.csv(example_results,
-          file.path(tables_dir, "example-confidence-intervals.csv"),
-          row.names = FALSE, fileEncoding = "UTF-8")
-write.csv(simulation_results,
-          file.path(tables_dir, "simulation-summary.csv"),
-          row.names = FALSE, fileEncoding = "UTF-8")
-write.csv(invariance_results,
-          file.path(tables_dir, "invariance-log-comparison.csv"),
-          row.names = FALSE, fileEncoding = "UTF-8")
-
-writeLines(c(
-  paste("R version:", getRversion()),
-  paste("K:", K), paste("B:", B), paste("alpha:", alpha),
-  paste("Seed:", 20260925),
-  "RNGkind: Mersenne-Twister, Inversion, Rejection",
-  "Example quantile type: 1; simulation quantile type: 7",
-  "Invariance quantile type: 1",
-  paste("Example sample for log invariance:",
-        paste(invariance_sample, collapse = ", "))),
-  file.path(logs_dir, "run-info.txt"), useBytes = TRUE)
-
-writeLines(capture.output(sessionInfo()),
-           file.path(logs_dir, "session-info.txt"), useBytes = TRUE)
-
-plot_examples <- function() {
-  old_par <- par(mfrow = c(1, 2), mar = c(4, 4.5, 3, 1), las = 1)
-  on.exit(par(old_par))
+save_fig("example-bootstrap-distributions", w = 10, h = 5, function() {
+  par(mfrow = c(1, 2), mar = c(4, 4.5, 3, 1), las = 1)
+  titles <- c("Symmetric sample", "Right-skewed sample")
   for (j in 1:2) {
-    d <- example_distributions[[j]]
-    plot(d$bootstrap_mean, d$probability, type = "h", lwd = 9,
-         xlim = range(d$bootstrap_mean) + c(-.25, .25),
-         col = colors[1], ylim = c(0, max(d$probability) * 1.2),
-         xlab = "Bootstrap mean", ylab = "Probability",
-         main = c("Symmetric sample", "Right-skewed sample")[j])
-    abline(v = mean(example_samples[[j]]), lty = 2, lwd = 2)
-    text(d$bootstrap_mean, d$probability + .035,
-         paste0(d$frequency, "/", sum(d$frequency)), cex = .8)
+    d <- ex_dist[[j]]
+    plot(d$mean, d$prob, type = "h", lwd = 8, col = colors[1],
+         ylim = c(0, max(d$prob) * 1.25), xlab = "Bootstrap mean", ylab = "Probability", main = titles[j])
+    abline(v = mean(ex_samples[[j]]), lty = 2, lwd = 2)
+    text(d$mean, d$prob + 0.035, d$label, cex = 0.8)
   }
-}
+})
 
-plot_simulation_metric <- function(metric, ylab, reference = NULL) {
-  old_par <- par(mfrow = c(2, 2), mar = c(4, 4.5, 3, 1), las = 1)
-  on.exit(par(old_par))
+# 4. Phần 2: Mô phỏng Monte Carlo (4 kịch bản phân phối & cỡ mẫu)
+set.seed(20260925)
+K <- 2000  # Số lần lặp mô phỏng Monte Carlo (bản đầy đủ: 10000)
+B <- 999   # Số mẫu con Bootstrap trong mỗi lần lặp (bản đầy đủ: 1999)
+
+scenarios <- list(
+  list(name = "Normal n = 12",      draw = function() rnorm(12), theta = 0, n = 12),
+  list(name = "Normal n = 40",      draw = function() rnorm(40), theta = 0, n = 40),
+  list(name = "Exponential n = 12", draw = function() rexp(12),  theta = 1, n = 12),
+  list(name = "Exponential n = 40", draw = function() rexp(40),  theta = 1, n = 40)
+)
+
+sim_res <- lapply(scenarios, function(sc) {
+  cov <- matrix(FALSE, K, 3)
+  len <- matrix(0, K, 3)
+  for (k in 1:K) {
+    x <- sc$draw()
+    b_means <- colMeans(matrix(sample(x, sc$n * B, replace = TRUE), nrow = sc$n))
+    ci <- calc_boot_ci(mean(x), b_means, type = 7)
+    cov[k, ] <- (ci[, 1] <= sc$theta) & (sc$theta <= ci[, 2])
+    len[k, ] <- ci[, 2] - ci[, 1]
+  }
+  list(coverage = colMeans(cov), avg_length = colMeans(len))
+})
+
+# Đồ thị 2: Xác suất bao phủ (Coverage probability)
+save_fig("simulation-coverage", w = 9, h = 6, function() {
+  par(mfrow = c(2, 2), mar = c(4, 4.5, 3, 1), las = 1)
   for (j in 1:4) {
-    d <- simulation_results[(3 * j - 2):(3 * j), ]
-    values <- d[[metric]]
-    if (identical(metric, "coverage")) {
-      ylim <- c(min(.75, min(values) - .03), 1)
-    } else {
-      ylim <- c(0, 1.15 * max(simulation_results[[metric]]))
-    }
-    plot(1:3, values, type = "n", xlim = c(.7, 3.3), ylim = ylim,
-         xaxt = "n", xlab = "Method", ylab = ylab,
-         main = paste(scenario_names[j], "n =", scenario_n[j]))
+    cp <- sim_res[[j]]$coverage
+    plot(1:3, cp, type = "p", pch = 19, cex = 1.4, col = colors,
+         xlim = c(0.7, 3.3), ylim = c(min(0.75, min(cp) - 0.03), 1),
+         xaxt = "n", xlab = "Method", ylab = "Coverage probability", main = scenarios[[j]]$name)
     axis(1, at = 1:3, labels = methods)
-    if (!is.null(reference)) abline(h = reference, lty = 2)
-    points(1:3, values, pch = 19, cex = 1.4, col = colors)
+    abline(h = 0.95, lty = 2)
   }
-}
+})
 
-plot_invariance <- function() {
-  old_par <- par(mar = c(4, 4.5, 3, 1), las = 1)
-  on.exit(par(old_par))
-  plot(1:3, invariance_results$max_abs_difference, type = "p",
-       pch = 19, lwd = 2, col = colors, xaxt = "n",
-       xlab = "Method", ylab = "Maximum endpoint difference",
+# Đồ thị 3: Độ dài khoảng tin cậy trung bình (Average interval length)
+save_fig("simulation-average-length", w = 9, h = 6, function() {
+  par(mfrow = c(2, 2), mar = c(4, 4.5, 3, 1), las = 1)
+  max_len <- max(sapply(sim_res, function(r) max(r$avg_length)))
+  for (j in 1:4) {
+    al <- sim_res[[j]]$avg_length
+    plot(1:3, al, type = "p", pch = 19, cex = 1.4, col = colors,
+         xlim = c(0.7, 3.3), ylim = c(0, max_len * 1.15),
+         xaxt = "n", xlab = "Method", ylab = "Average interval length", main = scenarios[[j]]$name)
+    axis(1, at = 1:3, labels = methods)
+  }
+})
+
+# 5. Phần 3: Kiểm chứng tính bất biến dưới phép biến đổi eta = log(theta)
+x_inv <- c(2, 3, 4, 5, 9)
+n_inv <- length(x_inv)
+b_means <- colMeans(matrix(sample(x_inv, n_inv * B, replace = TRUE), nrow = n_inv))
+
+ci_theta <- calc_boot_ci(mean(x_inv), b_means, type = 1)
+ci_eta_direct <- rbind(
+  Normal     = c(log(mean(x_inv)) - qnorm(0.975) * sd(log(b_means)), log(mean(x_inv)) + qnorm(0.975) * sd(log(b_means))),
+  Basic      = c(2 * log(mean(x_inv)) - quantile(log(b_means), 0.975, type = 1), 2 * log(mean(x_inv)) - quantile(log(b_means), 0.025, type = 1)),
+  Percentile = quantile(log(b_means), c(0.025, 0.975), type = 1)
+)
+ci_eta_trans <- log(ci_theta)
+diff_inv <- apply(abs(ci_eta_trans - ci_eta_direct), 1, max)
+
+save_fig("invariance-log-comparison", w = 8, h = 5, function() {
+  par(mar = c(4, 4.5, 3, 1), las = 1)
+  plot(1:3, diff_inv, type = "p", pch = 19, cex = 1.4, col = colors,
+       xaxt = "n", xlab = "Method", ylab = "Maximum endpoint difference",
        main = "Invariance under eta = log(theta)")
   axis(1, at = 1:3, labels = methods)
   abline(h = 0, lty = 2)
-}
-
-save_plot <- function(stem, plot_function) {
-  grDevices::pdf(file.path(figures_dir, paste0(stem, ".pdf")),
-                 width = 10, height = 6.5, onefile = TRUE)
-  plot_function()
-  grDevices::dev.off()
-  grDevices::png(file.path(figures_dir, paste0(stem, ".png")),
-                 width = 1800, height = 1170, res = 180)
-  plot_function()
-  grDevices::dev.off()
-  invisible(NULL)
-}
-
-save_plot("example-bootstrap-distributions", plot_examples)
-save_plot("simulation-coverage", function() {
-  plot_simulation_metric("coverage", "Coverage probability", 1 - alpha)
 })
-save_plot("simulation-average-length", function() {
-  plot_simulation_metric("average_length", "Average interval length")
-})
-save_plot("invariance-log-comparison", plot_invariance)
+
+cat("Đã hoàn tất tính toán và xuất 4 hình ảnh (PDF & PNG) vào:", out_fig, "\n")
