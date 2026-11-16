@@ -9,12 +9,9 @@ dir.create(out_fig, recursive = TRUE, showWarnings = FALSE)
 colors <- c("#2474A5", "#D17B21", "#35865C")  # Normal, Basic, Percentile
 methods <- c("Normal", "Basic", "Percentile")
 
-# Hàm hỗ trợ lưu đồng thời định dạng PDF và PNG (180 DPI)
-save_fig <- function(filename, w = 10, h = 6, plot_fn) {
+# Hàm hỗ trợ lưu định dạng PDF vào output/figures
+save_pdf <- function(filename, w = 10, h = 6, plot_fn) {
   pdf(file.path(out_fig, paste0(filename, ".pdf")), width = w, height = h)
-  plot_fn()
-  invisible(dev.off())
-  png(file.path(out_fig, paste0(filename, ".png")), width = w * 180, height = h * 180, res = 180)
   plot_fn()
   invisible(dev.off())
 }
@@ -41,7 +38,7 @@ ex_dist <- lapply(ex_samples, function(x) {
   data.frame(mean = val, prob = freq / length(means), label = paste0(freq, "/", length(means)))
 })
 
-save_fig("example-bootstrap-distributions", w = 10, h = 5, function() {
+save_pdf("example-bootstrap-distributions", w = 10, h = 5, function() {
   par(mfrow = c(1, 2), mar = c(4, 4.5, 3, 1), las = 1)
   titles <- c("Symmetric sample", "Right-skewed sample")
   for (j in 1:2) {
@@ -79,7 +76,7 @@ sim_res <- lapply(scenarios, function(sc) {
 })
 
 # Đồ thị 2: Xác suất bao phủ (Coverage probability)
-save_fig("simulation-coverage", w = 9, h = 6, function() {
+save_pdf("simulation-coverage", w = 9, h = 6, function() {
   par(mfrow = c(2, 2), mar = c(4, 4.5, 3, 1), las = 1)
   for (j in 1:4) {
     cp <- sim_res[[j]]$coverage
@@ -92,7 +89,7 @@ save_fig("simulation-coverage", w = 9, h = 6, function() {
 })
 
 # Đồ thị 3: Độ dài khoảng tin cậy trung bình (Average interval length)
-save_fig("simulation-average-length", w = 9, h = 6, function() {
+save_pdf("simulation-average-length", w = 9, h = 6, function() {
   par(mfrow = c(2, 2), mar = c(4, 4.5, 3, 1), las = 1)
   max_len <- max(sapply(sim_res, function(r) max(r$avg_length)))
   for (j in 1:4) {
@@ -118,7 +115,7 @@ ci_eta_direct <- rbind(
 ci_eta_trans <- log(ci_theta)
 diff_inv <- apply(abs(ci_eta_trans - ci_eta_direct), 1, max)
 
-save_fig("invariance-log-comparison", w = 8, h = 5, function() {
+save_pdf("invariance-log-comparison", w = 8, h = 5, function() {
   par(mar = c(4, 4.5, 3, 1), las = 1)
   plot(1:3, diff_inv, type = "p", pch = 19, cex = 1.4, col = colors,
        xaxt = "n", xlab = "Method", ylab = "Maximum endpoint difference",
@@ -127,4 +124,4 @@ save_fig("invariance-log-comparison", w = 8, h = 5, function() {
   abline(h = 0, lty = 2)
 })
 
-cat("Đã hoàn tất tính toán và xuất 4 hình ảnh (PDF & PNG) vào:", out_fig, "\n")
+cat("Đã hoàn tất tính toán và xuất 4 hình ảnh PDF vào:", out_fig, "\n")
