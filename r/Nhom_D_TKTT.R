@@ -1,22 +1,14 @@
-# ==============================================================================
-# BÁO CÁO CUỐI KỲ: THỐNG KÊ TÍNH TOÁN - NHÓM D
-# Đề tài: Khoảng tin cậy Bootstrap Chuẩn tắc, Cơ bản và Phân vị
-# ==============================================================================
-
-# 1. Khởi tạo thư mục xuất kết quả và bảng màu
 out_fig <- file.path("output", "figures")
 dir.create(out_fig, recursive = TRUE, showWarnings = FALSE)
-colors <- c("#2474A5", "#D17B21", "#35865C")  # Normal, Basic, Percentile
+colors <- c("#2474A5", "#D17B21", "#35865C")
 methods <- c("Normal", "Basic", "Percentile")
 
-# Hàm hỗ trợ lưu định dạng PDF vào output/figures
 save_pdf <- function(filename, w = 10, h = 6, plot_fn) {
   pdf(file.path(out_fig, paste0(filename, ".pdf")), width = w, height = h)
   plot_fn()
   invisible(dev.off())
 }
 
-# 2. Hàm tính 3 khoảng tin cậy Bootstrap: Normal, Basic, Percentile
 calc_boot_ci <- function(theta_hat, b_means, alpha = 0.05, type = 7) {
   se <- sd(b_means)
   z <- qnorm(1 - alpha / 2)
@@ -28,7 +20,6 @@ calc_boot_ci <- function(theta_hat, b_means, alpha = 0.05, type = 7) {
   )
 }
 
-# 3. Phần 1: Liệt kê chính xác (Exact Enumeration) trên 2 mẫu nhỏ
 ex_samples <- list(c(1, 2, 3), c(1, 1, 1, 9))
 ex_dist <- lapply(ex_samples, function(x) {
   grid <- as.matrix(expand.grid(rep(list(x), length(x))))
@@ -50,10 +41,9 @@ save_pdf("example-bootstrap-distributions", w = 10, h = 5, function() {
   }
 })
 
-# 4. Phần 2: Mô phỏng Monte Carlo (4 kịch bản phân phối & cỡ mẫu)
 set.seed(20260925)
-K <- 2000  # Số lần lặp mô phỏng Monte Carlo (bản đầy đủ: 10000)
-B <- 999   # Số mẫu con Bootstrap trong mỗi lần lặp (bản đầy đủ: 1999)
+K <- 2000
+B <- 999
 
 scenarios <- list(
   list(name = "Normal n = 12",      draw = function() rnorm(12), theta = 0, n = 12),
@@ -75,7 +65,6 @@ sim_res <- lapply(scenarios, function(sc) {
   list(coverage = colMeans(cov), avg_length = colMeans(len))
 })
 
-# Đồ thị 2: Xác suất bao phủ (Coverage probability)
 save_pdf("simulation-coverage", w = 9, h = 6, function() {
   par(mfrow = c(2, 2), mar = c(4, 4.5, 3, 1), las = 1)
   for (j in 1:4) {
@@ -88,7 +77,6 @@ save_pdf("simulation-coverage", w = 9, h = 6, function() {
   }
 })
 
-# Đồ thị 3: Độ dài khoảng tin cậy trung bình (Average interval length)
 save_pdf("simulation-average-length", w = 9, h = 6, function() {
   par(mfrow = c(2, 2), mar = c(4, 4.5, 3, 1), las = 1)
   max_len <- max(sapply(sim_res, function(r) max(r$avg_length)))
@@ -101,7 +89,6 @@ save_pdf("simulation-average-length", w = 9, h = 6, function() {
   }
 })
 
-# 5. Phần 3: Kiểm chứng tính bất biến dưới phép biến đổi eta = log(theta)
 x_inv <- c(2, 3, 4, 5, 9)
 n_inv <- length(x_inv)
 b_means <- colMeans(matrix(sample(x_inv, n_inv * B, replace = TRUE), nrow = n_inv))
@@ -123,5 +110,3 @@ save_pdf("invariance-log-comparison", w = 8, h = 5, function() {
   axis(1, at = 1:3, labels = methods)
   abline(h = 0, lty = 2)
 })
-
-cat("Đã hoàn tất tính toán và xuất 4 hình ảnh PDF vào:", out_fig, "\n")
