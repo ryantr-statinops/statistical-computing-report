@@ -87,7 +87,7 @@ Nếu chính sách PowerShell của máy chặn script, dùng TeXstudio để bu
 
 ## Slide Beamer
 
-Khung Madrid tỷ lệ 4:3 cho bài nói 25–30 phút nằm trong `slide/beamer.tex`, với 26 frame chính và 4 frame phụ lục. Mỗi frame ghi nguồn báo cáo, mục tiêu và tài nguyên dự kiến trong comment. Nội dung hiện là placeholder; khi báo cáo đổi, đối chiếu bảng ánh xạ trong `slide/README.md`. Dùng cùng logo và font tại `assets/` và kết quả tại `assets/simulate-results/`.
+Bộ slide Beamer tỷ lệ 4:3 cho bài nói 30 phút nằm trong slide/beamer.tex, với 20 frame. Xem nhịp trình bày trong slide/README.md.
 
 Build slide bằng `powershell -NoProfile -File scripts/build.ps1 -Target slides` trên Windows hoặc `bash scripts/build.sh slides` trên macOS. Dùng `all` để build cả báo cáo và slide. PDF slide được lưu trong Git.
 
