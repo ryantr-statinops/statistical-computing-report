@@ -24,7 +24,7 @@ prob_table <- prop.table(table(means))
 print(prob_table)
 
 se_boot <- sqrt(mean((means - mean(means))^2))
-cat("Bootstrap SE:", se_boot, "\n")
+se_boot
 
 # Listing 3: Tính các khoảng tin cậy Bootstrap
 x <- c(1, 2, 3, 4, 5)
@@ -130,3 +130,4 @@ invariance_df <- data.frame(
   Direct_Upper = c(direct_normal[2], direct_basic[2], direct_perc[2])
 )
 print(invariance_df)
+
