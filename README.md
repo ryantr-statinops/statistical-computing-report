@@ -47,6 +47,8 @@ tex-report/code/
   main.tex                 Toàn bộ nội dung, package, font và định dạng báo cáo
 slide/                     Beamer source and presentation PDF
 scripts/                   Lệnh build Windows và macOS
+reference/                 12 PDF tương ứng danh mục tài liệu trong main.tex;
+                            kèm notes-reference-links-and-code.docx
 archive/previous-results/  Kết quả cũ chỉ để đối chiếu
 CONTRIBUTING.md            Hướng dẫn thiết lập và làm việc nhóm
 ```
