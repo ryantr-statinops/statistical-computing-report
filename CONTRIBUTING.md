@@ -86,7 +86,7 @@ Nếu chính sách PowerShell của máy chặn script, dùng TeXstudio để bu
 
 ## Slide Beamer
 
-Bộ slide Beamer tỷ lệ 4:3 cho bài nói 30 phút nằm trong slide/beamer.tex, với 20 frame. Xem nhịp trình bày trong slide/README.md và ghi chú trong slide/speaker-notes.tex.
+Bộ slide Beamer tỷ lệ 4:3 cho bài nói 30 phút nằm trong slide/beamer.tex, với 20 frame. Xem nhịp trình bày trong slide/README.md.
 
 Build slide bằng `powershell -NoProfile -File scripts/build.ps1 -Target slides` trên Windows hoặc `bash scripts/build.sh slides` trên macOS. Dùng `all` để build cả báo cáo và slide. PDF slide được lưu trong Git.
 

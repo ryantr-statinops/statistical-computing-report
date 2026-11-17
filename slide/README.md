@@ -11,4 +11,4 @@ Bộ trình chiếu gồm 20 frame tỷ lệ 4:3 trong beamer.tex. Báo cáo nh�
 | 23:00–28:00 | 16–18 | Hazard Ratio, RV và phép đổi thang log |
 | 28:00–30:00 | 19–20 | Kết luận và cảm ơn |
 
-Chạy powershell -NoProfile -File scripts/build.ps1 -Target slides từ gốc repo trên Windows hoặc bash scripts/build.sh slides trên macOS để tạo slide/beamer.pdf. Ghi chú thuyết trình nằm trong speaker-notes.tex và speaker-notes.pdf.
+Chạy powershell -NoProfile -File scripts/build.ps1 -Target slides từ gốc repo trên Windows hoặc bash scripts/build.sh slides trên macOS để tạo slide/beamer.pdf.
