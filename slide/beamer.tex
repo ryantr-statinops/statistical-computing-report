@@ -1,449 +1,368 @@
 % !TeX program = xelatex
 % !TeX encoding = utf8
-% Bài trình bày 30 phút; nguồn nội dung và nhịp nói xem README.md.
-\documentclass[aspectratio=43,11pt]{beamer}
-\usetheme{Madrid}
-\usecolortheme{default}
-\setbeamertemplate{navigation symbols}{}
-\setbeamertemplate{itemize items}[circle]
-\setbeamertemplate{headline}{%
-  \leavevmode%
-  \begin{beamercolorbox}[wd=0.55\paperwidth,ht=2.5ex,dp=1ex,leftskip=0.35cm]{section in head/foot}%
-    \scriptsize\thesection.\arabic{subsection}.\hspace{0.35em}\insertsubsectionhead
-  \end{beamercolorbox}%
-  \begin{beamercolorbox}[wd=0.45\paperwidth,ht=2.5ex,dp=1ex]{subsection in head/foot}\hfill\end{beamercolorbox}%
-}
-\setbeamertemplate{frametitle}{%
-  \nointerlineskip%
-  \begin{beamercolorbox}[wd=\paperwidth,ht=1.05cm,dp=0.18cm,leftskip=0.35cm,rightskip=0.3cm]{frametitle}%
-    \usebeamerfont{frametitle}\insertframetitle\hfill%
-    \raisebox{-0.12cm}{\includegraphics[width=1.05cm]{../assets/tdtu-logo.jpg}}%
-  \end{beamercolorbox}%
-}
-\setbeamertemplate{footline}{%
-  \leavevmode%
-  \begin{beamercolorbox}[wd=0.31\paperwidth,ht=2.5ex,dp=1ex,center]{author in head/foot}%
-    \tiny THỐNG KÊ TÍNH TOÁN
-  \end{beamercolorbox}%
-  \begin{beamercolorbox}[wd=0.29\paperwidth,ht=2.5ex,dp=1ex,center]{title in head/foot}%
-    \tiny C03107 -- Bootstrap
-  \end{beamercolorbox}%
-  \begin{beamercolorbox}[wd=0.26\paperwidth,ht=2.5ex,dp=1ex,center]{date in head/foot}%
-    \tiny Ngày trình bày
-  \end{beamercolorbox}%
-  \begin{beamercolorbox}[wd=0.14\paperwidth,ht=2.5ex,dp=1ex,center]{section in head/foot}%
-    \tiny\insertframenumber/\inserttotalframenumber
-  \end{beamercolorbox}%
-}
-\setbeamercolor{author in head/foot}{fg=white,bg=TDTUBlue}
-\setbeamercolor{title in head/foot}{fg=white,bg=TDTUBlue!85}
-\setbeamercolor{date in head/foot}{fg=white,bg=TDTUBlue!70}
-\setbeamercolor{section in head/foot}{fg=white,bg=TDTUBlue}
-\setbeamercolor{subsection in head/foot}{fg=white,bg=TDTUBlue!35}
+\documentclass[aspectratio=43,10pt]{beamer}
+\usetheme{default}
 \usepackage{fontspec}
 \usepackage{polyglossia}
 \setdefaultlanguage{vietnamese}
-\setmainfont{Arial}[Path=../assets/fonts/,Extension=.ttf,UprightFont=*-Regular,BoldFont=*-Bold,ItalicFont=*-Italic,BoldItalicFont=*-BoldItalic]
-\setsansfont{Arial}[Path=../assets/fonts/,Extension=.ttf,UprightFont=*-Regular,BoldFont=*-Bold,ItalicFont=*-Italic,BoldItalicFont=*-BoldItalic]
-\setmonofont{NotoSansMono}[Path=../assets/fonts/,Extension=.ttf,UprightFont=*-Regular,BoldFont=*-Bold]
+\setsansfont{Arial}[Path=../assets/fonts/,Extension=.ttf,
+    UprightFont=*-Regular,BoldFont=*-Bold,ItalicFont=*-Italic,BoldItalicFont=*-BoldItalic]
 \usepackage{graphicx}
-\usepackage{booktabs}
-\definecolor{TDTUBlue}{RGB}{58,56,176}
-\setbeamercolor{structure}{fg=TDTUBlue}
-\setbeamercolor{title}{fg=TDTUBlue}
-\setbeamercolor{frametitle}{fg=TDTUBlue,bg=white}
-\setbeamercolor{palette primary}{fg=white,bg=TDTUBlue}
-\setbeamercolor{palette secondary}{fg=white,bg=TDTUBlue!85}
-\setbeamercolor{palette tertiary}{fg=white,bg=TDTUBlue!70}
-\setbeamercolor{palette quaternary}{fg=white,bg=TDTUBlue}
-
-\title[Khoảng tin cậy Bootstrap]{Khoảng tin cậy Bootstrap chuẩn tắc và Bootstrap cơ bản}
-\subtitle{Cơ sở lý thuyết, phương pháp xây dựng và đánh giá hiệu năng}
-\author[Nhóm D]{Nhóm D}
-\institute{Thống kê tính toán -- C03107\\Trường Đại học Tôn Đức Thắng}
-\date{}
+\usepackage{array,booktabs}
+\definecolor{slideblue}{RGB}{73,69,181}
+\definecolor{slidelight}{RGB}{170,168,220}
+\setbeamercolor{structure}{fg=slideblue}
+\setbeamercolor{frametitle}{fg=slideblue,bg=black!4}
+\setbeamercolor{title}{fg=slideblue,bg=white}
+\setbeamercolor{headleft}{fg=white,bg=slideblue}
+\setbeamercolor{headright}{fg=black,bg=slidelight}
+\setbeamerfont{frametitle}{series=\mdseries,size=\Large}
+\setbeamersize{text margin left=5mm,text margin right=5mm}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize items}[triangle]
+\setbeamertemplate{headline}{%
+    \leavevmode\hbox{%
+        \begin{beamercolorbox}[wd=.52\paperwidth,ht=2.8ex,dp=1.1ex,leftskip=2mm]{headleft}%
+            \strut%
+        \end{beamercolorbox}%
+        \begin{beamercolorbox}[wd=.48\paperwidth,ht=2.8ex,dp=1.1ex,rightskip=2mm plus 1fil]{headright}%
+            \strut%
+        \end{beamercolorbox}%
+    }%
+}
+\setbeamercolor{footer course}{fg=white,bg=slideblue}
+\setbeamercolor{footer lesson}{fg=white,bg=slideblue!68!white}
+\setbeamercolor{footer term}{fg=black,bg=slidelight}
+\setbeamercolor{footer page}{fg=black,bg=slidelight!70!white}
+\setbeamertemplate{footline}{%
+    \leavevmode
+    \vbox{%
+        \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex,leftskip=5mm]{normal text}%
+            \tiny\slidesource
+        \end{beamercolorbox}%
+        \hbox{%
+            \begin{beamercolorbox}[wd=.33\paperwidth,ht=2.5ex,dp=1ex,center]{footer course}%
+                \tiny THỐNG KÊ TÍNH TOÁN
+            \end{beamercolorbox}%
+            \begin{beamercolorbox}[wd=.33\paperwidth,ht=2.5ex,dp=1ex,center]{footer lesson}%
+                \tiny C03107 -- Nhóm D
+            \end{beamercolorbox}%
+            \begin{beamercolorbox}[wd=.25\paperwidth,ht=2.5ex,dp=1ex,center]{footer term}%
+                \tiny Học kỳ 1, 2026--2027
+            \end{beamercolorbox}%
+            \begin{beamercolorbox}[wd=.09\paperwidth,ht=2.5ex,dp=1ex,center]{footer page}%
+                \tiny\insertframenumber\,/\,\inserttotalframenumber
+            \end{beamercolorbox}%
+        }%
+    }%
+}
+\setbeamertemplate{frametitle}{\nointerlineskip\begin{beamercolorbox}[wd=\paperwidth,sep=1.5mm,leftskip=1mm]{frametitle}\begin{minipage}[c]{.82\paperwidth}\raggedright\insertframetitle\end{minipage}\hfill\raisebox{-1mm}{\includegraphics[width=15mm]{assets/tdtu.png}}\end{beamercolorbox}}
+\newcommand{\slidesource}{}
+\title{Khoảng tin cậy Bootstrap chuẩn tắc\\và Bootstrap cơ bản:}
+\subtitle{Cơ sở lý thuyết, phương pháp xây dựng và đánh giá}
+\author{Nhóm D}
+\institute{Khoa Toán -- Thống kê\\Trường Đại học Tôn Đức Thắng\\Giảng viên hướng dẫn: ThS. Bùi Thùy Trang}
+\date{Học kỳ 1, năm học 2026--2027}
+\setbeamertemplate{title page}[default]
 \begin{document}
-% Frame 01. Source: Bìa. Goal: Giới thiệu học phần, đề tài và nhóm. Asset: ../assets/tdtu-logo.jpg.
-\begin{frame}[plain]
-\centering
-\includegraphics[height=1.25cm]{../assets/tdtu-logo.jpg}\par\vspace{0.15cm}
-{\small TỔNG LIÊN ĐOÀN LAO ĐỘNG VIỆT NAM\par}
-{\small\bfseries TRƯỜNG ĐẠI HỌC TÔN ĐỨC THẮNG -- KHOA TOÁN -- THỐNG KÊ\par}\vspace{0.25cm}
-{\usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle\par}
-{\small\insertsubtitle\par}\vspace{0.25cm}
-{\small Môn học: Thống kê tính toán -- C03107; Học kỳ 1/2026--2027\par}
-{\small Giảng viên: ThS. Bùi Thùy Trang\par}
-{\small\bfseries Nhóm D\par}
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, bìa}
+\begin{frame}{Normal CI và Basic CI}
+    \titlepage
 \end{frame}
-\section{Giới thiệu tổng quan}
-\subsection{Lộ trình trình bày}
-% Frame 02. Source: Tổng quan. Goal: Nêu mạch trình bày. Asset: none.
-\begin{frame}[label=frame:02]{Lộ trình trình bày}
-    \begin{enumerate}
-        \item Bối cảnh và mục tiêu khảo sát
-        \item ECDF, nguyên lý plug-in và lấy mẫu Bootstrap
-        \item Cách xây dựng Normal CI và Basic CI
-        \item Hai ví dụ liệt kê chính xác
-        \item Mô phỏng Monte Carlo và cách đọc kết quả
-        \item Ứng dụng y sinh, Percentile CI và BCa
-        \item Kết luận và khuyến nghị
-    \end{enumerate}
+
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, mục lục, tr. i--ii}
+\begin{frame}[t]{Mục lục}
+    \small
+    \vspace{0.3em}
+    \hspace*{0.7cm}%
+    \begin{tabular}{@{}>{\color{slideblue}}r@{\hspace{0.55em}}l@{}}
+        1. & Mức tin cậy và cách lấy mẫu Bootstrap\\
+           & \quad\textcolor{slideblue}{--}\enspace Mức danh nghĩa, ECDF và lấy mẫu lại\\
+        2. & Dựng khoảng Normal và Basic\\
+           & \quad\textcolor{slideblue}{--}\enspace Sai số chuẩn và cách đảo hai cận\\
+        3. & Hai ví dụ tính từ mẫu nhỏ\\
+           & \quad\textcolor{slideblue}{--}\enspace Mẫu đối xứng và mẫu lệch phải\\
+        4. & Mô phỏng Monte Carlo\\
+           & \quad\textcolor{slideblue}{--}\enspace Độ bao phủ và độ dài trung bình\\
+        5. & Ứng dụng và mở rộng\\
+           & \quad\textcolor{slideblue}{--}\enspace Hazard Ratio, RV và phép đổi thang log\\
+        6. & Kết luận
+    \end{tabular}
 \end{frame}
-\subsection{Thành viên nhóm D}
-% Frame 03. Source: Bìa. Goal: Giới thiệu thành viên nhóm.
+
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, bìa và bảng phân công, tr. 1}
 \begin{frame}{Thành viên nhóm D}
     \centering
-    \renewcommand{\arraystretch}{1.45}
+    \renewcommand{\arraystretch}{1.4}
     \begin{tabular}{ll}
-        \toprule
-        Mã sinh viên & Họ và tên\\
-        \midrule
-        C2400121 & Phan Trí Thịnh\\
-        C2400115 & Ngô Cẩm Quí\\
-        C2400203 & Nguyễn Văn Kiệt\\
-        C2400199 & Trần Quốc Khang\\
-        \bottomrule
+    \toprule Mã sinh viên & Họ và tên\\ \midrule
+    C2400121 & Phan Trí Thịnh\\
+    C2400115 & Ngô Cẩm Quí\\
+    C2400203 & Nguyễn Văn Kiệt\\
+    C2400199 & Trần Quốc Khang\\ \bottomrule
     \end{tabular}
 \end{frame}
-\subsection{Vì sao cần khoảng tin cậy Bootstrap?}
-% Frame 04. Source: Phần 1. Goal: Động lực và bối cảnh. Asset: none.
-\begin{frame}[label=frame:03]{Vì sao cần khoảng tin cậy Bootstrap?}
-\begin{itemize}
-    \item Ước lượng điểm $\hat\theta$ cho một giá trị; khoảng tin cậy cho biết độ bất định của ước lượng.
-    \item Sai số chuẩn có thể khó tính; xấp xỉ chuẩn có thể kém khi mẫu nhỏ hoặc phân phối của thống kê lệch.
-    \item Bootstrap dùng mẫu quan sát để xấp xỉ phân phối lấy mẫu của thống kê.
-\end{itemize}
-\end{frame}
-\subsection{Mục tiêu và phạm vi khảo sát}
-% Frame 05. Source: Phần 1. Goal: Mục tiêu, phạm vi, giới hạn. Asset: none.
-\begin{frame}[label=frame:04]{Mục tiêu và phạm vi khảo sát}
-\begin{itemize}
-    \item Xây dựng và so sánh Normal CI và Basic CI ở mức $95\%$.
-    \item Với trung bình mẫu: giải thích vị trí hai cận bằng hai ví dụ liệt kê chính xác.
-    \item Đánh giá độ bao phủ và độ dài khoảng bằng mô phỏng R; dùng Percentile làm đối chiếu.
-    \item BCa và các ứng dụng y sinh minh họa phạm vi mở rộng.
-\end{itemize}
-\end{frame}
-\section{ECDF và Monte Carlo}
-\subsection{Phân phối thực nghiệm ECDF}
-% Frame 06. Source: Phần 2. Goal: Định nghĩa và vai trò. Asset: none.
-\begin{frame}[label=frame:05]{Phân phối thực nghiệm ECDF}
-Từ mẫu $x_1,\ldots,x_n$, hàm phân phối thực nghiệm là
-\[
-    F_n(t)=\frac1n\sum_{i=1}^n I(x_i\le t).
-\]
-\begin{itemize}
-    \item $I$ là hàm chỉ báo: $I(x_i\le t)=1$ nếu $x_i\le t$, bằng $0$ nếu $x_i>t$.
-    \item $F_n(t)$ là tỷ lệ quan sát không vượt quá $t$.
-    \item Mỗi vị trí trong mẫu có khối xác suất $1/n$; giá trị lặp được cộng khối xác suất.
-    \item Rút từ $F_n$ tương đương lấy mẫu có hoàn lại từ dữ liệu gốc.
-\end{itemize}
-\end{frame}
-\subsection{Nguyên lý Plug-in}
-% Frame 07. Source: Phần 2. Goal: Xấp xỉ tổng thể bằng ECDF. Asset: none.
-\begin{frame}[label=frame:06]{Nguyên lý Plug-in}
-Đặt $\theta=T(F)$ và $\hat\theta=T(F_n)$.
-\begin{itemize}
-    \item Ta không biết $F$, nên dùng $F_n$ làm tổng thể thay thế.
-    \item Trên mẫu rút từ $F_n$, tính $\hat\theta^*=T(F_n^*)$.
-    \item Dùng phân phối có điều kiện của $\hat\theta^*-\hat\theta$ để xấp xỉ phân phối của $\hat\theta-\theta$.
-\end{itemize}
-\end{frame}
-\subsection{Quy trình lấy mẫu Bootstrap}
-% Frame 08. Source: Phần 2. Goal: Lấy mẫu lại và tính thống kê. Asset: none.
-\begin{frame}[label=frame:07]{Quy trình lấy mẫu Bootstrap}
-    \small
-    1. Mẫu gốc. Có $n=3$ quan sát $(1,2,3)$, với trung bình
-    $\hat\theta=(1+2+3)/3=2$.
 
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, Lời mở đầu, tr. 3; Bảng 6.1, tr. 13; Bài giảng Ch. 4, tr. 55}
+\begin{frame}{1.1. Mức danh nghĩa và độ bao phủ}
+    \begin{itemize}
+        \item Mức danh nghĩa $1-\alpha$ là mức đặt trước khi dựng khoảng. Với $\alpha=0{,}05$, mức này là $95\%$.
+        \item Độ bao phủ thực tế là xác suất khoảng dựng từ một mẫu ngẫu nhiên chứa tham số thật $\theta$.
+        \item Trong mô phỏng, nhóm ước lượng xác suất đó bằng tỷ lệ khoảng chứa $\theta$.
+    \end{itemize}
     \medskip
-    2. Rút lại 3 lần cho mỗi bản sao. Sau mỗi lượt, trả quan sát
-    về mẫu gốc. Cả ba giá trị $1,2,3$ đều có thể xuất hiện ở lượt kế tiếp.
-    \begin{center}
-        \renewcommand{\arraystretch}{1.25}
-        \setlength{\tabcolsep}{5pt}
-        \begin{tabular}{lcccl}
-            \toprule
-            Bản sao & Lượt 1 & Lượt 2 & Lượt 3 & Trung bình $\hat\theta^{*(b)}$\\
-            \midrule
-            $b=1$ & $\alert{1}$ & $\alert{1}$ & $3$ & $(1+1+3)/3=5/3$\\
-            $b=2$ & $2$ & $3$ & $2$ & $(2+3+2)/3=7/3$\\
-            $b=3$ & $3$ & $3$ & $3$ & $(3+3+3)/3=3$\\
-            \bottomrule
-        \end{tabular}
-    \end{center}
-    3. Lặp đến đủ $B$ bản sao. Tính độ lệch chuẩn hoặc các phân vị
-    từ dãy trung bình Bootstrap để dựng khoảng tin cậy.
-\end{frame}
-\subsection{B khác K: hai nguồn biến thiên Monte Carlo}
-% Frame 09. Source: Phần 2 và 6. Goal: Phân biệt số bản sao Bootstrap và số lần mô phỏng. Asset: ../assets/simulate-results/run-info.txt.
-\begin{frame}[label=frame:08]{B khác K: hai nguồn biến thiên Monte Carlo}
-\begin{description}
-    \item[$B=1\,999$] Số mẫu Bootstrap trên \emph{mỗi} bộ dữ liệu. Chi phối độ ổn định của sai số chuẩn và phân vị ước lượng.
-    \item[$K=10\,000$] Số bộ dữ liệu độc lập sinh từ tổng thể đã biết \emph{trong mỗi kịch bản}. Chi phối độ chính xác khi ước lượng coverage.
-\end{description}
-\medskip
-Tăng $B$ giúp tính cận ổn định hơn. Tăng $K$ giúp đo hiệu năng chính xác hơn.
-\end{frame}
-\section{Xây dựng Normal và Basic CI}
-\subsection{Normal CI: ý tưởng và công thức}
-% Frame 10. Source: Phần 3. Goal: Giả định và khoảng đối xứng. Asset: none.
-\begin{frame}[label=frame:09]{Normal CI: ý tưởng và công thức}
-    \small
-    Ước lượng sai số chuẩn bằng độ lệch chuẩn của $B$ bản sao $\hat\theta^*$, ký hiệu $\widehat{se}^{*}$. Nếu sai số có độ chệch nhỏ và xấp xỉ chuẩn, đặt
+    Ví dụ: trong $10\,000$ lần mô phỏng với $\operatorname{Exp}(1)$ và $n=12$, có $8\,547$ khoảng Basic chứa $\theta=1$. Hỏi tỷ lệ bao phủ quan sát được là bao nhiêu?
     \[
-        Z=\frac{\hat\theta-\theta}{\widehat{se}^{*}}\approx N(0,1).
-    \]
-    Với $z=z_{1-\alpha/2}$, hai đuôi chuẩn có xác suất $\alpha/2$ mỗi bên.
-    \[
-    \begin{aligned}
-        -z\le Z\le z
-        &\iff -z\widehat{se}^{*}\le\hat\theta-\theta\le z\widehat{se}^{*}\\
-        &\iff \hat\theta-z\widehat{se}^{*}\le\theta\le\hat\theta+z\widehat{se}^{*}.
-    \end{aligned}
-    \]
-    Hai biểu thức cuối là cận của Normal CI. Ở mức $95\%$, $z\approx1.96$.
-\end{frame}
-\subsection{Basic CI và phép đảo phân vị}
-% Frame 11. Source: Phần 3. Goal: Phản chiếu phân vị quanh ước lượng gốc. Asset: none.
-\begin{frame}[label=frame:10]{Basic CI và phép đảo phân vị}
-    \small
-    Gọi $q_L^*,q_U^*$ là hai phân vị đuôi của $\hat\theta^*$. Theo nguyên lý plug-in, dùng các phân vị của $\hat\theta^*-\hat\theta$, tức $d_L=q_L^*-\hat\theta$ và $d_U=q_U^*-\hat\theta$, để xấp xỉ phân vị của $\hat\theta-\theta$.
-    \[
-        \Pr\!\left(d_L\le\hat\theta-\theta\le d_U\right)\approx 1-\alpha.
-    \]
-    Giải bất đẳng thức trong xác suất theo $\theta$:
-    \[
-    \begin{aligned}
-        d_L\le\hat\theta-\theta\le d_U
-        &\iff \hat\theta-d_U\le\theta\le\hat\theta-d_L\\
-        &\iff 2\hat\theta-q_U^*\le\theta\le 2\hat\theta-q_L^*.
-    \end{aligned}
-    \]
-    Vì nhân với $-1$ làm đảo chiều bất đẳng thức, phân vị trên tạo cận dưới.
-\end{frame}
-\section{So sánh Normal và Basic CI}
-\subsection{Normal CI và Basic CI khác nhau thế nào?}
-% Frame 12. Source: Phần 4. Goal: So sánh giả định và giới hạn. Asset: none.
-\begin{frame}[label=frame:11]{Normal CI và Basic CI khác nhau thế nào?}
-\begin{description}
-    \item[Normal] Dùng sai số chuẩn và phân vị chuẩn; hai cận cách đều $\hat\theta$.
-    \item[Basic] Dùng hai phân vị thực nghiệm; khoảng có thể bất đối xứng và phản chiếu hướng lệch.
-\end{description}
-\medskip
-Cả hai có thể cho cận ngoài miền tham số. Việc dùng phân vị trong Basic không bảo đảm coverage tốt hơn.
-\end{frame}
-\section{Ví dụ Bootstrap}
-\subsection{Ví dụ mẫu đối xứng}
-% Frame 13. Source: Phần 5. Goal: Liệt kê chính xác phân phối Bootstrap. Asset: ../assets/simulate-results/example-bootstrap-distributions.pdf.
-\begin{frame}[label=frame:12]{Ví dụ mẫu đối xứng}
-    \small
-    Mẫu gốc $(1,2,3)$ có trung bình $\hat\theta=2$. Mỗi lần rút có 3 lựa chọn, nên 3 lần rút có hoàn lại cho $3^3=27$ bộ có thứ tự.
-    Chẳng hạn, $(1,1,3)$ cho $\hat\theta^*=5/3$.
-    \begin{center}
-        \begin{tabular}{lrrrrrrr}
-            \toprule
-            $\hat\theta^*$ & $1$ & $4/3$ & $5/3$ & $2$ & $7/3$ & $8/3$ & $3$\\
-            Số bộ & 1 & 3 & 6 & 7 & 6 & 3 & 1\\
-            \bottomrule
-        \end{tabular}
-    \end{center}
-    Với phân vị type~1, lấy giá trị ở hạng $\lceil 27p\rceil$ sau khi sắp tăng dần. Hai hạng $1$ và $27$ cho $q_L^*=1$, $q_U^*=3$.
-    \[
-        CI_{\mathrm{Basic}}=[2\cdot2-3,\;2\cdot2-1]=[1,3].
+    \widehat{CP}=\frac{8\,547}{10\,000}=85{,}47\%.
     \]
 \end{frame}
-\subsection{Ví dụ mẫu lệch phải}
-% Frame 14. Source: Phần 5. Goal: Đối chiếu cách đặt cận; số liệu theo báo cáo. Asset: ../assets/simulate-results/example-confidence-intervals.csv.
-\begin{frame}[label=frame:13]{Ví dụ mẫu lệch phải}
-    \small
-    Mẫu $(1,1,1,9)$ có $\hat\theta=3$. Nếu rút trúng $9$ đúng $j$ lần trong 4 lượt thì $\hat\theta^*=[9j+(4-j)]/4=1+2j$.
-    \begin{center}
-        \begin{tabular}{lrrrrr}
-            \toprule
-            Số lần rút trúng $9$ & 0 & 1 & 2 & 3 & 4\\
-            $\hat\theta^*$ & 1 & 3 & 5 & 7 & 9\\
-            Số bộ & 81 & 108 & 54 & 12 & 1\\
-            Số bộ tích lũy & 81 & 189 & 243 & 255 & 256\\
-            \bottomrule
-        \end{tabular}
-    \end{center}
-    Ví dụ, đúng một lần rút trúng $9$ có $4\cdot3^3=108$ bộ: chọn vị trí của $9$, rồi chọn một trong ba vị trí mang giá trị $1$ ở mỗi lượt còn lại.
 
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 2--5}
+\begin{frame}{1.2. Phân phối thực nghiệm và nguyên lý plug-in}
+    Ta có mẫu $x_1,\ldots,x_n$ từ tổng thể chưa biết phân phối $F$. Tỷ lệ quan sát không vượt quá $t$ là
+    \[
+    F_n(t)=\frac1n\sum_{i=1}^n \mathbb{I}_{(-\infty,t]}(x_i),
+    \]
+    trong đó $\mathbb{I}_{(-\infty,t]}(x_i)$ bằng $1$ nếu $x_i\le t$ và bằng $0$ nếu $x_i>t$.
     \medskip
-    Type~1 cho hạng $\lceil256\cdot0.025\rceil=7$ và $\lceil256\cdot0.975\rceil=250$. Đọc hàng tích lũy được $q_L^*=1$, $q_U^*=7$.
+
+    Khi lấy mẫu lại, ta dùng $F_n$ thay cho $F$. Mỗi lần rút, mỗi vị trí trong mẫu gốc có xác suất $1/n$.
+    Nếu $\theta=T(F)$ thì $\hat\theta=T(F_n)$ và bản sao thứ $j$ là $\hat\theta_j^*=T(F_{n,j}^*)$.
 \end{frame}
-\subsection{Đối chiếu các khoảng trong hai ví dụ}
-% Frame 15. Source: Phần 5. Goal: So sánh Normal, Basic, Percentile. Asset: ../assets/simulate-results/example-confidence-intervals.csv.
-\begin{frame}[label=frame:14]{Đối chiếu các khoảng trong hai ví dụ}
-    \small
-    Từ bảng tần số mẫu lệch phải, mỗi nhóm có xác suất bằng số bộ chia cho $256$. Bình phương độ lệch quanh $\hat\theta=3$ rồi lấy trung bình có trọng số:
-    \[
-        (\widehat{se}^{*})^2=\frac{81(1-3)^2+108(3-3)^2+54(5-3)^2+12(7-3)^2+(9-3)^2}{256}=3.
-    \]
-    Do đó $\widehat{se}^{*}=\sqrt{3}\approx1.7321$.
-    \begin{center}
-        \begin{tabular}{lcc}
-            \toprule
-            CI $95\%$ & Mẫu đối xứng & Mẫu lệch phải\\
-            \midrule
-            Normal & $[1.076,\,2.924]$ & $3\pm1.96(1.7321)\approx[-0.395,\,6.395]$\\
-            Basic & $[1,\,3]$ & $[6-7,\;6-1]=[-1,5]$\\
-            Percentile & $[1,\,3]$ & $[1,7]$\\
-            \bottomrule
-        \end{tabular}
-    \end{center}
-    Trên mẫu lệch phải, Basic và Percentile đều dài $6$ nhưng nằm ở hai vị trí khác nhau. Phần mô phỏng sẽ đo độ bao phủ qua nhiều mẫu.
-\end{frame}
-\section{Mô phỏng Monte Carlo}
-\subsection{Thiết kế mô phỏng Monte Carlo}
-% Frame 16. Source: Phần 6. Goal: Thiết lập, seed và MCSE. Asset: ../assets/simulate-results/run-info.txt.
-\begin{frame}[label=frame:15]{Thiết kế mô phỏng Monte Carlo}
-\begin{itemize}
-    \item Ước lượng trung bình của $N(0,1)$ ($\theta=0$) và $\operatorname{Exp}(1)$ ($\theta=1$), với $n=12,40$.
-    \item Mỗi kịch bản: $K=10\,000$, $B=1\,999$, mức danh nghĩa $95\%$, phân vị R type~7.
-    \item Coverage: tỷ lệ khoảng chứa $\theta$. AL: trung bình độ dài $U_k-L_k$.
-    \item Sai số chuẩn Monte Carlo của coverage: $\sqrt{\widehat{CP}(1-\widehat{CP})/K}$.
-\end{itemize}
-\end{frame}
-\subsection{Kết quả coverage}
-% Frame 17. Source: Phần 6. Goal: Bốn kịch bản và mức danh nghĩa. Asset: ../assets/simulate-results/simulation-coverage.pdf; simulation-summary.csv.
-\begin{frame}[label=frame:16]{Kết quả coverage}
-\begin{center}
-    \includegraphics[width=\linewidth,height=5.4cm,keepaspectratio]{../assets/simulate-results/simulation-coverage.pdf}
-\end{center}
-\small Tất cả dưới $95\%$. Với $\operatorname{Exp}(1)$, $n=12$: Percentile $87.59\%$, Normal $87.06\%$, Basic $85.47\%$.
-\end{frame}
-\subsection{Kết quả độ dài khoảng trung bình}
-% Frame 18. Source: Phần 6. Goal: Đọc AL cùng coverage. Asset: ../assets/simulate-results/simulation-average-length.pdf; simulation-summary.csv.
-\begin{frame}[label=frame:17]{Kết quả độ dài khoảng trung bình}
-\begin{center}
-    \includegraphics[width=\linewidth,height=5.4cm,keepaspectratio]{../assets/simulate-results/simulation-average-length.pdf}
-\end{center}
-\small Basic và Percentile có cùng độ dài $q_U^*-q_L^*$ trên từng mẫu. Normal dài hơn nhẹ trong cả bốn kịch bản.
-\end{frame}
-\subsection{Những điều rút ra từ mô phỏng}
-% Frame 19. Source: Phần 6. Goal: Giới hạn kết luận trong thiết kế đã chạy. Asset: ../assets/simulate-results/simulation-summary.csv.
-\begin{frame}[label=frame:18]{Những điều rút ra từ mô phỏng}
-\begin{itemize}
-    \item Từ $n=12$ lên $n=40$, coverage tăng và độ dài trung bình giảm ở cả hai tổng thể.
-    \item Với tổng thể chuẩn, ba phương pháp cho coverage gần nhau. Với tổng thể mũ, Percentile cao nhất và Basic thấp nhất trong lần chạy này.
-    \item Đọc coverage cùng độ dài: hai khoảng dài bằng nhau vẫn có thể bao phủ khác nhau do vị trí hai cận.
-\end{itemize}
-\end{frame}
-\subsection{Coverage 85,47\% nghĩa là gì?}
-% Frame 20. Source: Phần 6. Asset: simulation-summary.csv; run-info.txt.
-\begin{frame}{Coverage 85,47\% nghĩa là gì?}
-    \small
-    \textbf{Kịch bản mô phỏng.} Mỗi bộ dữ liệu gồm $n=12$ quan sát từ
-    $\operatorname{Exp}(1)$, với trung bình tổng thể thật $\theta=1$.
-    Mỗi bộ cho một khoảng Basic CI $95\%$ từ $B=1\,999$ mẫu Bootstrap.
-    \begin{center}
-        \renewcommand{\arraystretch}{1.25}
-        \begin{tabular}{lr}
-            \toprule
-            Kết quả của Basic CI & Số lần\\
-            \midrule
-            Khoảng chứa $\theta=1$ & $8\,547$\\
-            Khoảng không chứa $\theta=1$ & $1\,453$\\
-            \midrule
-            Tổng số lần mô phỏng & $10\,000$\\
-            \bottomrule
-        \end{tabular}
-    \end{center}
-    \[
-        \text{Coverage thực nghiệm}=
-        \frac{8\,547}{10\,000}\times100\%=85{,}47\%.
-    \]
-    Trong kịch bản này, độ bao phủ thấp hơn mức danh nghĩa $95\%$.
-\end{frame}
-\section{Ứng dụng Bootstrap}
-\subsection{Ví dụ giả định: Hazard Ratio}
-% Frame 21. Source: Phần 7. Goal: Phân biệt ví dụ giả định với nghiên cứu. Asset: none.
-\begin{frame}[label=frame:19]{Ví dụ giả định: Hazard Ratio}
-\small
-Giả định $\widehat{HR}=1.85$. Lấy mẫu theo bệnh nhân trong từng nhóm và khớp lại mô hình Cox ($B=2\,000$).
-\[
-    \widehat{se}^{*}=0.42,\qquad (q_L^*,q_U^*)=(1.15,\,2.82).
-\]
-\begin{itemize}
-    \item Normal: $[1.027,\,2.673]$, không chứa mốc $HR=1$.
-    \item Basic: $[0.880,\,2.550]$, chứa mốc $HR=1$.
-\end{itemize}
-Ví dụ giả định cho thấy cách dựng khoảng có thể đổi kết luận về mốc $1$.
-\end{frame}
-\subsection{Ứng dụng: relative validity}
-% Frame 22. Source: Phần 7. Goal: Ứng dụng BCa của Deng và cộng sự. Asset: none.
-\begin{frame}[label=frame:20]{Ứng dụng: relative validity}
-\small
-\href{https://doi.org/10.1186/1477-7525-11-89}{Deng và cộng sự (2013)}: 453 bệnh nhân bệnh thận mạn, 16 thang đo. $RV=F_{\text{so sánh}}/F_{\text{tham chiếu}}$.
-\begin{center}
-    \begin{tabular}{lcc}
-        \toprule
-        Thang đo & RV & BCa $95\%$\\
-        \midrule
-        KDQOL Burden & 0.77 & $[0.53,\,1.09]$\\
-        QDIS-CKD Static-34 & 0.84 & $[0.71,\,0.97]$\\
-        \bottomrule
-    \end{tabular}
-\end{center}
-So với QDIS-CKD CAT-5 ($RV=1$), chỉ khoảng của Static-34 nằm hoàn toàn dưới $1$ trong hai dòng trên.
-\end{frame}
-\section{Percentile CI và BCa}
-\subsection{Percentile CI}
-% Frame 23. Source: Phần 8. Goal: Lấy trực tiếp phân vị Bootstrap. Asset: none.
-\begin{frame}[label=frame:21]{Percentile CI}
-\[
-    CI_{\mathrm{Percentile}}=[q_L^*,\,q_U^*].
-\]
-\begin{itemize}
-    \item Lấy trực tiếp hai phân vị của $\hat\theta^*$.
-    \item Với mẫu lệch phải ở ví dụ trước, Percentile cho $[1,7]$; Basic phản chiếu thành $[-1,5]$.
-    \item Tính bất biến khi đổi thang phụ thuộc vào tính đơn điệu và quy ước phân vị.
-\end{itemize}
-\end{frame}
-\subsection{BCa: vai trò và giới hạn}
-% Frame 24. Source: Phần 8. Goal: Hiệu chỉnh độ chệch, gia tốc, điều kiện. Asset: none.
-\begin{frame}[label=frame:22]{BCa: vai trò và giới hạn}
-BCa vẫn lấy hai phân vị của $\hat\theta^*$, nhưng điều chỉnh mức phân vị:
-\begin{itemize}
-    \item $z_0$: hiệu chỉnh độ chệch, dựa trên tỷ lệ bản sao nhỏ hơn $\hat\theta$.
-    \item $a$: hiệu chỉnh gia tốc, thường ước lượng bằng jackknife.
-    \item Cần điều kiện chính quy và phân vị đuôi ổn định. Báo cáo minh họa BCa qua nghiên cứu RV; mô phỏng chính chỉ so sánh ba phương pháp.
-\end{itemize}
-\end{frame}
-\subsection{Tính bất biến qua biến đổi log}
-% Frame 25. Source: Phần 8. Goal: So sánh thang gốc và log. Asset: ../assets/simulate-results/invariance-log-comparison.pdf; invariance-log-comparison.csv.
-\begin{frame}[label=frame:23]{Tính bất biến qua biến đổi log}
-\small Với mẫu $(2,3,4,5,9)$: lấy log hai cận trên thang gốc, rồi đối chiếu với dựng khoảng trực tiếp trên thang log.
-\begin{center}
-    \includegraphics[width=\linewidth,height=4.1cm,keepaspectratio]{../assets/simulate-results/invariance-log-comparison.pdf}
-\end{center}
-\small Log tăng trên các giá trị dương nên giữ nguyên thứ hạng. Với type~1, lấy log của giá trị ở hạng $\lceil Bp\rceil$ cho đúng phân vị $p$ trên thang log. Vì vậy hai cận Percentile trùng nhau.
-\end{frame}
-\subsection{Điều kiện áp dụng và giới hạn kết luận}
-% Frame 26. Source: Phần 2, 4 và 9. Goal: Giả định và giới hạn tổng quát hóa. Asset: none.
-\begin{frame}[label=frame:24]{Điều kiện áp dụng và giới hạn kết luận}
-\begin{itemize}
-    \item Với mẫu i.i.d., có thể lấy lại từng quan sát. Với dữ liệu phụ thuộc hoặc phân tầng, chọn cách lấy mẫu theo cấu trúc dữ liệu.
-    \item Mẫu nhỏ, thống kê không trơn hoặc tham số gần biên có thể làm xấp xỉ Bootstrap kém.
-    \item Kết quả coverage chỉ mô tả trung bình mẫu ở hai tổng thể và hai cỡ mẫu đã xét.
-\end{itemize}
-\end{frame}
-\section{Kết luận và giới hạn}
-\subsection{Kết luận và khuyến nghị}
-% Frame 27. Source: Phần 9. Goal: Tóm tắt kết quả trong phạm vi khảo sát. Asset: none.
-\begin{frame}[label=frame:25]{Kết luận và khuyến nghị}
-\begin{itemize}
-    \item Normal dựa vào sai số chuẩn; Basic phản chiếu phân vị. Kiểm tra hình dạng phân phối, độ chệch và miền tham số trước khi chọn.
-    \item Trong mô phỏng, cả ba phương pháp đều dưới $95\%$; cân nhắc độ bao phủ cùng độ dài khoảng.
-    \item Khi đổi thang đo, kiểm tra tính bất biến của phương pháp và quy ước phân vị; có thể khảo sát thêm BCa nếu điều kiện phù hợp.
-\end{itemize}
-\end{frame}
-\subsection{Cảm ơn}
-% Frame 28. Source: Kết thúc.
-\begin{frame}[plain]{Cảm ơn}
+
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 5, 9 và 11}
+\begin{frame}{1.3. Lấy mẫu lại có hoàn lại}
+    Đề: Từ mẫu $(1,2,3)$, lấy lại ba quan sát mỗi lần và tính trung bình của từng mẫu mới. Trung bình mẫu gốc là $(1+2+3)/3=2$.
+    \medskip
+
     \centering
-    \Large Cảm ơn cô và các bạn đã lắng nghe.
+    \begin{tabular}{ccccc}
+    \toprule
+    Lần $j$ & Lượt 1 & Lượt 2 & Lượt 3 & $\hat\theta_j^*$\\
+    \midrule
+    1 & 1 & 1 & 3 & $(1+1+3)/3=5/3$\\
+    2 & 2 & 3 & 2 & $(2+3+2)/3=7/3$\\
+    3 & 3 & 3 & 3 & $(3+3+3)/3=3$\\
+    \bottomrule
+    \end{tabular}\par
+    \medskip
+    \raggedright
+    Sau mỗi lượt, giá trị vừa rút có thể xuất hiện lại. Trên mỗi mẫu gốc, lặp đến đủ $N$ bản sao, với $j=1,\ldots,N$.
+\end{frame}
+
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 5, 7; Bài giảng Ch. 4, tr. 52--54}
+\begin{frame}{2.1. Normal CI và sai số chuẩn Bootstrap}
+    Dùng độ lệch chuẩn của $N$ bản sao để ước lượng sai số chuẩn:
+    \[
+    \widehat{se}^{*}=
+    \sqrt{\frac{1}{N-1}\sum_{j=1}^{N}(\hat\theta_j^*-\bar\theta^*)^2},
+    \qquad \bar\theta^*=\frac1N\sum_{j=1}^{N}\hat\theta_j^*.
+    \]
+    Khi sai số chuẩn hóa xấp xỉ chuẩn và độ chệch nhỏ, đặt
+    $z=z_{1-\alpha/2}$. Giải theo $\theta$:
+    \[
+    -z\le\frac{\hat\theta-\theta}{\widehat{se}^*}\le z
+    \iff
+    \hat\theta-z\widehat{se}^*\le\theta\le\hat\theta+z\widehat{se}^*.
+    \]
+    Ở mức $95\%$, $z\approx1{,}96$. Với mẫu nhỏ hoặc phân phối lệch, hai cận đối xứng có thể cho độ bao phủ thấp.
+\end{frame}
+
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 7--8}
+\begin{frame}{2.2. Basic CI và cách đảo hai cận}
+    Dùng các sai số Bootstrap $\hat\theta_j^*-\hat\theta$ để xấp xỉ phân phối của sai số lấy mẫu $\hat\theta-\theta$.
+    Gọi $q_L^*,q_U^*$ là phân vị $\alpha/2$ và $1-\alpha/2$ của các bản sao $\hat\theta_j^*$.
+    \[
+    \begin{aligned}
+    q_L^*-\hat\theta\le \hat\theta-\theta\le q_U^*-\hat\theta
+    &\iff 2\hat\theta-q_U^*\le\theta\le 2\hat\theta-q_L^*.
+    \end{aligned}
+    \]
+    Khi đổi dấu để tìm $\theta$, chiều bất đẳng thức đổi theo. Vì vậy, phân vị trên tạo cận dưới.
+    \[
+    CI_{\rm Basic}=[2\hat\theta-q_U^*,\,2\hat\theta-q_L^*].
+    \]
+\end{frame}
+
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 9--10}
+\begin{frame}{2.3. Cùng mẫu, hai cách đặt cận}
+    Tính $\hat\theta$ trên mẫu gốc. Tạo $N$ mẫu có hoàn lại, mỗi mẫu gồm $n$ quan sát, rồi tính $\hat\theta_j^*$ trên từng mẫu. Dùng chung dãy bản sao để dựng cả hai khoảng.
+    \medskip
+
+    \centering\small
+    \begin{tabular}{lp{3.9cm}p{3.9cm}}
+    \toprule & Normal & Basic\\ \midrule
+    Đầu vào & Sai số chuẩn Bootstrap & Hai phân vị Bootstrap\\
+    Vị trí hai cận & Cách đều $\hat\theta$ & Phản chiếu qua $\hat\theta$\\
+    Điều cần kiểm tra & Xấp xỉ chuẩn và độ chệch & Phân phối sai số được xấp xỉ đủ tốt\\ \bottomrule
+    \end{tabular}\par
+    \medskip\raggedright
+    Dùng mô phỏng để xem khoảng nào bao phủ tốt hơn trong từng kịch bản.
+\end{frame}
+
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 11, Bảng 5.1}
+\begin{frame}{3.1. Ví dụ 1: mẫu đối xứng}
+    \small
+    Đề: Với mẫu $(1,2,3)$, hãy dựng Normal và Basic CI $95\%$ cho trung bình. Ta có $\hat\theta=2$ và $3^3=27$ mẫu lấy lại có thứ tự.
+    \medskip
+
+    \centering
+    \begin{tabular}{lrrrrrrr}
+    \toprule $\hat\theta_j^*$ & 1 & $4/3$ & $5/3$ & 2 & $7/3$ & $8/3$ & 3\\
+    Số mẫu & 1 & 3 & 6 & 7 & 6 & 3 & 1\\ \bottomrule
+    \end{tabular}\par
+    \raggedright\medskip
+    Phân vị type 1 lấy hạng $\lceil 27p\rceil$. Hạng 1 và 27 cho $(q_L^*,q_U^*)=(1,3)$. Từ bảng:
+    \[
+    (\widehat{se}^*)^2=\frac{2[1\cdot1^2+3(2/3)^2+6(1/3)^2]}{27}=\frac29.
+    \]
+    Normal: $2\pm1{,}96\sqrt{2/9}\approx[1{,}076;\,2{,}924]$.\\
+    Basic: $[2\cdot2-3;\,2\cdot2-1]=[1;\,3]$.
+\end{frame}
+
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 11, Bảng 5.1}
+\begin{frame}{3.2. Ví dụ 2: mẫu lệch phải}
+    \small
+    Đề: Với mẫu $(1,1,1,9)$, hãy dựng Normal và Basic CI $95\%$ cho trung bình. Ta có $\hat\theta=3$. Nếu rút trúng $9$ đúng $r$ lần, trung bình là $(9r+4-r)/4=1+2r$.
+    \medskip
+
+    \centering
+    \begin{tabular}{lrrrrr}
+    \toprule $\hat\theta_j^*$ & 1 & 3 & 5 & 7 & 9\\
+    Số mẫu $\binom{4}{r}3^{4-r}$ & 81 & 108 & 54 & 12 & 1\\
+    Số mẫu tích lũy & 81 & 189 & 243 & 255 & 256\\ \bottomrule
+    \end{tabular}\par
+    \raggedright\medskip
+    Hạng 7 và 250 cho $(q_L^*,q_U^*)=(1,7)$ với type 1.
+    \[
+    (\widehat{se}^*)^2=(81\cdot4+54\cdot4+12\cdot16+36)/256=3.
+    \]
+    Normal: $3\pm1{,}96\sqrt3\approx[-0{,}395;\,6{,}395]$.\\
+    Basic: $[6-7;\,6-1]=[-1;\,5]$.
+\end{frame}
+
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 12--13}
+\begin{frame}{4.1. Thiết kế mô phỏng}
+    \begin{itemize}
+        \item Ước lượng trung bình $\theta$. Dùng tổng thể $\mathcal N(0,1)$ với $\theta=0$ và $\operatorname{Exp}(1)$ với $\theta=1$.
+        \item Mỗi tổng thể được thử ở $n=12$ và $n=40$.
+        \item Với mỗi kịch bản, sinh $K=10\,000$ bộ dữ liệu. Trên từng bộ, dùng $N=1\,999$ bản sao Bootstrap để dựng Normal, Basic và Percentile ở mức $95\%$.
+    \end{itemize}
+    \medskip
+    Mô phỏng dùng phân vị nội suy type 7. Hai ví dụ liệt kê dùng type 1.
+    \medskip
+
+    Tăng $N$ giúp ước lượng hai cận ổn định hơn trên một bộ dữ liệu. Tăng $K$ giúp ước lượng độ bao phủ ổn định hơn trên cả kịch bản.
+\end{frame}
+
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 12--13}
+\begin{frame}{4.2. Tính độ bao phủ và độ dài trung bình}
+    Gọi $[L_k,U_k]$ là khoảng thu được từ bộ dữ liệu thứ $k$, với $k=1,\ldots,K$. Tính riêng cho mỗi phương pháp:
+    \[
+    \widehat{CP}=\frac1K\sum_{k=1}^K I(L_k\le\theta\le U_k),
+    \qquad
+    AL=\frac1K\sum_{k=1}^K (U_k-L_k).
+    \]
+    Mỗi khoảng góp $1$ vào tổng bên trái nếu chứa giá trị thật, và $0$ nếu không chứa.
+    \medskip
+
+    Với Basic, độ dài bằng
+    \[
+    (2\hat\theta-q_L^*)-(2\hat\theta-q_U^*)=q_U^*-q_L^*.
+    \]
+    Đó cũng là độ dài của Percentile trên cùng mẫu, dù hai cận có thể khác.
+\end{frame}
+
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 13--14, Bảng 6.1 và Hình 6.1}
+\begin{frame}{4.3. Kết quả độ bao phủ}
+    \centering
+    \begin{tabular}{lrrrr}
+    \toprule
+    Tổng thể & $n$ & Normal & Basic & Percentile\\
+    \midrule
+    $\mathcal N(0,1)$ & 12 & 91,05\% & 91,01\% & 90,74\%\\
+    $\mathcal N(0,1)$ & 40 & 93,91\% & 93,89\% & 93,79\%\\
+    $\operatorname{Exp}(1)$ & 12 & 87,06\% & 85,47\% & 87,59\%\\
+    $\operatorname{Exp}(1)$ & 40 & 91,92\% & 90,99\% & 92,21\%\\
+    \bottomrule
+    \end{tabular}\par
+    \medskip\raggedright
+    Cả ba phương pháp đều dưới $95\%$ trong bốn kịch bản. Với tổng thể mũ, Basic có tỷ lệ thấp nhất ở cả hai cỡ mẫu.
+\end{frame}
+
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 13--14, Bảng 6.1 và Hình 6.2}
+\begin{frame}{4.4. Đọc độ dài cùng độ bao phủ}
+    \centering
+    \includegraphics[width=.92\linewidth,height=4.6cm,keepaspectratio]{assets/simulation-average-length.pdf}\par
+    \medskip\raggedright\small
+    Khi $n$ tăng từ $12$ lên $40$, độ dài trung bình giảm và độ bao phủ tăng trong cả hai tổng thể. Basic và Percentile có cùng độ dài nhưng cho độ bao phủ khác nhau ở các kịch bản đã xét.
+\end{frame}
+
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 14--15}
+\begin{frame}{5.1. Ví dụ giả định: khoảng cho Hazard Ratio}
+    Đề: Giả sử $\widehat{HR}=1{,}85$. Từ $N=2\,000$ mẫu Bootstrap phân tầng, giả sử sai số chuẩn là $0{,}42$ và hai phân vị là $1{,}15$ và $2{,}82$. Hãy dựng hai khoảng $95\%$ và kiểm tra mốc $HR=1$.
+    \[
+    \begin{aligned}
+    CI_{\rm Normal}
+     &=1{,}85\pm1{,}96(0{,}42)\approx[1{,}027;\,2{,}673],\\
+    CI_{\rm Basic}
+     &=[2(1{,}85)-2{,}82;\,2(1{,}85)-1{,}15]\\
+     &=[0{,}880;\,2{,}550].
+    \end{aligned}
+    \]
+    Basic chứa $1$, còn Normal không chứa $1$. Đây là ví dụ với đầu vào giả định để minh họa cách đọc hai khoảng.
+\end{frame}
+
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 15--16; \href{https://link.springer.com/article/10.1186/1477-7525-11-89}{Deng và cs. (2013), Bảng 1}}
+\begin{frame}{5.2. Bài báo: so sánh thang đo bằng RV}
+    \small
+    Đề: Dùng thang tham chiếu QDIS-CKD CAT-5 có $F=57{,}43$. Hãy tính RV của hai thang và đọc khoảng BCa $95\%$ tại mốc $1$.
+    \[
+    RV=\frac{F_{\text{thang so sánh}}}{F_{\text{tham chiếu}}}.
+    \]
+    \centering
+    \begin{tabular}{lll}
+    \toprule Thang so sánh & Cách tính RV & BCa $95\%$\\ \midrule
+    KDQOL Burden & $44{,}46/57{,}43\approx0{,}77$ & $[0{,}53;\,1{,}09]$\\
+    QDIS-CKD Static-34 & $48{,}01/57{,}43\approx0{,}84$ & $[0{,}71;\,0{,}97]$\\
+    \bottomrule
+    \end{tabular}\par
+    \raggedright\medskip
+    BCa lấy phân vị Bootstrap sau khi hiệu chỉnh. Khoảng công bố của Burden chứa $1$, còn khoảng của Static-34 nằm dưới $1$.
+\end{frame}
+
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 18, 20--21, Bảng 8.2}
+\begin{frame}{5.3. Đổi thang đo: từ trung bình sang log}
+    \small
+    Đề: Với mẫu $(2,3,4,5,9)$, so sánh log của hai cận gốc với hai cận dựng trực tiếp từ các bản sao $\log(\hat\theta_j^*)$.
+    \medskip
+
+    Percentile lấy trực tiếp $[q_L^*,q_U^*]$. Hàm log tăng nên giữ thứ hạng. Với phân vị type 1:
+    \[
+    [\log q_L^*,\log q_U^*]=[\log(2{,}8),\log(7)]
+    \approx[1{,}030;\,1{,}946]
+    \]
+    là kết quả của cả hai cách. Sai khác lớn nhất giữa hai cận tương ứng của từng phương pháp là
+    \[
+    \begin{array}{ccc}
+    \text{Normal} & \text{Basic} & \text{Percentile}\\
+    0{,}157 & 0{,}318 & 0
+    \end{array}
+    \]
+    Các giá trị này dùng cùng một tập bản sao cho hai cách tính.
+\end{frame}
+
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 21--24}
+\begin{frame}{6. Kết luận}
+    \begin{itemize}
+        \item Normal cần xấp xỉ chuẩn hợp lý. Basic dùng phân vị của sai số Bootstrap để đặt hai cận.
+        \item Độ bao phủ tăng khi chuyển từ $n=12$ lên $n=40$ trong bốn kịch bản của nhóm. Với tổng thể mũ, Basic cho độ bao phủ thấp hơn Normal ở cả hai cỡ mẫu.
+        \item Khi chọn khoảng, xem độ bao phủ cùng độ dài và kiểm tra miền của tham số. Nếu đổi thang đo, kiểm tra cả quy tắc lấy phân vị.
+    \end{itemize}
+\end{frame}
+
+\renewcommand{\slidesource}{}
+\begin{frame}{Cảm ơn}
+    \centering\Large Cảm ơn cô và các bạn đã lắng nghe.
 \end{frame}
 \end{document}
