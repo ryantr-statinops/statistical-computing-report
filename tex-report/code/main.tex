@@ -388,15 +388,14 @@ Bootstrap thay phân phối tổng thể chưa biết bằng phân phối thực
 	\begin{lstlisting}[style=Rstyle, caption={Mô phỏng ECDF}]
 set.seed(2026)
 n_sizes <- c(10, 30, 100, 1000)
-colors <- c("red", "orange", "blue", "forestgreen")
+cols <- c("red", "orange", "blue", "forestgreen")
 
 curve(pnorm(x), from = -3, to = 3, lwd = 2, ylab = "F(t)", xlab = "t")
 for (i in seq_along(n_sizes)) {
-  x_sample <- rnorm(n_sizes[i])
-  plot(ecdf(x_sample), add = TRUE, col = colors[i], lwd = 1.5, do.points = FALSE)
+  lines(ecdf(rnorm(n_sizes[i])), col = cols[i], verticals = TRUE, do.points = FALSE)
 }
-legend("topleft", legend = c("CDF Chuan", paste("n =", n_sizes)),
-       col = c("black", colors), lty = 1, lwd = 2)
+legend("topleft", legend = c("True Normal", paste("n =", n_sizes)),
+       col = c("black", cols), lwd = 2, bty = "n")
 	\end{lstlisting}
 	\end{enumerate}
 
@@ -726,14 +725,11 @@ Xét mẫu $x=(1,2,3)$ gồm $n=3$ quan sát. Thống kê quan tâm là trung b�
 
 \begin{lstlisting}[style=Rstyle, caption={Bootstrap đối xứng}]
 x <- c(1, 2, 3)
-sample_space <- expand.grid(x, x, x)
-means <- rowMeans(sample_space)
-
-prob_table <- prop.table(table(means))
-prob_table
-
-q <- quantile(means, c(0.025, 0.975), type = 1)
-q
+means <- rowMeans(expand.grid(x, x, x))
+prob <- prop.table(table(means))
+prob
+se <- sd(means)
+se
 \end{lstlisting}
 
 Từ phân phối liệt kê chính xác, sai số chuẩn Bootstrap là $0.4714$ và hai

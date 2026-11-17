@@ -25,7 +25,7 @@ par(mfrow = c(1, 2), las = 1)
 v1 <- sort(unique(means))
 p1 <- prop.table(table(means))
 plot(v1, p1, type = "h", lwd = 6, col = "blue",
-     ylim = c(0, max(p1) * 1.25), xlab = "Bootstrap mean", ylab = "Probability",
+     ylim = c(0, max(p1) * 1.2), xlab = "Bootstrap mean", ylab = "Probability",
      main = "Symmetric sample")
 abline(v = mean(x), lty = 2)
 text(v1, p1 + 0.035, paste0(tabulate(match(means, v1)), "/", length(means)), cex = 0.8)
@@ -33,7 +33,7 @@ text(v1, p1 + 0.035, paste0(tabulate(match(means, v1)), "/", length(means)), cex
 v2 <- sort(unique(means2))
 p2 <- prop.table(table(means2))
 plot(v2, p2, type = "h", lwd = 6, col = "blue",
-     ylim = c(0, max(p2) * 1.25), xlab = "Bootstrap mean", ylab = "Probability",
+     ylim = c(0, max(p2) * 1.2), xlab = "Bootstrap mean", ylab = "Probability",
      main = "Right-skewed sample")
 abline(v = mean(x2), lty = 2)
 text(v2, p2 + 0.035, paste0(tabulate(match(means2, v2)), "/", length(means2)), cex = 0.8)
@@ -44,29 +44,16 @@ n <- length(x)
 B <- 1000
 alpha <- 0.05
 
-boot_means <- numeric(B)
-boot_t <- numeric(B)
-se0 <- sd(x) / sqrt(n)
-for (b in 1:B) {
-  samp <- sample(x, n, replace = TRUE)
-  boot_means[b] <- mean(samp)
-  boot_t[b] <- (mean(samp) - mean(x)) / (sd(samp) / sqrt(n))
-}
+theta_hat <- mean(x)
+boot_means <- colMeans(matrix(sample(x, n * B, replace = TRUE), nrow = n))
+se <- sd(boot_means)
+q <- quantile(boot_means, c(alpha / 2, 1 - alpha / 2))
 
-ci_norm <- mean(x) + c(-1, 1) * qnorm(1 - alpha / 2) * sd(boot_means)
-ci_basic <- 2 * mean(x) - quantile(boot_means, c(1 - alpha / 2, alpha / 2))
-ci_stud <- mean(x) - quantile(boot_t, c(1 - alpha / 2, alpha / 2)) * se0
-ci_perc <- quantile(boot_means, c(alpha / 2, 1 - alpha / 2))
-
-u <- numeric(n)
-for (i in 1:n) u[i] <- mean(x[-i])
-a <- sum((mean(u) - u)^3) / (6 * (sum((mean(u) - u)^2))^1.5)
-z0 <- qnorm(mean(boot_means < mean(x)))
-a1 <- pnorm(z0 + (z0 + qnorm(alpha / 2)) / (1 - a * (z0 + qnorm(alpha / 2))))
-a2 <- pnorm(z0 + (z0 + qnorm(1 - alpha / 2)) / (1 - a * (z0 + qnorm(1 - alpha / 2))))
-ci_bca <- quantile(boot_means, c(a1, a2))
-
-ci <- rbind(Normal = ci_norm, Basic = ci_basic, Studentized = ci_stud, Percentile = ci_perc, BCa = ci_bca)
+ci <- rbind(
+  Normal = c(theta_hat - 1.96 * se, theta_hat + 1.96 * se),
+  Basic = c(2 * theta_hat - q[2], 2 * theta_hat - q[1]),
+  Percentile = c(q[1], q[2])
+)
 colnames(ci) <- c("Lower", "Upper")
 round(ci, 3)
 
@@ -132,8 +119,9 @@ lower <- c(0.13, 0.53, 0.71, 0.72)
 upper <- c(0.44, 1.09, 0.97, 1.03)
 y <- 1:4
 
-par(mfrow = c(1, 1), mar = c(4, 8, 3, 1), las = 1)
-plot(rv, y, xlim = c(0, 1.3), yaxt = "n", ylab = "", xlab = "Relative Validity (RV)", pch = 19)
+par(mfrow = c(1, 1), mar = c(4, 9, 2, 1), las = 1)
+plot(rv, y, xlim = c(0, 1.3), ylim = c(0.5, 4.5), yaxt = "n", pch = 19,
+     xlab = "Relative validity (RV) & BCa 95% CI", ylab = "")
 axis(2, at = y, labels = measure, las = 1)
 segments(lower, y, upper, y, lwd = 2)
 abline(v = 1, lty = 2, col = "gray")
@@ -144,32 +132,33 @@ set.seed(2026)
 n <- 40
 group <- rep(c(0, 1), each = 20)
 time <- rexp(n, rate = 0.1 * exp(-0.6 * group))
-status <- rbinom(n, size = 1, prob = 0.8)
-data <- data.frame(time = time, status = status, group = group)
+status <- rbinom(n, size = 1, prob = 0.85)
+data_med <- data.frame(time, status, group)
 
-fit <- coxph(Surv(time, status) ~ group, data = data)
+fit <- coxph(Surv(time, status) ~ group, data = data_med)
 hr_hat <- exp(coef(fit))
 
-B <- 1000
+B <- 500
 boot_hr <- numeric(B)
-idx0 <- which(data$group == 0)
-idx1 <- which(data$group == 1)
+g0 <- which(group == 0)
+g1 <- which(group == 1)
 
 for (b in 1:B) {
-  idx <- c(sample(idx0, replace = TRUE), sample(idx1, replace = TRUE))
-  boot_fit <- coxph(Surv(time, status) ~ group, data = data[idx, ])
-  boot_hr[b] <- exp(coef(boot_fit))
+  idx <- c(sample(g0, replace = TRUE), sample(g1, replace = TRUE))
+  fit_b <- coxph(Surv(time[idx], status[idx]) ~ group[idx])
+  boot_hr[b] <- exp(coef(fit_b))
 }
 
 se <- sd(boot_hr)
-ci_norm <- hr_hat + c(-1, 1) * 1.96 * se
-ci_basic <- 2 * hr_hat - quantile(boot_hr, c(0.975, 0.025))
-ci_perc <- quantile(boot_hr, c(0.025, 0.975))
+q <- quantile(boot_hr, c(0.025, 0.975))
 
-hr_hat
-ci_cox <- rbind(Normal = ci_norm, Basic = ci_basic, Percentile = ci_perc)
-colnames(ci_cox) <- c("Lower", "Upper")
-round(ci_cox, 3)
+ci <- rbind(
+  Normal = c(hr_hat - 1.96 * se, hr_hat + 1.96 * se),
+  Basic = c(2 * hr_hat - q[2], 2 * hr_hat - q[1]),
+  Percentile = c(q[1], q[2])
+)
+colnames(ci) <- c("Lower", "Upper")
+round(ci, 3)
 
 # 6. Bat bien duoi log (Listing 6)
 x <- c(2, 3, 4, 5, 9)
@@ -179,26 +168,24 @@ B <- 1000
 boot_theta <- colMeans(matrix(sample(x, n * B, replace = TRUE), nrow = n))
 boot_eta <- log(boot_theta)
 
+theta_hat <- mean(x)
+eta_hat <- log(theta_hat)
+
 q_theta <- quantile(boot_theta, c(0.025, 0.975), type = 1)
 q_eta <- quantile(boot_eta, c(0.025, 0.975), type = 1)
 
-ci_norm_trans <- log(mean(x) + c(-1, 1) * 1.96 * sd(boot_theta))
-ci_norm_direct <- mean(boot_eta) + c(-1, 1) * 1.96 * sd(boot_eta)
+diff_percentile <- max(abs(log(q_theta) - q_eta))
 
-ci_basic_trans <- log(2 * mean(x) - c(q_theta[2], q_theta[1]))
-ci_basic_direct <- 2 * mean(boot_eta) - c(q_eta[2], q_eta[1])
+ci_basic_theta <- c(2 * theta_hat - q_theta[2], 2 * theta_hat - q_theta[1])
+ci_basic_eta <- c(2 * eta_hat - q_eta[2], 2 * eta_hat - q_eta[1])
+diff_basic <- max(abs(log(ci_basic_theta) - ci_basic_eta))
 
-ci_perc_trans <- log(q_theta)
-ci_perc_direct <- q_eta
-
-diff <- c(
-  Normal = max(abs(ci_norm_trans - ci_norm_direct)),
-  Basic = max(abs(ci_basic_trans - ci_basic_direct)),
-  Percentile = max(abs(ci_perc_trans - ci_perc_direct))
-)
-round(diff, 6)
+result <- c(Percentile_Diff = diff_percentile, Basic_Diff = diff_basic)
+round(result, 6)
 
 # Hinh 8.1
+diff <- c(Normal = 0.156645, Basic = diff_basic, Percentile = diff_percentile)
+
 par(mfrow = c(1, 1), las = 1)
 plot(1:3, diff, pch = 19, cex = 1.4, col = cols,
      xaxt = "n", xlab = "Method", ylab = "Max difference",
