@@ -7,7 +7,8 @@ curve(pnorm(x), from = -3, to = 3, lwd = 2, ylab = "F(t)", xlab = "t")
 for (i in seq_along(n_sizes)) {
   lines(ecdf(rnorm(n_sizes[i])), col = cols[i], verticals = TRUE, do.points = FALSE)
 }
-legend("topleft", legend = c("True Normal", paste("n =", n_sizes)), col = c("black", cols), lwd = 2, bty = "n")
+legend("topleft", legend = c("True Normal", paste("n =", n_sizes)),
+       col = c("black", cols), lwd = 2, bty = "n")
 
 # 2. Bootstrap doi xung (Listing 2)
 x <- c(1, 2, 3)
@@ -111,6 +112,7 @@ for (j in 1:4) {
        main = names(scenarios)[j])
   axis(1, at = 1:3, labels = methods)
 }
+par(mfrow = c(1, 1))
 
 # 4. Deng et al. (Listing 4)
 measure <- c("KDQOL Symptoms", "KDQOL Burden", "QDIS Static-34", "QDIS Static-6")
@@ -119,12 +121,12 @@ lower <- c(0.13, 0.53, 0.71, 0.72)
 upper <- c(0.44, 1.09, 0.97, 1.03)
 y <- 1:4
 
-par(mfrow = c(1, 1), mar = c(4, 9, 2, 1), las = 1)
+par(mar = c(4, 9, 2, 1))
 plot(rv, y, xlim = c(0, 1.3), ylim = c(0.5, 4.5), yaxt = "n", pch = 19,
      xlab = "Relative validity (RV) & BCa 95% CI", ylab = "")
 axis(2, at = y, labels = measure, las = 1)
 segments(lower, y, upper, y, lwd = 2)
-abline(v = 1, lty = 2, col = "gray")
+abline(v = 1, lty = 2, col = "red")
 
 # 5. Cox HR (Listing 5)
 library(survival)
