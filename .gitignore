@@ -8,7 +8,7 @@
 *.out
 *.fls
 *.fdb_latexmk
-*.synctex.gz
+*.synctex*
 *.xdv
 *.nav
 *.snm

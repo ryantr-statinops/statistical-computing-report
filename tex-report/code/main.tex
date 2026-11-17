@@ -42,9 +42,17 @@
 \fancyhf{}
 \fancyhead[L]{\small BÁO CÁO CUỐI KỲ -- THỐNG KÊ TÍNH TOÁN}
 \fancyhead[R]{\small Khoảng tin cậy Bootstrap}
-\fancyfoot[R]{\small\thepage}
+\fancyfoot[R]{\small\itshape Trang \thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \setlength{\headheight}{14pt}
+
+\fancypagestyle{plain}{%
+	\fancyhf{}%
+	\fancyhead[L]{\small BÁO CÁO CUỐI KỲ -- THỐNG KÊ TÍNH TOÁN}%
+	\fancyhead[R]{\small Khoảng tin cậy Bootstrap}%
+	\fancyfoot[R]{\small\itshape Trang \thepage}%
+	\renewcommand{\headrulewidth}{0.4pt}%
+}
 
 \usepackage{enumitem}
 \setlist[itemize]{
@@ -254,7 +262,14 @@ Bootstrap thay phân phối tổng thể chưa biết bằng phân phối thực
 	\newpage
 	\pagenumbering{arabic}
 	\setcounter{page}{1}
-	\fancyfoot[R]{\small Trang \thepage\ / \pageref{LastPage}}
+	\fancyfoot[R]{\small\itshape Trang \thepage\ / \pageref{LastPage}}
+	\fancypagestyle{plain}{%
+		\fancyhf{}%
+		\fancyhead[L]{\small BÁO CÁO CUỐI KỲ -- THỐNG KÊ TÍNH TOÁN}%
+		\fancyhead[R]{\small Khoảng tin cậy Bootstrap}%
+		\fancyfoot[R]{\small\itshape Trang \thepage\ / \pageref{LastPage}}%
+		\renewcommand{\headrulewidth}{0.4pt}%
+	}
 
 	% ==================== PHẦN 1 ====================
 
@@ -296,6 +311,7 @@ Bootstrap thay phân phối tổng thể chưa biết bằng phân phối thực
 
 	% ==================== PHẦN 2 ====================
 
+	\newpage
 	\section{CƠ SỞ TOÁN HỌC CỦA ECDF VÀ THUẬT TOÁN MONTE CARLO}
 
 	\subsection{Phân phối thực nghiệm (\textit{Empirical Distribution}) và các đặc trưng đại số}
@@ -539,6 +555,7 @@ dữ liệu và đơn vị lấy mẫu lại
 
 	% ==================== PHẦN 3 ====================
 
+	\newpage
 	\section{XÂY DỰNG KHOẢNG TIN CẬY NORMAL CI VÀ BASIC CI}
 
 	\subsection{Khoảng tin cậy Bootstrap chuẩn tắc (Normal CI)}
@@ -646,6 +663,7 @@ Phần~\ref{sec:examples}. Cách tổ chức này giúp phần lý thuyết tậ
 thuật toán, còn các ví dụ và đầu ra R được đối chiếu tại cùng một vị trí.
 
 
+\newpage
 \section{SO SÁNH NORMAL CI VÀ BASIC CI}
 
 	\subsection{So sánh cơ sở toán học của Normal CI và Basic CI}
@@ -700,6 +718,7 @@ lại phù hợp với cấu trúc đó thay vì xem mọi quan sát là độc 
 Mẫu nhỏ không tự động làm Bootstrap chính xác hơn \footnote{Efron and Tibshirani (1993, tr. 258--261); Davison and Hinkley (1997, tr. 198)}. Khi có ít quan sát, các bản sao chỉ chứa một số giá trị hạn chế, khiến phân vị và cận khoảng có thể thiếu ổn định. Cần nêu rõ giả định, đơn vị lấy mẫu lại và giới hạn khi diễn giải kết quả.
 
 
+\newpage
 \section{VÍ DỤ BOOTSTRAP VÀ SO SÁNH KHOẢNG TIN CẬY}
 \label{sec:examples}
 
@@ -717,14 +736,17 @@ Xét mẫu $x=(1,2,3)$ gồm $n=3$ quan sát. Thống kê quan tâm là trung b�
 
 \begin{lstlisting}[style=Rstyle, caption={Bootstrap đối xứng}]
 x <- c(1, 2, 3)
-n <- length(x)
-indices <- as.matrix(do.call(expand.grid,
-  c(rep(list(seq_len(n)), n), KEEP.OUT.ATTRS = FALSE)))
-means <- rowMeans(matrix(x[indices], ncol = n))
-support <- sort(unique(means))
-frequency <- tabulate(match(means, support), length(support))
-probability <- frequency / length(means)
+
+sample_space <- expand.grid(x, x, x)
+
+means <- rowMeans(sample_space)
+
+prob_table <- prop.table(table(means))
+support <- as.numeric(names(prob_table))
+probability <- as.vector(prob_table)
+
 q <- quantile(means, c(0.025, 0.975), type = 1)
+q
 \end{lstlisting}
 
 Từ phân phối liệt kê chính xác, sai số chuẩn Bootstrap là $0.4714$ và hai
@@ -781,7 +803,7 @@ phương pháp cho các cận khác nhau ở ví dụ lệch; lựa chọn kho�
 trên giả định và hiệu năng thực nghiệm, không chỉ dựa vào hình dạng của
 một phân phối Bootstrap.
 
-
+\newpage
 \section{NGHIÊN CỨU MÔ PHỎNG MONTE CARLO BẰNG R}
 
 \subsection{Thiết kế mô phỏng}
@@ -882,6 +904,7 @@ AL của Basic và Percentile trùng nhau trong từng kịch bản do hai kho�
 bản đã xét, không khẳng định thứ hạng phương pháp cho mọi phân phối.
 
 
+\newpage
 \section{ỨNG DỤNG BOOTSTRAP CI TRONG Y SINH}
 
 \subsection{Bootstrap trong phân tích dữ liệu sống còn}
@@ -1134,6 +1157,7 @@ Mã ở Listing~\ref{lst:deng-bca} chỉ vẽ lại các ước lượng RV và 
 
 % ==================== PHẦN 8 ====================
 
+\newpage
 \section{NỘI DUNG MỞ RỘNG: PERCENTILE CI VÀ TÍNH BẤT BIẾN}
 
 \subsection{Khoảng tin cậy Bootstrap phân vị (Percentile CI)}
@@ -1343,6 +1367,7 @@ thứ tự hai cận sau biến đổi được đảo lại; kết quả cũng 
 
 % ==================== PHẦN 9 ====================
 
+\newpage
 	\section{KẾT LUẬN VÀ KHUYẾN NGHỊ THỰC HÀNH}
 
 	\subsection{Kết quả chính}
@@ -1424,6 +1449,7 @@ thứ tự hai cận sau biến đổi được đảo lại; kết quả cũng 
 
 
 	% ==================== TÀI LIỆU THAM KHẢO ====================
+	\newpage
 	\renewcommand{\refname}{Tài liệu tham khảo}
 \begin{thebibliography}{99}
 		\small
