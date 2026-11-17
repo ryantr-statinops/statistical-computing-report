@@ -1,0 +1,119 @@
+% !TeX program = xelatex
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.4cm]{geometry}
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{vietnamese}
+\setmainfont{Arial}[Path=../../assets/fonts/,Extension=.ttf,
+    UprightFont=*-Regular,BoldFont=*-Bold,ItalicFont=*-Italic,BoldItalicFont=*-BoldItalic]
+\usepackage{amsmath}
+\usepackage[hidelinks]{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+\title{Ghi chú thuyết trình Buổi 18}
+\author{Nhóm D}
+\date{}
+\begin{document}
+\maketitle
+
+\section{Cách trình bày trong 30 phút}
+Dành 4 phút cho trang 1--4, 8 phút cho trang 5--9, 5 phút cho hai ví dụ
+ở trang 10--11, 6 phút cho mô phỏng ở trang 12--15, 5 phút cho ứng dụng
+và đổi thang ở trang 16--18, rồi 2 phút cho kết luận và cảm ơn.
+Trang 4 đặt cạnh nhau mức đặt trước và kết quả đo trong mô phỏng.
+Khi đến trang 13, chỉ vào chỉ báo và giải thích vì sao mỗi khoảng
+chứa giá trị thật góp đúng một đơn vị vào tử số.
+
+\section{Ký hiệu và các công thức cần giải thích}
+\textbf{Ký hiệu.}
+$n$ là số quan sát trong mẫu gốc và trong mỗi mẫu lấy lại.
+$N$ là số bản sao Bootstrap trên một mẫu gốc. $j$ đánh số bản sao từ $1$ đến $N$,
+$i$ đánh số vị trí từ $1$ đến $n$, còn $k$ đánh số bộ dữ liệu mô phỏng từ $1$ đến $K$.
+Báo cáo và mã R viết $B$ cho $N$, và $b$ cho $j$. Đây là hai cách đặt tên cho
+cùng một số lượng và chỉ số. Chữ $J$ trong bản cũ là chỉ số chọn vị trí
+trong mẫu gốc. Có thể diễn đạt thao tác đó bằng lời và giữ $j$ cho số thứ tự bản sao.
+Ký hiệu $\mathcal N(\mu,\sigma^2)$ chỉ phân phối chuẩn.
+
+\textbf{Mức danh nghĩa và độ bao phủ.}
+Gọi $C(X)=[L(X),U(X)]$ là khoảng dựng từ dữ liệu $X$.
+Mức danh nghĩa là $1-\alpha$. Độ bao phủ của thủ tục là
+$\Pr_\theta\{\theta\in C(X)\}$ khi lấy mẫu lặp lại ở cùng thiết lập.
+Bài giảng Chương 4, trang 55, phát biểu điều kiện
+$\Pr_\theta\{L(X)\le\theta\le U(X)\}\ge1-\alpha$ cho một khoảng ở mức đó.
+Báo cáo nhóm D (Lời mở đầu, tr. 3 và nội dung chính, tr. 12--14) dùng cùng cách hiểu và đo độ bao phủ
+của các khoảng Bootstrap xấp xỉ bằng mô phỏng. Con số $85{,}47\%$
+là ước lượng thực nghiệm từ $K=10\,000$ lần, có sai số Monte Carlo.
+Nếu muốn tính sai số chuẩn của tỷ lệ, đặt $Y_k=I(\theta\in C_k)$.
+Vì $Y_k$ là biến 0--1, phương sai của nó là $CP(1-CP)$, nên
+\[
+    \widehat{MCSE}=\sqrt{\widehat{CP}(1-\widehat{CP})/K}
+        \approx 0{,}00352
+\]
+cho Basic ở kịch bản mẫu mũ $n=12$, tương đương khoảng $0{,}35$ điểm phần trăm.
+
+\textbf{Sai số chuẩn.}
+Trong mô phỏng lấy lại ngẫu nhiên, dùng độ lệch chuẩn mẫu của $N$ bản sao
+với mẫu số $N-1$. Trong hai ví dụ liệt kê đủ $n^n$ mẫu có thứ tự, ta biết
+toàn bộ phân phối có điều kiện. Lúc đó tính phương sai theo xác suất chính
+xác bằng tổng các bình phương độ lệch nhân với xác suất tương ứng.
+Mỗi bộ chỉ số có cùng xác suất $1/n^n$, kể cả khi các vị trí đó mang giá trị trùng.
+Với type 1, ở mức $p\in(0,1)$, lấy giá trị ở hạng $\lceil mp\rceil$
+trong $m$ giá trị đã sắp xếp, có tính cả các giá trị lặp.
+
+\textbf{Trung bình mẫu chuẩn.}
+Nếu $X_1,\ldots,X_n$ độc lập, mỗi quan sát có phân phối $\mathcal N(\mu,\sigma^2)$,
+thì trung bình mẫu cũng có phân phối chuẩn với kỳ vọng $\mu$ và phương sai
+$\sigma^2/n$. Kỳ vọng theo tính tuyến tính, còn tính độc lập cho
+$\operatorname{Var}(\bar X)=n\sigma^2/n^2$. Tính chuẩn đến từ tính đóng
+của phân phối chuẩn đối với tổ hợp tuyến tính của các biến chuẩn độc lập.
+Ý này giúp hiểu tổng thể chuẩn trong mô phỏng. Với mẫu nhỏ, thay sai số chuẩn
+bằng ước lượng Bootstrap vẫn có thể cho độ bao phủ dưới mức danh nghĩa.
+
+\textbf{Đổi thang log.}
+Ở ví dụ trang 18, đặt $\eta=\log\theta$. Với mỗi bản sao $\hat\theta_j^*>0$,
+tạo bản sao tương ứng $\hat\eta_j^*=\log(\hat\theta_j^*)$.
+Nếu dùng type 1 thì hai phân vị trên thang log là log của hai phân vị gốc.
+Với Basic, hai cách lấy cận dưới lần lượt cho
+$\log(2\hat\theta-q_U^*)$ và $2\log\hat\theta-\log q_U^*$.
+Chúng có thể khác nhau vì log không phân phối qua phép trừ.
+Với phân vị nội suy type 7, log của một giá trị nội suy cũng có thể khác
+giá trị nội suy của hai log.
+
+\section{R1--R6 trong bộ Buổi 18 cũ}
+\begin{enumerate}
+    \item R1 (ECDF). Sinh mẫu chuẩn ở nhiều cỡ mẫu, tính ECDF và so sánh
+    với hàm phân phối chuẩn. Đầu ra là đồ thị đặt các ECDF cạnh đường phân phối lý thuyết.
+    \item R2 (mẫu đối xứng). Liệt kê ba vị trí rút từ mẫu $(1,2,3)$, tính
+    trung bình mỗi mẫu, đếm số lần xuất hiện của từng trung bình và lấy phân vị
+    type 1. Các tần số trên slide 10 dùng cách tính này.
+    \item R3 (dựng khoảng). Từ một bộ dữ liệu, tạo $N$ mẫu lấy lại.
+    Tính độ lệch chuẩn của các bản sao, hai phân vị type 7 rồi áp dụng
+    công thức Normal, Basic và Percentile. Đoạn này là phần tính cận
+    trên một bộ dữ liệu trong vòng ngoài của mô phỏng.
+    \item R4 (vẽ BCa). Nhập RV và các cận đã công bố, sau đó vẽ điểm
+    ước lượng và đoạn biểu diễn khoảng. Việc tái vẽ sử dụng số trong bảng
+    của bài báo. Dựng lại khoảng BCa từ đầu cần dữ liệu gốc.
+    \item R5 (HR phân tầng). Sinh dữ liệu minh họa, lấy lại bệnh nhân
+    trong từng nhóm và khớp lại mô hình Cox trên mỗi mẫu Bootstrap.
+    Dãy HR thu được dùng để tính sai số chuẩn và phân vị. Các con số
+    chọn sẵn trên slide 16 thuộc ví dụ giả định trong báo cáo.
+    \item R6 (đổi thang log). Dùng cùng dãy trung bình Bootstrap cho hai
+    thang. So sánh log của cận Basic gốc với cận Basic dựng trực tiếp
+    từ các log. Trong mã R đầy đủ, phép đối chiếu còn chạy cho Normal
+    và Percentile.
+\end{enumerate}
+
+\section{Đối chiếu tài liệu và nội dung đã rút gọn}
+Chân trang của slide dùng số trang in trong \texttt{main.pdf} của nhóm,
+với mục lục đánh số i--ii và nội dung chính bắt đầu lại từ trang 1 (trang thứ 7 của PDF). Với bài giảng Chương 4, dùng số
+trang ghi trên bài giảng. Bài báo Deng và cộng sự được dẫn theo Bảng 1
+trong \href{https://link.springer.com/article/10.1186/1477-7525-11-89}{bản toàn văn công khai}.
+Các nguồn phụ và ghi chú nội bộ không cần cho phần trình chiếu đã được bỏ.
+
+Bản 20 trang bỏ slide quy ước ký hiệu cũ và đưa các ký hiệu vào đúng chỗ dùng.
+Các trang 34 và 36 cũ cùng phần phụ lục bảo vệ và các trang mã R được rút khỏi
+bộ chiếu. Nội dung so sánh và công thức vẫn có ở phần chính hoặc ở ghi chú này.
+Các ví dụ trên bộ chiếu có dữ kiện, câu hỏi và phép thế số. Phần ứng dụng
+phân biệt HR giả định với RV lấy từ nghiên cứu đã công bố.
+
+\end{document}
