@@ -59,7 +59,7 @@
 \setbeamertemplate{frametitle}{\nointerlineskip\begin{beamercolorbox}[wd=\paperwidth,sep=1.5mm,leftskip=1mm]{frametitle}\begin{minipage}[c]{.82\paperwidth}\raggedright\insertframetitle\end{minipage}\hfill\raisebox{-1mm}{\includegraphics[width=15mm]{assets/tdtu.png}}\end{beamercolorbox}}
 \newcommand{\slidesource}{}
 \title{Khoảng tin cậy Bootstrap chuẩn tắc\\và Bootstrap cơ bản:}
-\subtitle{Cơ sở lý thuyết, phương pháp xây dựng và đánh giá}
+\subtitle{Cơ sở lý thuyết, phương pháp xây dựng và đánh giá hiệu năng}
 \author{Nhóm D}
 \institute{Khoa Toán -- Thống kê\\Trường Đại học Tôn Đức Thắng\\Giảng viên hướng dẫn: ThS. Bùi Thùy Trang}
 \date{Học kỳ 1, năm học 2026--2027}
@@ -103,7 +103,7 @@
     \end{tabular}
 \end{frame}
 
-\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, Lời mở đầu, tr. 3; Bảng 6.1, tr. 13; Bài giảng Ch. 4, tr. 55}
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, Lời mở đầu, tr. 3; Bảng 6.1, tr. 15; Bài giảng Ch. 4, tr. 55}
 \begin{frame}{1.1. Mức danh nghĩa và độ bao phủ}
     \begin{itemize}
         \item Mức danh nghĩa $1-\alpha$ là mức đặt trước khi dựng khoảng. Với $\alpha=0{,}05$, mức này là $95\%$.
@@ -117,9 +117,9 @@
     \]
 \end{frame}
 
-\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 2--5}
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 3--5}
 \begin{frame}{1.2. Phân phối thực nghiệm và nguyên lý plug-in}
-    Ta có mẫu $x_1,\ldots,x_n$ từ tổng thể chưa biết phân phối $F$. Tỷ lệ quan sát không vượt quá $t$ là
+    Ta có $n$ quan sát độc lập, cùng phân phối $F$ chưa biết. Hàm phân phối thực nghiệm đo tỷ lệ quan sát không vượt quá $t$:
     \[
     F_n(t)=\frac1n\sum_{i=1}^n \mathbb{I}_{(-\infty,t]}(x_i),
     \]
@@ -127,10 +127,10 @@
     \medskip
 
     Khi lấy mẫu lại, ta dùng $F_n$ thay cho $F$. Mỗi lần rút, mỗi vị trí trong mẫu gốc có xác suất $1/n$.
-    Nếu $\theta=T(F)$ thì $\hat\theta=T(F_n)$ và bản sao thứ $j$ là $\hat\theta_j^*=T(F_{n,j}^*)$.
+    Nếu $\theta=T(F)$ thì $\hat\theta=T(F_n)$. Trên mẫu lấy lại thứ $j$, tính $\hat\theta_j^*=T(F_{n,j}^*)$.
 \end{frame}
 
-\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 5, 9 và 11}
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 6, 10 và 13}
 \begin{frame}{1.3. Lấy mẫu lại có hoàn lại}
     Đề: Từ mẫu $(1,2,3)$, lấy lại ba quan sát mỗi lần và tính trung bình của từng mẫu mới. Trung bình mẫu gốc là $(1+2+3)/3=2$.
     \medskip
@@ -147,18 +147,18 @@
     \end{tabular}\par
     \medskip
     \raggedright
-    Sau mỗi lượt, giá trị vừa rút có thể xuất hiện lại. Trên mỗi mẫu gốc, lặp đến đủ $N$ bản sao, với $j=1,\ldots,N$.
+    Sau mỗi lượt, giá trị vừa rút có thể xuất hiện lại. Ta tạo $B$ bản sao và đánh số $j=1,\ldots,B$.
 \end{frame}
 
-\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 5, 7; Bài giảng Ch. 4, tr. 52--54}
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 6, 8; Bài giảng Ch. 4, tr. 52--54}
 \begin{frame}{2.1. Normal CI và sai số chuẩn Bootstrap}
-    Dùng độ lệch chuẩn của $N$ bản sao để ước lượng sai số chuẩn:
+    Dùng độ lệch chuẩn của $B$ bản sao để ước lượng sai số chuẩn:
     \[
     \widehat{se}^{*}=
-    \sqrt{\frac{1}{N-1}\sum_{j=1}^{N}(\hat\theta_j^*-\bar\theta^*)^2},
-    \qquad \bar\theta^*=\frac1N\sum_{j=1}^{N}\hat\theta_j^*.
+    \sqrt{\frac{1}{B-1}\sum_{j=1}^{B}(\hat\theta_j^*-\bar\theta^*)^2},
+    \qquad \bar\theta^*=\frac1N\sum_{j=1}^{B}\hat\theta_j^*.
     \]
-    Khi sai số chuẩn hóa xấp xỉ chuẩn và độ chệch nhỏ, đặt
+    Khi độ chệch nhỏ và sai số chuẩn hóa gần phân phối $\mathcal N(0,1)$, đặt
     $z=z_{1-\alpha/2}$. Giải theo $\theta$:
     \[
     -z\le\frac{\hat\theta-\theta}{\widehat{se}^*}\le z
@@ -168,7 +168,7 @@
     Ở mức $95\%$, $z\approx1{,}96$. Với mẫu nhỏ hoặc phân phối lệch, hai cận đối xứng có thể cho độ bao phủ thấp.
 \end{frame}
 
-\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 7--8}
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 8--9}
 \begin{frame}{2.2. Basic CI và cách đảo hai cận}
     Dùng các sai số Bootstrap $\hat\theta_j^*-\hat\theta$ để xấp xỉ phân phối của sai số lấy mẫu $\hat\theta-\theta$.
     Gọi $q_L^*,q_U^*$ là phân vị $\alpha/2$ và $1-\alpha/2$ của các bản sao $\hat\theta_j^*$.
@@ -178,15 +178,15 @@
     &\iff 2\hat\theta-q_U^*\le\theta\le 2\hat\theta-q_L^*.
     \end{aligned}
     \]
-    Khi đổi dấu để tìm $\theta$, chiều bất đẳng thức đổi theo. Vì vậy, phân vị trên tạo cận dưới.
+    Khi đổi dấu để tìm $\theta$, phân vị trên tạo cận dưới. Độ bao phủ phụ thuộc vào mức độ Bootstrap mô phỏng được sai số lấy mẫu.
     \[
     CI_{\rm Basic}=[2\hat\theta-q_U^*,\,2\hat\theta-q_L^*].
     \]
 \end{frame}
 
-\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 9--10}
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 10--12}
 \begin{frame}{2.3. Cùng mẫu, hai cách đặt cận}
-    Tính $\hat\theta$ trên mẫu gốc. Tạo $N$ mẫu có hoàn lại, mỗi mẫu gồm $n$ quan sát, rồi tính $\hat\theta_j^*$ trên từng mẫu. Dùng chung dãy bản sao để dựng cả hai khoảng.
+    Tính $\hat\theta$ trên mẫu gốc. Tạo $B$ mẫu có hoàn lại, mỗi mẫu gồm $n$ quan sát, rồi tính $\hat\theta_j^*$ trên từng mẫu. Dùng chung dãy bản sao để dựng cả hai khoảng.
     \medskip
 
     \centering\small
@@ -194,13 +194,13 @@
     \toprule & Normal & Basic\\ \midrule
     Đầu vào & Sai số chuẩn Bootstrap & Hai phân vị Bootstrap\\
     Vị trí hai cận & Cách đều $\hat\theta$ & Phản chiếu qua $\hat\theta$\\
-    Điều cần kiểm tra & Xấp xỉ chuẩn và độ chệch & Phân phối sai số được xấp xỉ đủ tốt\\ \bottomrule
+    Điều cần kiểm tra & Xấp xỉ chuẩn và độ chệch & Sai số Bootstrap gần với sai số lấy mẫu về phân phối\\ \bottomrule
     \end{tabular}\par
     \medskip\raggedright
     Dùng mô phỏng để xem khoảng nào bao phủ tốt hơn trong từng kịch bản.
 \end{frame}
 
-\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 11, Bảng 5.1}
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 13, Bảng 5.1}
 \begin{frame}{3.1. Ví dụ 1: mẫu đối xứng}
     \small
     Đề: Với mẫu $(1,2,3)$, hãy dựng Normal và Basic CI $95\%$ cho trung bình. Ta có $\hat\theta=2$ và $3^3=27$ mẫu lấy lại có thứ tự.
@@ -220,7 +220,7 @@
     Basic: $[2\cdot2-3;\,2\cdot2-1]=[1;\,3]$.
 \end{frame}
 
-\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 11, Bảng 5.1}
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 13, Bảng 5.1}
 \begin{frame}{3.2. Ví dụ 2: mẫu lệch phải}
     \small
     Đề: Với mẫu $(1,1,1,9)$, hãy dựng Normal và Basic CI $95\%$ cho trung bình. Ta có $\hat\theta=3$. Nếu rút trúng $9$ đúng $r$ lần, trung bình là $(9r+4-r)/4=1+2r$.
@@ -241,21 +241,21 @@
     Basic: $[6-7;\,6-1]=[-1;\,5]$.
 \end{frame}
 
-\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 12--13}
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 15}
 \begin{frame}{4.1. Thiết kế mô phỏng}
     \begin{itemize}
         \item Ước lượng trung bình $\theta$. Dùng tổng thể $\mathcal N(0,1)$ với $\theta=0$ và $\operatorname{Exp}(1)$ với $\theta=1$.
         \item Mỗi tổng thể được thử ở $n=12$ và $n=40$.
-        \item Với mỗi kịch bản, sinh $K=10\,000$ bộ dữ liệu. Trên từng bộ, dùng $N=1\,999$ bản sao Bootstrap để dựng Normal, Basic và Percentile ở mức $95\%$.
+        \item Với mỗi kịch bản, sinh $K=10\,000$ bộ dữ liệu. Trên từng bộ, dùng $B=1\,999$ bản sao Bootstrap để dựng Normal, Basic và Percentile ở mức $95\%$.
     \end{itemize}
     \medskip
-    Mô phỏng dùng phân vị nội suy type 7. Hai ví dụ liệt kê dùng type 1.
+    Nhóm cố định seed $20260925$. Mô phỏng dùng phân vị nội suy type 7. Hai ví dụ liệt kê dùng type 1.
     \medskip
 
-    Tăng $N$ giúp ước lượng hai cận ổn định hơn trên một bộ dữ liệu. Tăng $K$ giúp ước lượng độ bao phủ ổn định hơn trên cả kịch bản.
+    Tăng $B$ giúp ước lượng hai cận ổn định hơn trên một bộ dữ liệu. Tăng $K$ giúp ước lượng độ bao phủ ổn định hơn trên cả kịch bản.
 \end{frame}
 
-\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 12--13}
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 15}
 \begin{frame}{4.2. Tính độ bao phủ và độ dài trung bình}
     Gọi $[L_k,U_k]$ là khoảng thu được từ bộ dữ liệu thứ $k$, với $k=1,\ldots,K$. Tính riêng cho mỗi phương pháp:
     \[
@@ -263,7 +263,7 @@
     \qquad
     AL=\frac1K\sum_{k=1}^K (U_k-L_k).
     \]
-    Mỗi khoảng góp $1$ vào tổng bên trái nếu chứa giá trị thật, và $0$ nếu không chứa.
+    Mỗi khoảng góp $1$ vào tổng bên trái nếu chứa giá trị thật, và $0$ nếu không chứa. Sai số chuẩn Monte Carlo của $\widehat{CP}$ được ước lượng bằng $\sqrt{\widehat{CP}(1-\widehat{CP})/K}$.
     \medskip
 
     Với Basic, độ dài bằng
@@ -273,7 +273,7 @@
     Đó cũng là độ dài của Percentile trên cùng mẫu, dù hai cận có thể khác.
 \end{frame}
 
-\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 13--14, Bảng 6.1 và Hình 6.1}
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 15--16, Bảng 6.1 và Hình 6.1}
 \begin{frame}{4.3. Kết quả độ bao phủ}
     \centering
     \begin{tabular}{lrrrr}
@@ -287,10 +287,10 @@
     \bottomrule
     \end{tabular}\par
     \medskip\raggedright
-    Cả ba phương pháp đều dưới $95\%$ trong bốn kịch bản. Với tổng thể mũ, Basic có tỷ lệ thấp nhất ở cả hai cỡ mẫu.
+    Cả ba phương pháp đều dưới $95\%$ trong bốn kịch bản. Với tổng thể chuẩn, ba kết quả sát nhau. Với tổng thể mũ, Percentile cho tỷ lệ cao nhất và Basic thấp nhất ở cả hai cỡ mẫu.
 \end{frame}
 
-\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 13--14, Bảng 6.1 và Hình 6.2}
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 15--16, Bảng 6.1 và Hình 6.2}
 \begin{frame}{4.4. Đọc độ dài cùng độ bao phủ}
     \centering
     \includegraphics[width=.92\linewidth,height=4.6cm,keepaspectratio]{assets/simulation-average-length.pdf}\par
@@ -298,9 +298,9 @@
     Khi $n$ tăng từ $12$ lên $40$, độ dài trung bình giảm và độ bao phủ tăng trong cả hai tổng thể. Basic và Percentile có cùng độ dài nhưng cho độ bao phủ khác nhau ở các kịch bản đã xét.
 \end{frame}
 
-\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 14--15}
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 18, mục 7.2}
 \begin{frame}{5.1. Ví dụ giả định: khoảng cho Hazard Ratio}
-    Đề: Giả sử $\widehat{HR}=1{,}85$. Từ $N=2\,000$ mẫu Bootstrap phân tầng, giả sử sai số chuẩn là $0{,}42$ và hai phân vị là $1{,}15$ và $2{,}82$. Hãy dựng hai khoảng $95\%$ và kiểm tra mốc $HR=1$.
+    Đề: Giả sử $\widehat{HR}=1{,}85$. Từ $B=2\,000$ mẫu Bootstrap phân tầng, giả sử sai số chuẩn là $0{,}42$ và hai phân vị là $1{,}15$ và $2{,}82$. Hãy dựng hai khoảng $95\%$ và kiểm tra mốc $HR=1$.
     \[
     \begin{aligned}
     CI_{\rm Normal}
@@ -310,13 +310,13 @@
      &=[0{,}880;\,2{,}550].
     \end{aligned}
     \]
-    Basic chứa $1$, còn Normal không chứa $1$. Đây là ví dụ với đầu vào giả định để minh họa cách đọc hai khoảng.
+    Basic chứa $1$, còn Normal không chứa $1$. Với dữ liệu sống còn, lấy lại theo bệnh nhân trong từng nhóm và khớp lại mô hình Cox cho mỗi bản sao.
 \end{frame}
 
-\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 15--16; \href{https://link.springer.com/article/10.1186/1477-7525-11-89}{Deng và cs. (2013), Bảng 1}}
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 19, Bảng 7.1; \href{https://link.springer.com/article/10.1186/1477-7525-11-89}{Deng và cs. (2013), Bảng 1}}
 \begin{frame}{5.2. Bài báo: so sánh thang đo bằng RV}
     \small
-    Đề: Dùng thang tham chiếu QDIS-CKD CAT-5 có $F=57{,}43$. Hãy tính RV của hai thang và đọc khoảng BCa $95\%$ tại mốc $1$.
+    Nghiên cứu so sánh các thang đo ở $453$ bệnh nhân bệnh thận mạn. Đề: Dùng thang tham chiếu QDIS-CKD CAT-5 có $F=57{,}43$. Hãy tính RV của hai thang và đọc khoảng BCa $95\%$ tại mốc $1$.
     \[
     RV=\frac{F_{\text{thang so sánh}}}{F_{\text{tham chiếu}}}.
     \]
@@ -328,10 +328,10 @@
     \bottomrule
     \end{tabular}\par
     \raggedright\medskip
-    BCa lấy phân vị Bootstrap sau khi hiệu chỉnh. Khoảng công bố của Burden chứa $1$, còn khoảng của Static-34 nằm dưới $1$.
+    BCa điều chỉnh mức phân vị theo độ chệch và gia tốc. Khoảng công bố của Burden chứa $1$, còn khoảng của Static-34 nằm dưới $1$.
 \end{frame}
 
-\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 18, 20--21, Bảng 8.2}
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 22, 23--25, Bảng 8.2}
 \begin{frame}{5.3. Đổi thang đo: từ trung bình sang log}
     \small
     Đề: Với mẫu $(2,3,4,5,9)$, so sánh log của hai cận gốc với hai cận dựng trực tiếp từ các bản sao $\log(\hat\theta_j^*)$.
@@ -349,14 +349,14 @@
     0{,}157 & 0{,}318 & 0
     \end{array}
     \]
-    Các giá trị này dùng cùng một tập bản sao cho hai cách tính.
+    Dùng cùng một tập bản sao cho hai cách tính. Sau phép log, phép cộng trừ của Normal và phép phản chiếu của Basic có thể cho cận khác.
 \end{frame}
 
-\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 21--24}
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, tr. 27--28}
 \begin{frame}{6. Kết luận}
     \begin{itemize}
         \item Normal cần xấp xỉ chuẩn hợp lý. Basic dùng phân vị của sai số Bootstrap để đặt hai cận.
-        \item Độ bao phủ tăng khi chuyển từ $n=12$ lên $n=40$ trong bốn kịch bản của nhóm. Với tổng thể mũ, Basic cho độ bao phủ thấp hơn Normal ở cả hai cỡ mẫu.
+        \item Trong hai tổng thể đã xét, độ bao phủ tăng từ $n=12$ lên $n=40$, nhưng vẫn dưới $95\%$. Mô phỏng đánh giá trung bình ở hai cỡ mẫu này.
         \item Khi chọn khoảng, xem độ bao phủ cùng độ dài và kiểm tra miền của tham số. Nếu đổi thang đo, kiểm tra cả quy tắc lấy phân vị.
     \end{itemize}
 \end{frame}
