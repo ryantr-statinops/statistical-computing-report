@@ -1,112 +1,103 @@
-out_fig <- file.path("output", "figures")
-dir.create(out_fig, recursive = TRUE, showWarnings = FALSE)
-colors <- c("#2474A5", "#D17B21", "#35865C")
+out <- file.path("output", "figures")
+dir.create(out, recursive = TRUE, showWarnings = FALSE)
 methods <- c("Normal", "Basic", "Percentile")
 
-save_pdf <- function(filename, w = 10, h = 6, plot_fn) {
-  pdf(file.path(out_fig, paste0(filename, ".pdf")), width = w, height = h)
-  plot_fn()
-  invisible(dev.off())
+# Dùng cùng ba màu cho các hình, rồi đặt seed riêng cho mô phỏng.
+set.seed(NULL)
+cols <- sample(grDevices::hcl.colors(8, "Dark 3"), length(methods))
+
+save_pdf <- function(name, draw, width = 9, height = 6) {
+  pdf(file.path(out, paste0(name, ".pdf")), width = width, height = height)
+  on.exit(dev.off())
+  draw()
 }
 
-calc_boot_ci <- function(theta_hat, b_means, alpha = 0.05, type = 7) {
-  se <- sd(b_means)
-  z <- qnorm(1 - alpha / 2)
-  q <- unname(quantile(b_means, c(alpha / 2, 1 - alpha / 2), type = type))
-  rbind(
-    Normal     = c(theta_hat - z * se, theta_hat + z * se),
-    Basic      = c(2 * theta_hat - q[2], 2 * theta_hat - q[1]),
-    Percentile = q
-  )
+# Khoảng tin cậy 95%. Percentile là phần mở rộng của Buổi 18.
+boot_ci <- function(theta, means, type = 7) {
+  q <- unname(quantile(means, c(0.025, 0.975), type = type))
+  margin <- qnorm(0.975) * sd(means)
+  rbind(Normal = theta + c(-margin, margin),
+        Basic = 2 * theta - rev(q),
+        Percentile = q)
 }
 
-ex_samples <- list(c(1, 2, 3), c(1, 1, 1, 9))
-ex_dist <- lapply(ex_samples, function(x) {
-  grid <- as.matrix(expand.grid(rep(list(x), length(x))))
-  means <- rowMeans(grid)
-  val <- sort(unique(means))
-  freq <- tabulate(match(means, val))
-  data.frame(mean = val, prob = freq / length(means), label = paste0(freq, "/", length(means)))
+# 1. Hai ví dụ nhỏ. Liệt kê toàn bộ mẫu bootstrap có hoàn lại.
+examples <- list("Symmetric sample" = c(1, 2, 3),
+                 "Right-skewed sample" = c(1, 1, 1, 9))
+example_means <- lapply(examples, function(x) {
+  rowMeans(expand.grid(rep(list(x), length(x)), KEEP.OUT.ATTRS = FALSE))
 })
 
-save_pdf("example-bootstrap-distributions", w = 10, h = 5, function() {
-  par(mfrow = c(1, 2), mar = c(4, 4.5, 3, 1), las = 1)
-  titles <- c("Symmetric sample", "Right-skewed sample")
-  for (j in 1:2) {
-    d <- ex_dist[[j]]
-    plot(d$mean, d$prob, type = "h", lwd = 8, col = colors[1],
-         ylim = c(0, max(d$prob) * 1.25), xlab = "Bootstrap mean", ylab = "Probability", main = titles[j])
-    abline(v = mean(ex_samples[[j]]), lty = 2, lwd = 2)
-    text(d$mean, d$prob + 0.035, d$label, cex = 0.8)
+for (i in seq_along(examples)) {
+  means <- example_means[[i]]
+  ci <- boot_ci(mean(examples[[i]]), means, type = 1)
+  cat("\n", names(examples)[i], " - 95% CI\n", sep = "")
+  print(round(ci[c("Normal", "Basic"), ], 3))
+}
+
+save_pdf("example-bootstrap-distributions", function() {
+  par(mfrow = c(1, 2), las = 1)
+  for (i in seq_along(examples)) {
+    means <- example_means[[i]]
+    values <- sort(unique(means))
+    count <- tabulate(match(means, values))
+    prob <- count / length(means)
+    plot(values, prob, type = "h", lwd = 8, col = cols[i],
+         ylim = c(0, max(prob) * 1.25), main = names(examples)[i],
+         xlab = "Bootstrap mean", ylab = "Probability")
+    abline(v = mean(examples[[i]]), lty = 2)
+    text(values, prob + 0.035, paste0(count, "/", length(means)), cex = 0.8)
   }
-})
+}, width = 10, height = 5)
 
+# 2. Mô phỏng coverage và độ dài trung bình.
 set.seed(20260925)
-K <- 2000
-B <- 999
+K <- 2000  # Số lần sinh dữ liệu cho mỗi kịch bản
+B <- 999   # Số mẫu bootstrap trong mỗi lần
 
-scenarios <- list(
-  list(name = "Normal n = 12",      draw = function() rnorm(12), theta = 0, n = 12),
-  list(name = "Normal n = 40",      draw = function() rnorm(40), theta = 0, n = 40),
-  list(name = "Exponential n = 12", draw = function() rexp(12),  theta = 1, n = 12),
-  list(name = "Exponential n = 40", draw = function() rexp(40),  theta = 1, n = 40)
+simulate <- function(draw, n, theta) {
+  covered <- lengths <- matrix(0, nrow = K, ncol = length(methods))
+  for (i in seq_len(K)) {
+    x <- draw(n)
+    samples <- matrix(sample(x, n * B, replace = TRUE), nrow = n)
+    ci <- boot_ci(mean(x), colMeans(samples))
+    covered[i, ] <- ci[, 1] <= theta & theta <= ci[, 2]
+    lengths[i, ] <- ci[, 2] - ci[, 1]
+  }
+  data.frame(Method = methods, Coverage = colMeans(covered),
+             Average_length = colMeans(lengths))
+}
+
+results <- list(
+  "Normal n = 12" = simulate(rnorm, n = 12, theta = 0),
+  "Normal n = 40" = simulate(rnorm, n = 40, theta = 0),
+  "Exponential n = 12" = simulate(rexp, n = 12, theta = 1),
+  "Exponential n = 40" = simulate(rexp, n = 40, theta = 1)
 )
 
-sim_res <- lapply(scenarios, function(sc) {
-  cov <- matrix(FALSE, K, 3)
-  len <- matrix(0, K, 3)
-  for (k in 1:K) {
-    x <- sc$draw()
-    b_means <- colMeans(matrix(sample(x, sc$n * B, replace = TRUE), nrow = sc$n))
-    ci <- calc_boot_ci(mean(x), b_means, type = 7)
-    cov[k, ] <- (ci[, 1] <= sc$theta) & (sc$theta <= ci[, 2])
-    len[k, ] <- ci[, 2] - ci[, 1]
-  }
-  list(coverage = colMeans(cov), avg_length = colMeans(len))
-})
+for (name in names(results)) {
+  cat("\n", name, "\n", sep = "")
+  print(results[[name]], row.names = FALSE, digits = 4)
+}
 
-save_pdf("simulation-coverage", w = 9, h = 6, function() {
+# 3. Vẽ hai chỉ tiêu trên cùng bố cục.
+plot_results <- function(metric, ylab, ylim, reference = NULL) {
   par(mfrow = c(2, 2), mar = c(4, 4.5, 3, 1), las = 1)
-  for (j in 1:4) {
-    cp <- sim_res[[j]]$coverage
-    plot(1:3, cp, type = "p", pch = 19, cex = 1.4, col = colors,
-         xlim = c(0.7, 3.3), ylim = c(min(0.75, min(cp) - 0.03), 1),
-         xaxt = "n", xlab = "Method", ylab = "Coverage probability", main = scenarios[[j]]$name)
-    axis(1, at = 1:3, labels = methods)
-    abline(h = 0.95, lty = 2)
+  for (name in names(results)) {
+    plot(seq_along(methods), results[[name]][[metric]], pch = 19, cex = 1.4,
+         col = cols, ylim = ylim, xaxt = "n", xlab = "Method", ylab = ylab,
+         main = name)
+    axis(1, at = seq_along(methods), labels = methods)
+    if (!is.null(reference)) abline(h = reference, lty = 2)
   }
+}
+
+sim <- do.call(rbind, results)
+save_pdf("simulation-coverage", function() {
+  plot_results("Coverage", "Coverage probability",
+               c(min(0.75, min(sim$Coverage) - 0.03), 1), reference = 0.95)
 })
-
-save_pdf("simulation-average-length", w = 9, h = 6, function() {
-  par(mfrow = c(2, 2), mar = c(4, 4.5, 3, 1), las = 1)
-  max_len <- max(sapply(sim_res, function(r) max(r$avg_length)))
-  for (j in 1:4) {
-    al <- sim_res[[j]]$avg_length
-    plot(1:3, al, type = "p", pch = 19, cex = 1.4, col = colors,
-         xlim = c(0.7, 3.3), ylim = c(0, max_len * 1.15),
-         xaxt = "n", xlab = "Method", ylab = "Average interval length", main = scenarios[[j]]$name)
-    axis(1, at = 1:3, labels = methods)
-  }
-})
-
-x_inv <- c(2, 3, 4, 5, 9)
-n_inv <- length(x_inv)
-b_means <- colMeans(matrix(sample(x_inv, n_inv * B, replace = TRUE), nrow = n_inv))
-
-ci_theta <- calc_boot_ci(mean(x_inv), b_means, type = 1)
-ci_eta_direct <- rbind(
-  Normal     = c(log(mean(x_inv)) - qnorm(0.975) * sd(log(b_means)), log(mean(x_inv)) + qnorm(0.975) * sd(log(b_means))),
-  Basic      = c(2 * log(mean(x_inv)) - quantile(log(b_means), 0.975, type = 1), 2 * log(mean(x_inv)) - quantile(log(b_means), 0.025, type = 1)),
-  Percentile = quantile(log(b_means), c(0.025, 0.975), type = 1)
-)
-ci_eta_trans <- log(ci_theta)
-diff_inv <- apply(abs(ci_eta_trans - ci_eta_direct), 1, max)
-
-save_pdf("invariance-log-comparison", w = 8, h = 5, function() {
-  par(mar = c(4, 4.5, 3, 1), las = 1)
-  plot(1:3, diff_inv, type = "p", pch = 19, cex = 1.4, col = colors,
-       xaxt = "n", xlab = "Method", ylab = "Maximum endpoint difference",
-       main = "Invariance under eta = log(theta)")
-  axis(1, at = 1:3, labels = methods)
-  abline(h = 0, lty = 2)
+save_pdf("simulation-average-length", function() {
+  plot_results("Average_length", "Average interval length",
+               c(0, max(sim$Average_length) * 1.15))
 })
