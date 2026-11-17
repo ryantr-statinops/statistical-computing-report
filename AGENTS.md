@@ -5,6 +5,7 @@
 - `tex-report/code/main.tex` contains the entire report, packages, fonts, and shared formatting. Keep this single-file layout; do not split it into section or preamble files unless requested.
 - `r/Nhom_D_TKTT.R` implements the bootstrap examples and simulations using base R.
 - `assets/` holds shared static resources, including fonts, licenses, and checksums.
+- `reference/` holds PDF copies of the 12 sources listed in `tex-report/code/main.tex`, plus a supplementary notes DOCX. Keep the source PDFs aligned with the report bibliography when it changes.
 - `output/figures/`, `output/tables/`, and `output/logs/` receive new R results. `assets/simulate-results/` holds the report snapshot copied from `archive/previous-results/`; LaTeX and build scripts use this snapshot. Validate new results before promoting them into the report snapshot.
 - `slide/beamer.tex` is the single-file Beamer deck; `slide/README.md` maps frames to report sources. `scripts/` contains Windows and macOS build commands. No dedicated test directory exists.
 
