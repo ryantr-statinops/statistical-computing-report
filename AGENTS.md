@@ -3,7 +3,8 @@
 ## Project Structure & Module Organization
 
 - `tex-report/code/main.tex` contains the entire report, packages, fonts, and shared formatting. Keep this single-file layout; do not split it into section or preamble files unless requested.
-- `r/Nhom_D_TKTT.R` implements the bootstrap examples and simulations using base R.
+- `r/Nhom_D_TKTT.R` contains the raw, clean R code listings (Listing 1 to 6) presented in the report.
+- `r/generate_figures.R` implements the full Monte Carlo simulation pipeline (K = 10000, B = 1999) and exports figures, CSV tables, and environment logs to `output/`.
 - `assets/` holds shared static resources, including fonts, licenses, and checksums.
 - `reference/` holds PDF copies of the 12 sources listed in `tex-report/code/main.tex`, plus a supplementary notes DOCX. Keep the source PDFs aligned with the report bibliography when it changes.
 - `output/figures/`, `output/tables/`, and `output/logs/` receive new R results. `assets/simulate-results/` holds the report snapshot copied from `archive/previous-results/`; LaTeX and build scripts use this snapshot. Validate new results before promoting them into the report snapshot.
@@ -14,10 +15,16 @@
 Run these commands from the repository root:
 
 ```text
+Rscript r/generate_figures.R
+```
+
+Runs the full Monte Carlo simulation (K = 10000, B = 1999) and generates figures, CSV tables, and environment logs in `output/`.
+
+```text
 Rscript r/Nhom_D_TKTT.R
 ```
 
-Generates figures, CSV tables, and environment logs. The full simulation uses K = 10000 and B = 1999 and may take time.
+Executes all 6 code listings from the report in sequence.
 
 ```powershell
 powershell -NoProfile -File scripts/build.ps1
