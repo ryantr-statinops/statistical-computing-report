@@ -1,0 +1,365 @@
+% !TeX program = xelatex
+% !TeX encoding = utf8
+\documentclass[10pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{vietnamese}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{geometry}
+\geometry{a4paper, left=1.4cm, right=1.4cm, top=2cm, bottom=2cm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{ragged2e}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{url}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!70!black,
+    urlcolor=blue!70!black,
+    citecolor=blue!70!black
+}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\bfseries ĐỐI CHIẾU CÔNG THỨC SLIDE \& BÁO CÁO VỚI TÀI LIỆU THAM KHẢO}
+\fancyhead[R]{\small Môn: Thống kê Tính toán (C03107) -- Nhóm D}
+\fancyfoot[C]{\small Trang \thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\definecolor{primary}{RGB}{30, 42, 120}
+\definecolor{headerbg}{RGB}{232, 236, 248}
+
+\begin{document}
+
+\begin{center}
+    {\large\bfseries TRƯỜNG ĐẠI HỌC TÔN ĐỨC THẮNG}\\[0.1cm]
+    {\bfseries KHOA TOÁN -- THỐNG KÊ}\\[0.25cm]
+    {\Large\bfseries\color{primary} BẢNG ĐỐI CHIẾU TOÀN BỘ CÔNG THỨC TRONG SLIDE BEAMER\\VÀ BÁO CÁO VỚI TÀI LIỆU THAM KHẢO (REFERENCE)}\\[0.2cm]
+    {\normalsize\textbf{Đề tài:} Khoảng tin cậy Bootstrap chuẩn tắc và Bootstrap cơ bản:}\\[0.05cm]
+    {\normalsize\textbf{Cơ sở lý thuyết, phương pháp xây dựng và đánh giá hiệu năng}}\\[0.15cm]
+    {\small Học kỳ 1, Năm học 2026--2027 \quad | \quad Giảng viên hướng dẫn: ThS. Bùi Thùy Trang}\\[0.05cm]
+    {\small Nhóm thực hiện: Nhóm D (MSSV: C2400121, C2400115, C2400203, C2400199)}
+\end{center}
+
+\vspace{0.15cm}
+\hrule height 1pt
+\vspace{0.3cm}
+
+\section*{I. Danh mục đối chiếu công thức chi tiết theo từng Slide}
+
+\small
+\renewcommand{\arraystretch}{1.3}
+\setlength{\tabcolsep}{5pt}
+\begin{longtable}{|>{\RaggedRight\arraybackslash}p{2.1cm}|>{\RaggedRight\arraybackslash}p{5.1cm}|>{\RaggedRight\arraybackslash}p{3.1cm}|>{\RaggedRight\arraybackslash}p{6.3cm}|}
+\hline
+\rowcolor{headerbg}
+\textbf{Slide trong Beamer} & \textbf{Công thức \& Ký hiệu toán học} & \textbf{Vị trí trong Báo cáo (\texttt{main.tex})} & \textbf{Tài liệu gốc trong thư mục \texttt{reference/}} \\
+\hline
+\endhead
+
+\hline
+\multicolumn{4}{|r|}{\footnotesize\itshape Tiếp tục ở trang sau...} \\
+\hline
+\endfoot
+
+\hline
+\endlastfoot
+
+% Slide 4
+\textbf{Slide 4}\par(Frame 1.1: Mức danh nghĩa và độ bao phủ) &
+\textbf{Tỷ lệ bao phủ quan sát được:}
+\[
+\widehat{CP} = \frac{1}{K}\sum_{k=1}^K \mathbb{I}_k = \frac{8\,547}{10\,000} = 85{,}47\%
+\] &
+Mục 1.1 (tr. 1)\par
+Mục 6.1 (tr. 12--13) &
+\textbf{1. Rizzo (2019)}: \texttt{book-rizzo-2019-...pdf}, Mục 7.2, tr. 190--191 (Định nghĩa Coverage thực nghiệm).\par
+\textbf{2. Justus et al. (2024)}: \texttt{paper-justus-2024-...pdf}, Mục 2.3 \& 3.1, tr. 7. \\
+\hline
+
+% Slide 5
+\textbf{Slide 5}\par(Frame 1.2: Phân phối thực nghiệm và nguyên lý plug-in) &
+\textbf{1. Hàm ECDF:}
+\[
+F_n^*(t) = \frac{1}{n}\sum_{i=1}^n \mathbb{I}_{(-\infty,t]}(x_i) = \frac{\#\{x_i\le t\}}{n}
+\]
+\textbf{2. Ước lượng Plug-in:}
+$\theta = \theta(F) \implies \hat\theta_n = \theta(F_n^*)$\par
+\textbf{3. Bản sao Bootstrap:}
+$\hat\theta^{*(b)} = t(x^{*(b)})$ &
+Mục 2.1 (Định nghĩa 2.1, tr. 3)\par
+Mục 2.2 (Định nghĩa 2.2, tr. 4, Công thức 2.7--2.9)\par
+Mục 2.3 (tr. 5) &
+\textbf{1. Rizzo (2019)}: Mục 2.1, tr. 52 và Mục 8.1, tr. 213--214 (Sơ đồ hai tầng xấp xỉ $F \to F_n \to F_n^*$).\par
+\textbf{2. Efron \& Tibshirani (1993)}: \texttt{An-Introduction-to-the-Bootstrap.pdf}, Chương 4, Mục 4.2--4.3, tr. 31--37.\par
+\textbf{3. Efron (1979)}: \texttt{Bootstrap-Method-Another-Look-...pdf}, Mục 2, tr. 2--3.\par
+\textbf{4. Nguyễn Thị Quyên et al. (2025)}: \texttt{paper-nguyen-thi-quyen-2025-...pdf}, Mục 2, tr. 32. \\
+\hline
+
+% Slide 6
+\textbf{Slide 6}\par(Frame 1.3: Lấy mẫu lại có hoàn lại) &
+Số mẫu lấy lại có thứ tự: $n^n = 3^3 = 27$.\par
+Xác suất rút mỗi phần tử: $\mathbb{P}(x_i^*) = 1/n$.\par
+Trung bình mẫu gốc: $\hat\theta_n = \bar{x} = 2$.\par
+Trung bình mẫu lấy lại thứ $b$:\par
+$\hat\theta^{*(b)} = \frac{1}{n}\sum_{i=1}^n x_i^{*(b)}$. &
+Mục 2.3 (tr. 5--6)\par
+Thuật toán 2.1 &
+\textbf{1. Rizzo (2019)}: Mục 8.1, tr. 214--215.\par
+\textbf{2. Efron \& Tibshirani (1993)}: Chương 2, tr. 11--14 và Chương 6, tr. 45--47. \\
+\hline
+
+% Slide 7
+\textbf{Slide 7}\par(Frame 2.1: Normal CI và sai số chuẩn Bootstrap) &
+\textbf{1. Sai số chuẩn Bootstrap:}
+\[
+\widehat{se}^* = \sqrt{\frac{1}{B-1}\sum_{b=1}^{B}(\hat\theta^{*(b)}-\bar\theta^*)^2}
+\]
+\textbf{2. Khoảng Normal Bootstrap CI:}
+\[
+CI_{\text{Normal}} = \left[\hat\theta_n \pm z_{1-\alpha/2}\widehat{se}^*\right]
+\] &
+Mục 2.3 (Công thức 2.12, tr. 6)\par
+Mục 3.1 (Công thức 3.1 \& 3.2, tr. 7) &
+\textbf{1. Rizzo (2019)}: Công thức (8.1), tr. 216 và Mục 8.3.1, Công thức (8.5), tr. 224--225.\par
+\textbf{2. Efron \& Tibshirani (1993)}: Mục 6.2, tr. 47 và Mục 12.2, tr. 153--155.\par
+\textbf{3. Bùi Thùy Trang (2026)}: \texttt{bui-thuy-trang-...pdf}, Đề tài 8, tr. 8. \\
+\hline
+
+% Slide 8
+\textbf{Slide 8}\par(Frame 2.2: Basic CI và cách đảo hai cận) &
+\textbf{1. Giả định tương đồng sai số:}
+$\hat\theta_n - \theta \approx \hat\theta^{*(b)} - \hat\theta_n$.\par
+\textbf{2. Cơ chế Quantile Flipping:}
+$2\hat\theta_n - q_{1-\alpha/2}^* \le \theta \le 2\hat\theta_n - q_{\alpha/2}^*$.\par
+\textbf{3. Khoảng Basic Bootstrap CI:}
+\[
+CI_{\text{Basic}} = \left[2\hat\theta_n - q_{1-\alpha/2}^*,\; 2\hat\theta_n - q_{\alpha/2}^*\right]
+\] &
+Mục 3.2 (tr. 8, Công thức 3.3--3.7) &
+\textbf{1. Rizzo (2019)}: Mục 8.3.2, Công thức (8.6), tr. 225--226.\par
+\textbf{2. Davison \& Hinkley (1997)}: \path{Bootstrap-Methods-and-their-Application.pdf}, Mục 5.2, tr. 194--195 (Slide tóm tắt tr. 19: pivotal interval).\par
+\textbf{3. Efron \& Tibshirani (1993)}: tr. 154. \\
+\hline
+
+% Slide 9
+\textbf{Slide 9}\par(Frame 2.3: Cùng mẫu, hai cách đặt cận) &
+So sánh cơ chế đặt cận:\par
+• Normal: Đối xứng qua $\hat\theta_n$ bằng $z\widehat{se}^*$.\par
+• Basic: Phản chiếu phân vị $q_{\alpha/2}^*, q_{1-\alpha/2}^*$ qua $\hat\theta_n$. &
+Mục 4.1 \& 4.2 (Bảng 4.1, tr. 9) &
+\textbf{1. Rizzo (2019)}: Mục 8.3.1--8.3.2, tr. 224--226.\par
+\textbf{2. Davison \& Hinkley (1997)}: Mục 5.2.1, tr. 195--198. \\
+\hline
+
+% Slide 10
+\textbf{Slide 10}\par(Frame 3.1: Ví dụ 1: mẫu đối xứng) &
+Mẫu $x=(1,2,3)$, $n=3$, $\hat\theta_n=2$, $3^3=27$ mẫu.\par
+\textbf{1. Sai số chuẩn giải tích:}
+$\widehat{se}^* = \sqrt{2/9} \approx 0{,}4714$.\par
+\textbf{2. Phân vị:} $(q_{\alpha/2}^*, q_{1-\alpha/2}^*) = (1, 3)$.\par
+\textbf{3. Cận khoảng 95\%:}\par
+• Normal: $[1{,}076;\; 2{,}924]$\par
+• Basic: $[1{,}000;\; 3{,}000]$ &
+Mục 5.1 (tr. 10--11)\par
+Bảng 5.1 (tr. 11) &
+\textbf{1. Rizzo (2019)}: Mục 8.1, tr. 214--215 (Thuật toán duyệt toàn bộ mẫu $n^n$).\par
+\textbf{2. Bùi Thùy Trang (2026)}: Đề tài 8, tr. 8 (Yêu cầu Ví dụ 1: phân phối đối xứng, hai khoảng gần nhau). \\
+\hline
+
+% Slide 11
+\textbf{Slide 11}\par(Frame 3.2: Ví dụ 2: mẫu lệch phải) &
+Mẫu $x=(1,1,1,9)$, $n=4$, $\hat\theta_n=3$, $4^4=256$ mẫu.\par
+Số mẫu rút trúng 9 là $r$: $\binom{4}{r}3^{4-r}$.\par
+Trung bình: $\frac{9r+4-r}{4} = 1+2r$.\par
+$\widehat{se}^* = \sqrt{3} \approx 1{,}7321$.\par
+$(q_{\alpha/2}^*, q_{1-\alpha/2}^*) = (1, 7)$.\par
+• Normal: $[-0{,}395;\; 6{,}395]$\par
+• Basic: $[-1{,}000;\; 5{,}000]$\par
+• Percentile: $[1{,}000;\; 7{,}000]$ &
+Mục 5.2 (tr. 11--12)\par
+Bảng 5.1 (tr. 11) &
+\textbf{1. Davison \& Hinkley (1997)}: Mục 5.2.2, tr. 197--199 (Phân tích hiện tượng Basic lùi cận sang trái khi mẫu lệch phải và có thể cho cận âm ngoài miền tham số).\par
+\textbf{2. Bùi Thùy Trang (2026)}: Đề tài 8, tr. 8 (Yêu cầu Ví dụ 2: phân phối lệch). \\
+\hline
+
+% Slide 12
+\textbf{Slide 12}\par(Frame 4.1: Thiết kế mô phỏng) &
+Tổng thể: $N(0,1)$ có $\theta=0$; $\operatorname{Exp}(1)$ có $\theta=1$.\par
+Cỡ mẫu: $n=12$ và $n=40$.\par
+Số lần lặp Monte Carlo: $K=10\,000$.\par
+Số bản sao Bootstrap: $B=1\,999$.\par
+Seed: $20260925$, quantile type 7. &
+Mục 6.1 (tr. 12--13) &
+\textbf{1. Justus et al. (2024)}: Mục 2.3, tr. 5--7 (Thiết kế mô phỏng so sánh các loại khoảng tin cậy Bootstrap).\par
+\textbf{2. Robert \& Casella (2010)}: \texttt{book-robert-casella-...pdf}, Chương 3, tr. 63--75.\par
+\textbf{3. Bùi Thùy Trang (2026)}: Đề tài 8, tr. 8. \\
+\hline
+
+% Slide 13
+\textbf{Slide 13}\par(Frame 4.2: Tính độ bao phủ và độ dài trung bình) &
+\textbf{1. Coverage Probability:}\par
+$\widehat{CP} = \frac{1}{K}\sum_{k=1}^K \mathbb{I}(L_k \le \theta \le U_k)$\par
+\textbf{2. Average Length:}\par
+$AL = \frac{1}{K}\sum_{k=1}^K (U_k - L_k)$\par
+\textbf{3. Sai số chuẩn Monte Carlo:}\par
+$\widehat{MCSE} = \sqrt{\frac{\widehat{CP}(1-\widehat{CP})}{K}}$\par
+\textbf{4. Đẳng thức độ dài:}\par
+$AL_{\text{Basic}} = AL_{\text{Perc}} = q_{1-\alpha/2}^* - q_{\alpha/2}^*$ &
+Mục 6.1 (tr. 13) &
+\textbf{1. Rizzo (2019)}: Mục 7.2, tr. 190--191 (Công thức ước lượng Coverage và AL).\par
+\textbf{2. Justus et al. (2024)}: Mục 2.3, tr. 7.\par
+\textbf{3. Robert \& Casella (2010)}: Mục 3.2, tr. 68 (Công thức MCSE tỷ lệ nhị thức). \\
+\hline
+
+% Slide 14
+\textbf{Slide 14}\par(Frame 4.3: Kết quả độ bao phủ) &
+Bảng tổng hợp Coverage (\%) trên 4 kịch bản:\par
+• $N(0,1), n=12$: Norm 91.05\%, Basic 91.01\%, Perc 90.74\%\par
+• $N(0,1), n=40$: Norm 93.91\%, Basic 93.89\%, Perc 93.79\%\par
+• $\operatorname{Exp}(1), n=12$: Norm 87.06\%, Basic 85.47\%, Perc 87.59\%\par
+• $\operatorname{Exp}(1), n=40$: Norm 91.92\%, Basic 90.99\%, Perc 92.21\% &
+Mục 6.2 (Bảng 6.1, tr. 13) &
+\textbf{1. Justus et al. (2024)}: Table 1--3, tr. 8--10 (Kết quả mô phỏng độ bao phủ hụt mức 95\% khi cỡ mẫu nhỏ $n \le 12$).\par
+\textbf{2. Davison \& Hinkley (1997)}: Bảng thực nghiệm tr. 20--21. \\
+\hline
+
+% Slide 15
+\textbf{Slide 15}\par(Frame 4.4: Vì sao Normal Bootstrap hụt 95\%?) &
+\textbf{1. Giới hạn sai số chuẩn:}\par
+$\lim_{B\to\infty} \widehat{se}^* = \sqrt{\frac{n-1}{n}}\frac{s}{\sqrt{n}}$\par
+\textbf{2. Thống kê $T$ Student:}\par
+$T = \frac{\bar{X}-\theta}{s/\sqrt{n}} \sim t_{n-1}$\par
+\textbf{3. Độ bao phủ giới hạn:}\par
+$\Pr\left(|T| \le 1{,}96\sqrt{\frac{n-1}{n}}\right)$\par
+\textbf{4. Khoảng Student $t$ chuẩn:}\par
+$\bar{X} \pm t_{n-1;\; 0{,}975}\frac{s}{\sqrt{n}}$ &
+Mục 6.2 (tr. 13--14)\par
+Mục 2.3 (tr. 6) &
+\textbf{1. Rizzo (2019)}: Mục 8.3.1, tr. 225 (Nhận định thống kê chuẩn hóa trong mẫu hữu hạn tuân theo phân phối Student $t$ thay vì Normal).\par
+\textbf{2. Bickel \& Freedman (1981)}: \path{Some-Asymptotic-Theory-for-the-Bootstrap.pdf}, Theorem 2.1, tr. 1198--1200.\par
+\textbf{3. NIST e-Handbook of Statistical Methods}: Mục 1.3.5.2 (Student's $t$ confidence limits). \\
+\hline
+
+% Slide 16
+\textbf{Slide 16}\par(Frame 4.5: So sánh độ bao phủ theo cặp) &
+\textbf{1. Hiệu chỉ báo theo cặp:}\par
+$D_k = \mathbb{I}_{\text{Percentile},k} - \mathbb{I}_{\text{đối chiếu},k}$\par
+\textbf{2. Sai số chuẩn Monte Carlo:}\par
+$\widehat{MCSE} = s_D/\sqrt{K}$\par
+\textbf{3. Khoảng MC 95\%:}\par
+$\bar{D} \pm 1{,}96\,\widehat{MCSE}$ &
+Mục 6.2 (tr. 13--14) &
+\textbf{1. Robert \& Casella (2010)}: Mục 3.3, tr. 71--74 (Kỹ thuật giảm phương sai và so sánh hiệu theo cặp trong Monte Carlo).\par
+\textbf{2. Justus et al. (2024)}: Mục 2.3, tr. 7. \\
+\hline
+
+% Slide 17
+\textbf{Slide 17}\par(Frame 4.6: Đọc độ dài cùng độ bao phủ) &
+Bảng tổng hợp Average Length ($AL$).\par
+Chứng minh tính chất cùng độ dài:\par
+$(2\hat\theta_n - q_{\alpha/2}^*) - (2\hat\theta_n - q_{1-\alpha/2}^*) = q_{1-\alpha/2}^* - q_{\alpha/2}^*$ &
+Mục 6.2 (Bảng 6.1 \& Nhận xét, tr. 14) &
+\textbf{1. Rizzo (2019)}: Mục 8.3.2 \& 8.3.3, tr. 225--227.\par
+\textbf{2. Davison \& Hinkley (1997)}: Mục 5.2.1, tr. 195. \\
+\hline
+
+% Slide 18
+\textbf{Slide 18}\par(Frame 5.1: Ví dụ khoảng cho Hazard Ratio) &
+\textbf{1. Hazard Ratio trong Cox:}\par
+$HR = \exp(\beta)$\par
+\textbf{2. Stratified Bootstrap ($B=2\,000$):}\par
+$\widehat{HR}_n = 1{,}85, \widehat{se}^* = 0{,}42$, $(q_{0{,}025}^*, q_{0{,}975}^*) = (1{,}15;\; 2{,}82)$\par
+\textbf{3. Khoảng 95\%:}\par
+• $CI_{\text{Normal}} = [1{,}027;\; 2{,}673]$\par
+• $CI_{\text{Basic}} = [0{,}880;\; 2{,}550]$ &
+Mục 7.1 \& 7.2 (tr. 15--16)\par
+Công thức (7.1) \& (7.2) &
+\textbf{Davison \& Hinkley (1997)}:\par
+• Chương 3 (Stratified sampling), tr. 86--91.\par
+• Chương 9 (Survival data and Cox regression), tr. 334--340. \\
+\hline
+
+% Slide 19
+\textbf{Slide 19}\par(Frame 5.2: Bài báo so sánh bằng RV) &
+\textbf{1. Relative Validity (RV):}\par
+$RV = \frac{F_{\text{công cụ so sánh}}}{F_{\text{công cụ tham chiếu}}}$\par
+\textbf{2. Thang chuẩn CAT-5:} $F = 57{,}43$.\par
+• KDQOL Burden: $RV = 0{,}77$, BCa $[0{,}53;\; 1{,}09]$\par
+• Static-34: $RV = 0{,}84$, BCa $[0{,}71;\; 0{,}97]$ &
+Mục 7.3 (tr. 16--17)\par
+Bảng 7.1 (tr. 17) &
+\textbf{Deng et al. (2013)}:\par
+\path{Using-the-bootstrap-to-establish-...-relative-validity-...pdf},\par
+• Trang 2 (Định nghĩa công thức RV).\par
+• Trang 3 (Table 1: F-statistic, RV và BCa 95\% CI). \\
+\hline
+
+% Slide 20
+\textbf{Slide 20}\par(Frame 5.3: Đổi thang đo: từ trung bình sang log) &
+Mẫu $(2,3,4,5,9)$, hàm $g(x)=\log(x)$.\par
+\textbf{1. Phân vị của biến đổi tăng:}\par
+$[\log q_{\alpha/2}^*,\; \log q_{1-\alpha/2}^*] = [\log(2{,}8),\; \log(7)]$\par
+$\approx [1{,}030;\; 1{,}946]$\par
+\textbf{2. Tính bất biến của Percentile CI:}\par
+$CI_{\text{Perc}}(g(\theta)) = [g(q_{\alpha/2}^*),\; g(q_{1-\alpha/2}^*)]$\par
+\textbf{3. Sai khác lớn nhất (Max Difference):}\par
+Normal: $0{,}157$; Basic: $0{,}318$; Percentile: $0$ &
+Mục 8.1 (Công thức 8.1, tr. 19)\par
+Mục 8.3 (Định nghĩa 8.1, tr. 21)\par
+Mục 8.4 (Bảng 8.2, tr. 22) &
+\textbf{1. Efron \& Tibshirani (1993)}: Mục 13.3 (\textit{Transformation-respecting property}), tr. 162--163.\par
+\textbf{2. Rizzo (2019)}: Mục 8.3.3, tr. 226--227.\par
+\textbf{3. Davison \& Hinkley (1997)}: Slide tóm tắt tr. 21--22 (So sánh Basic và Percentile trên thang log). \\
+\hline
+
+\end{longtable}
+
+\normalsize
+\vspace{0.4cm}
+
+\section*{II. Tóm tắt 5 tài liệu nguồn cốt lõi trong thư mục \texttt{reference/}}
+
+\begin{enumerate}
+    \item \textbf{\texttt{book-rizzo-2019-statistical-computing-with-r.pdf}} (Maria L. Rizzo, 2019, Second Edition):
+    \begin{itemize}
+        \item \textbf{Mục 2.1 (tr. 52--53):} Định nghĩa toán học của hàm phân phối thực nghiệm (ECDF), tính không chệch và phương sai của $F_n(x)$.
+        \item \textbf{Mục 7.2 (tr. 190--191):} Phương pháp thiết kế mô phỏng Monte Carlo để ước lượng tỷ lệ bao phủ thực nghiệm ($\widehat{CP}$) và độ dài khoảng tin cậy trung bình ($AL$).
+        \item \textbf{Mục 8.1 (tr. 213--216):} Nguyên lý Plug-in, sơ đồ hai tầng xấp xỉ trong thế giới Bootstrap, thuật toán lấy mẫu có hoàn lại và công thức sai số chuẩn Bootstrap $\widehat{se}^*$.
+        \item \textbf{Mục 8.3 (tr. 224--228):} Cơ sở lý thuyết và công thức toán học tường minh của cả 3 loại khoảng tin cậy: Standard Normal CI (Công thức 8.5), Basic Bootstrap CI (Công thức 8.6, chứng minh Quantile Flipping) và Percentile Bootstrap CI (Mục 8.3.3).
+    \end{itemize}
+
+    \item \textbf{\texttt{An-Introduction-to-the-Bootstrap.pdf}} (Bradley Efron \& Robert J. Tibshirani, 1993):
+    \begin{itemize}
+        \item \textbf{Chương 4 (tr. 31--37):} Trình bày toàn diện về ECDF và Nguyên lý Plug-in $\theta = t(F) \to \hat\theta = t(\hat{F})$.
+        \item \textbf{Chương 6 (tr. 45--47):} Thuật toán Monte Carlo cho sai số chuẩn Bootstrap.
+        \item \textbf{Chương 12 (tr. 153--155):} Khoảng tin cậy Standard Normal Bootstrap CI.
+        \item \textbf{Chương 13, Mục 13.3 (tr. 162--163):} Chứng minh toán học tính chất bất biến dưới phép biến đổi đơn điệu (\textit{Transformation-respecting property}) của Percentile CI.
+        \item \textbf{Chương 14 (tr. 178--188):} Khoảng tin cậy BCa (hiệu chỉnh bias $z_0$ và acceleration $a$).
+    \end{itemize}
+
+    \item \textbf{\path{Using-the-bootstrap-...-relative-validity-...pdf}} (Deng et al., 2013):
+    \begin{itemize}
+        \item \textbf{Trang 2:} Định nghĩa công thức Relative Validity $RV = F_{\text{comparison}} / F_{\text{reference}}$.
+        \item \textbf{Trang 3 (Table 1):} Cung cấp các số liệu thực tế được sử dụng trong Slide 19 và Bảng 7.1 báo cáo ($F = 57.43$ của CAT-5, các giá trị RV và khoảng tin cậy BCa 95\% của KDQOL Burden, Static-34, Static-6, Symptoms).
+    \end{itemize}
+
+    \item \textbf{\texttt{Bootstrap-Methods-and-their-Application.pdf}} (A. C. Davison \& D. V. Hinkley, 1997):
+    \begin{itemize}
+        \item \textbf{Chương 5 (tr. 194--204) \& Slide 19--22:} Khảo sát Basic bootstrap interval (dựa trên pivotal quantity $\hat\theta - \theta$), hiện tượng đảo phân vị kéo lùi cận âm khi mẫu lệch, và bảng kiểm chứng tính bất biến trên thang log.
+        \item \textbf{Chương 3 (tr. 86--91) \& Chương 9 (tr. 334--340):} Kỹ thuật lấy mẫu Bootstrap phân tầng (Stratified Bootstrap) trong mô hình hồi quy sống còn Cox ước lượng Hazard Ratio (HR).
+    \end{itemize}
+
+    \item \textbf{\texttt{paper-justus-2024-bootstrap-ci-simulation.pdf}} (Justus et al., 2024, arXiv:2404.12967):
+    \begin{itemize}
+        \item \textbf{Mục 2.3 \& Phần 3 (tr. 5--10):} Khung chuẩn mực cho nghiên cứu mô phỏng Monte Carlo quy mô lớn so sánh các khoảng tin cậy Bootstrap, công thức tính $\widehat{CP}$, $AL$, $\widehat{MCSE}$ và phân tích sự hụt độ bao phủ ở cỡ mẫu nhỏ.
+    \end{itemize}
+\end{enumerate}
+
+\end{document}

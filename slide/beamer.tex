@@ -66,11 +66,11 @@
 \setbeamertemplate{title page}[default]
 \begin{document}
 \renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, bìa}
-\begin{frame}{Normal CI và Basic CI}
+\begin{frame}
     \titlepage
 \end{frame}
 
-\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, mục lục, tr. i--ii}
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, mục lục, tr. iv--v}
 \begin{frame}[t]{Mục lục}
     \small
     \vspace{0.3em}
@@ -90,7 +90,7 @@
     \end{tabular}
 \end{frame}
 
-\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, bìa và bảng phân công, tr. 1}
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, bìa và bảng phân công, tr. i}
 \begin{frame}{Thành viên nhóm D}
     \centering
     \renewcommand{\arraystretch}{1.4}
@@ -103,7 +103,7 @@
     \end{tabular}
 \end{frame}
 
-\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, Lời mở đầu, tr. 3; Bảng 6.1, tr. 15; Bài giảng Ch. 4, tr. 55}
+\renewcommand{\slidesource}{Nguồn: Báo cáo nhóm D, Lời mở đầu, tr. iii; Bảng 6.1, tr. 15; Bài giảng Ch. 4, tr. 55}
 \begin{frame}{1.1. Mức danh nghĩa và độ bao phủ}
     \begin{itemize}
         \item Mức danh nghĩa $1-\alpha$ là mức đặt trước khi dựng khoảng. Với $\alpha=0{,}05$, mức này là $95\%$.
@@ -209,10 +209,10 @@
 
     Liệt kê toàn bộ nên phương sai của phân phối Bootstrap có mẫu số $27$:
     \[
-    \widehat{se}^*=\sqrt{\frac{2[1+3(2/3)^2+6(1/3)^2]}{27}}
+    \widehat{se}^*=\sqrt{\frac{1}{B-1}\sum_{b=1}^{B}(\hat\theta^{*(b)}-\bar\theta^*)^2}=\sqrt{\frac{2[1+3(2/3)^2+6(1/3)^2]}{27}}
     =\sqrt{\frac{2}{9}}\approx0{,}4714.
     \]
-    Với type 1, hạng $1$ và $27$ cho $(q_{\alpha/2}^*,q_{1-\alpha/2}^*)=(1,3)$.
+    Với loại $1$, hạng $1$ và $27$ cho $(q_{\alpha/2}^*,q_{1-\alpha/2}^*)=(1,3)$.
     \begin{itemize}
         \item Normal $95\%$ cho khoảng $[1{,}076;\,2{,}924]$.
         \item Basic $95\%$ phản chiếu $1$ và $3$ qua $2$, cho khoảng $[1{,}000;\,3{,}000]$.
@@ -228,7 +228,7 @@
     \centering
     \begin{tabular}{lrrrrr}
     \toprule $\hat\theta^{*(b)}$ & 1 & 3 & 5 & 7 & 9\\
-    Số mẫu $\binom{4}{r}3^{4-r}$ & 81 & 108 & 54 & 12 & 1\\
+    Số mẫu $C_4^r \cdot 3^{4-r}$ & 81 & 108 & 54 & 12 & 1\\
     Số mẫu tích lũy & 81 & 189 & 243 & 255 & 256\\ \bottomrule
     \end{tabular}\par
     \raggedright\medskip

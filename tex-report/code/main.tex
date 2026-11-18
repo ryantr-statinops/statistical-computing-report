@@ -127,6 +127,16 @@
 
 	% ==================== TRANG BÌA ====================
 	\begin{titlepage}
+		\begin{tikzpicture}[remember picture, overlay]
+			\draw[line width=1.5pt]
+				([xshift=20mm, yshift=-20mm]current page.north west)
+				rectangle
+				([xshift=-15mm, yshift=20mm]current page.south east);
+			\draw[line width=0.6pt]
+				([xshift=21.5mm, yshift=-21.5mm]current page.north west)
+				rectangle
+				([xshift=-16.5mm, yshift=21.5mm]current page.south east);
+		\end{tikzpicture}
 		\centering
 		{\small TỔNG LIÊN ĐOÀN LAO ĐỘNG VIỆT NAM\par}
 		\vspace{0.5cm}
@@ -165,6 +175,8 @@
 	\end{titlepage}
 
 	\newpage
+	\pagenumbering{roman}
+	\setcounter{page}{1}
 
 	% ==================== BẢNG PHÂN CÔNG ====================
 	\section*{BẢNG PHÂN CÔNG NHIỆM VỤ}
@@ -253,9 +265,6 @@ Bootstrap thay phân phối tổng thể chưa biết bằng phân phối thực
 	\newpage
 
 	% ==================== MỤC LỤC TỰ ĐỘNG ====================
-	\pagenumbering{roman}
-	\setcounter{page}{1}
-
 	\renewcommand{\contentsname}{\Large\bfseries MỤC LỤC}
 	\tableofcontents
 
