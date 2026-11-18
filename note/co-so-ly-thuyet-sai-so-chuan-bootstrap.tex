@@ -1,0 +1,243 @@
+% !TeX program = xelatex
+% !TeX encoding = utf8
+\documentclass[10pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{vietnamese}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{geometry}
+\geometry{a4paper, left=1.4cm, right=1.4cm, top=1.8cm, bottom=1.8cm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{ragged2e}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{url}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!70!black,
+    urlcolor=blue!70!black,
+    citecolor=blue!70!black
+}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\bfseries CƠ SỞ LÝ THUYẾT \& QUY ƯỚC MẪU SỐ SAI SỐ CHUẨN BOOTSTRAP}
+\fancyhead[R]{\small Môn: Thống kê Tính toán (C03107) -- Nhóm D}
+\fancyfoot[C]{\small Trang \thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\definecolor{primary}{RGB}{30, 42, 120}
+\definecolor{headerbg}{RGB}{232, 236, 248}
+\definecolor{alertbg}{RGB}{253, 243, 243}
+\definecolor{alertborder}{RGB}{180, 40, 40}
+\definecolor{infobg}{RGB}{243, 247, 253}
+\definecolor{infoborder}{RGB}{40, 80, 180}
+
+\newcommand{\alertbox}[2]{%
+    \vspace{0.25cm}%
+    \noindent\fcolorbox{alertborder}{alertbg}{%
+        \parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}{%
+            \textbf{\color{alertborder}#1}\par\vspace{0.15cm}%
+            \small#2%
+        }%
+    }%
+    \vspace{0.25cm}%
+}
+
+\newcommand{\infobox}[2]{%
+    \vspace{0.25cm}%
+    \noindent\fcolorbox{infoborder}{infobg}{%
+        \parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}{%
+            \textbf{\color{infoborder}#1}\par\vspace{0.15cm}%
+            \small#2%
+        }%
+    }%
+    \vspace{0.25cm}%
+}
+
+\begin{document}
+
+\begin{center}
+    {\large\bfseries TRƯỜNG ĐẠI HỌC TÔN ĐỨC THẮNG}\\[0.1cm]
+    {\bfseries KHOA TOÁN -- THỐNG KÊ}\\[0.25cm]
+    {\Large\bfseries\color{primary} TÀI LIỆU CHUYÊN ĐỀ PHẢN BIỆN:\\CƠ SỞ LÝ THUYẾT VÀ QUY ƯỚC MẪU SỐ SAI SỐ CHUẨN BOOTSTRAP}\\[0.2cm]
+    {\normalsize\textbf{Phân biệt Sai số chuẩn lý thuyết chính xác (Mẫu số $N$) và Ước lượng Monte Carlo (Mẫu số $B-1$)}}\\[0.15cm]
+    {\small Học kỳ 1, Năm học 2026--2027 \quad | \quad Giảng viên hướng dẫn: ThS. Bùi Thùy Trang}\\[0.05cm]
+    {\small Nhóm thực hiện: Nhóm D (MSSV: C2400121, C2400115, C2400203, C2400199)}
+\end{center}
+
+\vspace{0.15cm}
+\hrule height 1pt
+\vspace{0.3cm}
+
+\section{Đặt vấn đề và Câu hỏi phản biện}
+
+Trong quá trình bảo vệ đề tài \textit{Khoảng tin cậy Bootstrap chuẩn tắc và Bootstrap cơ bản}, một câu hỏi học thuật trọng tâm mà Giảng viên hoặc Hội đồng phản biện có thể chất vấn nhóm là:
+\begin{quote}
+\itshape
+``Tại Slide 7 nhóm định nghĩa sai số chuẩn Bootstrap dùng độ lệch chuẩn mẫu với mẫu số $B-1$. Nhưng sang Slide 10--11 ở hai ví dụ nhỏ, nhóm lại dùng phương sai chia cho $27$ (cho ra $\widehat{se}^* = \sqrt{2/9} \approx 0{,}4714$) và chia cho $256$ (cho ra $\widehat{se}^* = \sqrt{3} \approx 1{,}7321$). Nếu dùng đúng công thức mẫu số $N-1$, tại sao không phải là chia cho $26$ (ra $0{,}4804$) và chia cho $255$ (ra $1{,}7355$)? Nhóm có nhầm lẫn giữa hai quy ước này không?''
+\end{quote}
+
+Tài liệu này cung cấp luận cứ toán học, trích dẫn chính xác từ các tài liệu kinh điển trong thư mục \texttt{reference/} và kịch bản bảo vệ nhằm khẳng định: \textbf{Cách tính của nhóm tại Slide 10--11 là hoàn toàn chính xác về mặt lý thuyết xác suất và không gian mẫu.}
+
+\section{Bản chất hai bài toán trong phương pháp Bootstrap}
+
+Sự khác biệt về mẫu số xuất phát từ bản chất của hai bài toán hoàn toàn khác biệt:
+
+\vspace{0.2cm}
+\noindent
+\begin{tabular}{|>{\RaggedRight\arraybackslash}p{2.6cm}|>{\RaggedRight\arraybackslash}p{7.0cm}|>{\RaggedRight\arraybackslash}p{7.0cm}|}
+\hline
+\rowcolor{headerbg}
+\textbf{Tiêu chí} & \textbf{Liệt kê chính xác (Exact Enumeration)} & \textbf{Xấp xỉ Monte Carlo (Monte Carlo Bootstrap)} \\
+\hline
+\textbf{Vị trí trong bài} & Slide 10--11; Báo cáo Mục 5.1--5.2 (tr. 10--12) & Slide 7, Slide 12--16; Báo cáo Mục 2.3 \& Phần 6 \\
+\hline
+\textbf{Cỡ mẫu gốc ($n$)} & Mẫu nhỏ ($n=3$ và $n=4$). & Mẫu thực tế ($n=12$ và $n=40$). \\
+\hline
+\textbf{Số mẫu lấy lại} & Duyệt \textbf{toàn bộ $100\%$ không gian mẫu} có thứ tự: $N = n^n$ ($3^3 = 27$ hoặc $4^4 = 256$ mẫu). & Rút ngẫu nhiên một mẫu gồm $B$ bản sao ($B = 1\,999$) vì $n^n$ quá lớn ($12^{12} \approx 8{,}9 \times 10^{12}$). \\
+\hline
+\textbf{Bản chất tập dữ liệu} & Tập hợp các bản sao $\{\hat\theta^{*(i)}\}_{i=1}^N$ là \textbf{toàn bộ tổng thể} phân phối Bootstrap lý thuyết. & Tập hợp $\{\hat\theta^{*(b)}\}_{b=1}^B$ là một \textbf{mẫu ngẫu nhiên} rút ra từ phân phối Bootstrap. \\
+\hline
+\textbf{Phương sai áp dụng} & \textbf{Phương sai tổng thể} của biến ngẫu nhiên rời rạc: mẫu số là \textbf{$N = n^n$}, không trừ 1. & \textbf{Phương sai mẫu hiệu chỉnh}: mẫu số là \textbf{$B - 1$} để ước lượng không chệch cho phương sai tổng thể. \\
+\hline
+\textbf{Sai số Monte Carlo} & \textbf{Không có} sai số Monte Carlo ($MCSE = 0$). & \textbf{Có} sai số Monte Carlo ($MCSE > 0$). \\
+\hline
+\end{tabular}
+\vspace{0.3cm}
+
+\section{Căn cứ từ các tài liệu tham khảo cốt lõi (\texttt{reference/})}
+
+\subsection{Bradley Efron \& Robert J. Tibshirani (1993) -- \textit{An Introduction to the Bootstrap}}
+Tài liệu lưu tại \path{reference/An-Introduction-to-the-Bootstrap.pdf}:
+\begin{itemize}
+    \item \textbf{Chương 4, tr. 32--34 (Nguyên lý Plug-in):}
+    Dưới phân phối thực nghiệm $\hat F_n$, xác suất tại mỗi điểm dữ liệu quan sát $x_i$ là đồng đều và bằng $1/n$. Phương sai lý thuyết của một biến ngẫu nhiên $X^*$ lấy từ $\hat F_n$ là:
+    \begin{equation}
+        \sigma^2(\hat F_n) = \operatorname{Var}_{\hat F_n}(X^*) = \mathbb{E}_{\hat F_n}[(X^* - \mathbb{E}[X^*])^2] = \frac{1}{n}\sum_{i=1}^n (x_i - \bar x)^2
+    \end{equation}
+    Efron nhấn mạnh: Trong thế giới Bootstrap, $\hat F_n$ đóng vai trò là một \textbf{tổng thể đã biết}, do đó phương sai của nó được tính theo công thức tổng thể (mẫu số là $n$, tuyệt đối không chia $n-1$).
+    
+    \item \textbf{Chương 6, tr. 45--47 (The Bootstrap Estimate of Standard Error):}
+    Khi thống kê quan tâm là trung bình mẫu $\hat\theta = \bar x$, do các quan sát $X_1^*, \dots, X_n^*$ độc lập cùng phân phối dưới $\hat F_n$, sai số chuẩn Bootstrap lý thuyết chính xác (\textbf{Ideal Bootstrap Estimate}, ký hiệu $\operatorname{se}_{\hat F}$) được tính giải tích tường minh:
+    \begin{equation}
+        \operatorname{se}_{\hat F}(\bar X^*) = \sqrt{\frac{\operatorname{Var}_{\hat F}(X^*)}{n}} = \sqrt{\frac{1}{n^2}\sum_{i=1}^n (x_i - \bar x)^2} = \sqrt{\frac{1}{n^n}\sum_{i=1}^{n^n} (\hat\theta^{*(i)} - \bar\theta^*)^2}
+    \end{equation}
+    Mẫu số là $n^2$ (khi tính từ mẫu gốc) hoặc $N = n^n$ (khi tính trên toàn bộ các mẫu có thứ tự).
+    
+    \item \textbf{Ước lượng xấp xỉ Monte Carlo (Công thức 6.6, tr. 47):}
+    Chỉ khi số mẫu $n^n$ quá lớn không thể liệt kê, Efron mới đề xuất thuật toán Monte Carlo: rút $B$ bản sao ngẫu nhiên và dùng công thức sai số chuẩn mẫu:
+    \begin{equation}
+        \widehat{\operatorname{se}}_B = \sqrt{\frac{1}{B-1}\sum_{b=1}^B (\hat\theta^{*(b)} - \bar\theta^*)^2}
+    \end{equation}
+    Và Efron khẳng định định lý hội tụ: $\lim_{B\to\infty} \widehat{\operatorname{se}}_B = \operatorname{se}_{\hat F}$.
+\end{itemize}
+
+\subsection{Maria L. Rizzo (2019) -- \textit{Statistical Computing with R} (Second Edition)}
+Tài liệu lưu tại \path{reference/book-rizzo-2019-statistical-computing-with-r.pdf}:
+\begin{itemize}
+    \item \textbf{Mục 8.1.1 \& Công thức (8.1), tr. 215--216:}
+    Rizzo nêu định nghĩa: $\widehat{se}(\hat\theta^*) = \sqrt{\frac{1}{B-1}\sum_{b=1}^B (\hat\theta(b) - \bar\theta^*)^2}$. Tác giả ghi chú rõ ràng đây là ước lượng từ \textbf{$B$ bản sao ngẫu nhiên (replicates)} sinh ra bởi thuật toán Monte Carlo.
+    \item \textbf{Mục 8.1, tr. 214--215:}
+    Rizzo giải thích không gian mẫu Bootstrap gồm đúng $n^n$ mẫu có hoàn lại có thứ tự. Mỗi mẫu có xác suất xuất hiện chính xác là $1/n^n$.
+\end{itemize}
+
+\subsection{A. C. Davison \& D. V. Hinkley (1997) -- \textit{Bootstrap Methods and their Application}}
+Tài liệu lưu tại \path{reference/Bootstrap-Methods-and-their-Application.pdf}:
+\begin{itemize}
+    \item \textbf{Mục 2.2, tr. 16:}
+    Davison và Hinkley chứng minh phương sai lý thuyết chính xác của trung bình mẫu Bootstrap $\bar Y^*$ là:
+    \begin{equation}
+        v = \operatorname{Var}_*(\bar Y^*) = \frac{1}{n}\left[\frac{1}{n}\sum_{j=1}^n (y_j - \bar y)^2\right] = \frac{1}{n^2}\sum_{j=1}^n (y_j - \bar y)^2
+    \end{equation}
+    Điều này khẳng định rằng khi xét giải tích trên phân phối thực nghiệm, mẫu số là $n^2$, tương đương chia cho $N = n^n$ trên toàn bộ không gian mẫu.
+\end{itemize}
+
+\section{Kiểm chứng số học chi tiết trên hai ví dụ của Báo cáo Nhóm D}
+
+\subsection{Ví dụ 1: Mẫu đối xứng \texorpdfstring{$x = (1, 2, 3)$}{x = (1, 2, 3)} (Slide 10)}
+\begin{itemize}
+    \item Cỡ mẫu $n=3$, trung bình mẫu $\hat\theta = \bar x = 2$. Không gian mẫu có $3^3 = 27$ mẫu có thứ tự đồng xác suất $1/27$.
+    \item Tính theo công thức lý thuyết $\operatorname{se}_{\hat F}$ của Efron (1993):
+    \[
+    \sum_{i=1}^3 (x_i - \bar x)^2 = (1-2)^2 + (2-2)^2 + (3-2)^2 = 1 + 0 + 1 = 2
+    \]
+    \[
+    \operatorname{se}_{\hat F} = \sqrt{\frac{2}{3^2}} = \sqrt{\frac{2}{9}} \approx \mathbf{0{,}4714}
+    \]
+    \item Tính theo toàn bộ $N=27$ mẫu liệt kê:
+    \[
+    \sum_{i=1}^{27} (\hat\theta^{*(i)} - 2)^2 = 2\left[1\cdot 1^2 + 3\left(\frac{2}{3}\right)^2 + 6\left(\frac{1}{3}\right)^2\right] = 2\left[1 + \frac{4}{3} + \frac{2}{3}\right] = 6
+    \]
+    \[
+    \sigma_* = \sqrt{\frac{1}{27}\sum_{i=1}^{27} (\hat\theta^{*(i)} - 2)^2} = \sqrt{\frac{6}{27}} = \sqrt{\frac{2}{9}} \approx \mathbf{0{,}4714}
+    \]
+    \item \textbf{Nếu chia nhầm cho $N-1 = 26$:}
+    \[
+    \sqrt{\frac{6}{26}} = \sqrt{\frac{3}{13}} \approx \mathbf{0{,}4804} \neq 0{,}4714
+    \]
+\end{itemize}
+
+\subsection{Ví dụ 2: Mẫu lệch phải \texorpdfstring{$x = (1, 1, 1, 9)$}{x = (1, 1, 1, 9)} (Slide 11)}
+\begin{itemize}
+    \item Cỡ mẫu $n=4$, trung bình mẫu $\hat\theta = \bar x = 3$. Không gian mẫu có $4^4 = 256$ mẫu có thứ tự.
+    \item Tính theo công thức lý thuyết $\operatorname{se}_{\hat F}$ của Efron (1993):
+    \[
+    \sum_{i=1}^4 (x_i - \bar x)^2 = 3\cdot(1-3)^2 + (9-3)^2 = 3\cdot 4 + 36 = 48
+    \]
+    \[
+    \operatorname{se}_{\hat F} = \sqrt{\frac{48}{4^2}} = \sqrt{\frac{48}{16}} = \sqrt{3} \approx \mathbf{1{,}7321}
+    \]
+    \item Tính theo toàn bộ $N=256$ mẫu liệt kê:
+    \[
+    \sigma_* = \sqrt{\frac{81\cdot 4 + 54\cdot 4 + 12\cdot 16 + 1\cdot 36}{256}} = \sqrt{\frac{324 + 216 + 192 + 36}{256}} = \sqrt{\frac{768}{256}} = \sqrt{3} \approx \mathbf{1{,}7321}
+    \]
+    \item \textbf{Nếu chia nhầm cho $N-1 = 255$:}
+    \[
+    \sqrt{\frac{768}{255}} \approx \mathbf{1{,}7355} \neq 1{,}7321
+    \]
+\end{itemize}
+
+\alertbox{Mâu thuẫn toán học nếu giữ ký hiệu $B-1$ ở Slide 10}{
+Nếu một dòng công thức viết:
+\[
+\widehat{se}^* = \sqrt{\frac{1}{B-1}\sum_{b=1}^B (\hat\theta^{*(b)}-\bar\theta^*)^2} = \sqrt{\frac{2[1+3(2/3)^2+6(1/3)^2]}{27}} = \sqrt{\frac{2}{9}} \approx 0{,}4714
+\]
+Vế đầu tiên ngụ ý mẫu số là $B-1 = 26$ (cho ra $0{,}4804$), nhưng vế sau lại viết mẫu số là $27$ (cho ra $0{,}4714$). Đặt dấu bằng `$=$` giữa hai vế là một lỗi gán số học sai ($\frac{6}{26} = \frac{6}{27}$). Do đó, việc xóa cụm $\sqrt{\frac{1}{B-1}\sum\dots}$ ở Slide 10 là \textbf{bắt buộc} để bảo đảm tính chuẩn xác toán học.
+}
+
+\infobox{Lưu ý về hàm \texttt{sd()} trong R}{
+Trong mã nguồn R của báo cáo (Listing 1): \texttt{se <- sd(means)}. Hàm \texttt{sd()} trong R luôn mặc định chia cho $N-1 = 26$, do đó trả về $0{,}4804$. Tuy nhiên văn bản báo cáo và bảng số liệu đều ghi $0{,}4714$. Điều này chứng minh tác giả đã chủ động sử dụng giá trị sai số chuẩn giải tích chính xác $\operatorname{se}_{\hat F}$ (chia 27). Trong R, câu lệnh chuẩn xác để tính $\operatorname{se}_{\hat F}$ trên phân phối liệt kê là:
+\texttt{sqrt(mean((means - mean(means))\^{}2))}.
+}
+
+\section{Kịch bản trả lời phản biện dành cho Nhóm D (Defense Script)}
+
+Khi Thầy/Cô hoặc Hội đồng đặt câu hỏi về mẫu số sai số chuẩn, thành viên nhóm có thể tự tin trả lời theo 3 ý sau:
+
+\begin{enumerate}
+    \item \textbf{Về bản chất con số $0{,}4714$ và $1{,}7321$:}
+    \begin{quote}
+    \itshape
+    ``Thưa Thầy/Cô, hai con số $0{,}4714$ và $1{,}7321$ ở Slide 10 và 11 là \textbf{sai số chuẩn Bootstrap lý thuyết chính xác} ($\operatorname{se}_{\hat F}$, theo định nghĩa của Efron \& Tibshirani 1993, Chương 4 và Chương 6). Vì đây là hai ví dụ mẫu nhỏ ($n=3$ và $n=4$), nhóm duyệt được toàn bộ $100\%$ không gian mẫu gồm $3^3 = 27$ và $4^4 = 256$ cấu hình. Đây là toàn bộ tổng thể của phân phối thực nghiệm, nên phương sai được tính bằng cách chia cho kích thước tổng thể $N$ (không trừ 1), và ở hai ví dụ này không hề có sai số Monte Carlo.''
+    \end{quote}
+
+    \item \textbf{Về vai trò của công thức chia $B-1$:}
+    \begin{quote}
+    \itshape
+    ``Công thức chia $B-1$ (độ lệch chuẩn mẫu hiệu chỉnh theo Maria L. Rizzo 2019, Công thức 8.1) được nhóm định nghĩa ở Slide 7 và sử dụng chuẩn mực trong \textbf{nghiên cứu mô phỏng Monte Carlo ở Phần 6}. Bởi vì ở cỡ mẫu $n=12$ và $n=40$, không gian mẫu gồm tới $12^{12} \approx 8{,}9 \times 10^{12}$ cấu hình, không thể duyệt hết mà bắt buộc phải rút ngẫu nhiên $B = 1\,999$ bản sao đại diện, do đó phải chia cho $B-1$ để ước lượng không chệch.''
+    \end{quote}
+
+    \item \textbf{Về việc không đưa $B-1$ vào Slide 10:}
+    \begin{quote}
+    \itshape
+    ``Nhóm không ghi công thức $\frac{1}{B-1}$ ở Slide 10 để tránh gây mâu thuẫn số học, vì nếu lấy $B=27$ thì $B-1 = 26$, chia cho 26 sẽ ra $0{,}4804$, không bằng giá trị chính xác $0{,}4714$ (chia cho 27). Slide 10 và Slide 11 hoàn toàn đồng bộ với nhau khi đều chia trực tiếp cho kích thước không gian mẫu $N$.''
+    \end{quote}
+\end{enumerate}
+
+\end{document}

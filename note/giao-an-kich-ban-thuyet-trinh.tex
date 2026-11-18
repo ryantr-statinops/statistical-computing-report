@@ -1,0 +1,919 @@
+% !TeX program = xelatex
+% !TeX encoding = utf8
+\documentclass[10pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{vietnamese}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{geometry}
+\geometry{a4paper, left=1.5cm, right=1.5cm, top=2cm, bottom=2cm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{ragged2e}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{url}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!70!black,
+    urlcolor=blue!70!black,
+    citecolor=blue!70!black
+}
+\usepackage{fancyhdr}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+
+\definecolor{primary}{RGB}{24, 43, 115}
+\definecolor{secondary}{RGB}{73, 69, 181}
+\definecolor{accentgreen}{RGB}{20, 110, 60}
+\definecolor{accentorange}{RGB}{180, 75, 15}
+\definecolor{boxbg}{RGB}{248, 249, 253}
+\definecolor{boxborder}{RGB}{210, 218, 240}
+\definecolor{codebg}{RGB}{244, 246, 248}
+
+\tcbset{
+    enhanced,
+    breakable,
+    colback=boxbg,
+    colframe=boxborder,
+    arc=2mm,
+    boxrule=0.8pt,
+    left=3mm,
+    right=3mm,
+    top=2.5mm,
+    bottom=2.5mm
+}
+
+\newtcolorbox{scriptbox}[1]{
+    colback=white,
+    colframe=secondary!60!black,
+    fonttitle=\bfseries\small,
+    title={#1},
+    coltitle=white,
+    boxrule=0.8pt,
+    arc=1.5mm,
+    left=3.5mm,
+    right=3.5mm,
+    top=3mm,
+    bottom=3mm
+}
+
+\newtcolorbox{actionbox}[2]{
+    colback=#1!4!white,
+    colframe=#1!80!black,
+    fonttitle=\bfseries\footnotesize,
+    title={#2},
+    coltitle=white,
+    boxrule=0.6pt,
+    arc=1mm,
+    left=2.5mm,
+    right=2.5mm,
+    top=2mm,
+    bottom=2mm
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\bfseries GIÁO ÁN BÀI GIẢNG \& KỊCH BẢN THUYẾT TRÌNH CHI TIẾT (22 SLIDE)}
+\fancyhead[R]{\small Thống kê Tính toán (C03107) -- Nhóm D}
+\fancyfoot[C]{\small Trang \thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newcommand{\slideheader}[4]{
+    \vspace{0.4cm}
+    \begin{tcolorbox}[colback=primary!7!white, colframe=primary, arc=2mm, boxrule=1pt, left=4mm, right=4mm, top=2.5mm, bottom=2.5mm]
+        {\Large\bfseries\color{primary} SLIDE #1: #2}\\[0.1cm]
+        {\small\textbf{Thời lượng dự kiến:} #3 \quad | \quad \textbf{Thời gian tích lũy:} #4}
+    \end{tcolorbox}
+    \vspace{0.15cm}
+}
+
+\begin{document}
+
+\begin{center}
+    {\large\bfseries TRƯỜNG ĐẠI HỌC TÔN ĐỨC THẮNG}\\[0.1cm]
+    {\bfseries KHOA TOÁN -- THỐNG KÊ}\\[0.3cm]
+    {\LARGE\bfseries\color{primary} GIÁO ÁN NỘI DUNG GIẢNG DẠY\\VÀ KỊCH BẢN THUYẾT TRÌNH CHI TIẾT}\\[0.2cm]
+    {\Large\bfseries\color{secondary} ÁNH XẠ TUẦN TỰ 22 SLIDE BEAMER VỚI BÁO CÁO CHÍNH,\\TÀI LIỆU THAM KHẢO, MÃ NGUỒN R VÀ HÌNH ẢNH MÔ PHỎNG}\\[0.3cm]
+    {\normalsize\textbf{Đề tài:} Khoảng tin cậy Bootstrap chuẩn tắc và Bootstrap cơ bản:}\\[0.05cm]
+    {\normalsize\textbf{Cơ sở lý thuyết, phương pháp xây dựng và đánh giá hiệu năng}}\\[0.2cm]
+    {\small\textbf{Môn học:} Thống kê Tính toán (Mã học phần: C03107) \quad | \quad \textbf{Học kỳ 1, Năm học 2026--2027}}\\[0.05cm]
+    {\small\textbf{Giảng viên hướng dẫn:} ThS. Bùi Thùy Trang}\\[0.05cm]
+    {\small\textbf{Nhóm thực hiện:} Nhóm D (Phan Trí Thịnh -- C2400121, Ngô Cẩm Quí -- C2400115,}\\[0.02cm]
+    {\small Nguyễn Văn Kiệt -- C2400203, Trần Quốc Khang -- C2400199)}
+\end{center}
+
+\vspace{0.2cm}
+\hrule height 1.2pt
+\vspace{0.3cm}
+
+\section*{HƯỚNG DẪN SỬ DỤNG GIÁO ÁN \& KỊCH BẢN THUYẾT TRÌNH}
+
+Tài liệu này được biên soạn nhằm phục vụ công tác giảng dạy, thuyết trình bảo vệ đề tài trước hội đồng và trả lời phản biện của Giảng viên hướng dẫn. Tài liệu đi tuần tự qua từng slide của tệp trình chiếu \texttt{slide/beamer.pdf} (tổng cộng 22 frame, thời lượng chuẩn 30 phút theo \texttt{slide/README.md}). Mỗi slide được tổ chức đồng bộ theo 5 cấu phần sư phạm:
+
+\begin{enumerate}
+    \item \textbf{Định danh \& Thời lượng:} Số thứ tự slide, tiêu đề và phân bổ thời gian nói chính xác theo từng phút.
+    \item \textbf{Nguồn gốc từ Báo cáo chính:} Đối chiếu cụ thể số chương, số mục, bảng biểu và số trang in trong tài liệu báo cáo đầy đủ \texttt{tex-report/code/main.tex}.
+    \item \textbf{Cơ sở lý thuyết \& Tài liệu tham khảo:} Trích xuất cơ sở toán học và thống kê từ các nguồn tài liệu kinh điển trong thư mục \texttt{reference/} (Efron \& Tibshirani 1993, Davison \& Hinkley 1997, Deng et al. 2013, Robert \& Casella 2010, Bickel \& Freedman 1981, NIST Handbook, bài giảng ThS. Bùi Thùy Trang).
+    \item \textbf{Kịch bản lời thoại chi tiết:} Lời dẫn mở đầu bắc cầu từ slide trước (slide transition), bài giảng giải chi tiết từng luận điểm, và lời liên hệ bắc cầu sang các slide kế tiếp.
+    \item \textbf{Chỉ dẫn hành động trực quan (Action Prompts):}
+    \begin{itemize}
+        \item \color{accentgreen}\textbf{[Hành động: Show Code R]}\color{black}: Trích dẫn đoạn mã lệnh thực thi tương ứng trong \texttt{r/Nhom\_D\_TKTT.R} hoặc \texttt{r/generate\_figures.R}, nêu rõ thời điểm chiếu mã và cách giải thích biến số.
+        \item \color{accentorange}\textbf{[Hành động: Show Hình ảnh]}\color{black}: Chỉ định hình ảnh đồ thị trong \texttt{output/figures/} hoặc \texttt{assets/simulate-results/}, hướng dẫn người nói thao tác trỏ chuột hoặc chỉ tay vào các mốc then chốt trên hình (đường danh nghĩa 95\%, điểm tụt độ bao phủ, cột sai khác bằng 0, v.v.).
+    \end{itemize}
+\end{enumerate}
+
+\newpage
+
+% =========================================================================
+% SLIDE 1
+% =========================================================================
+\slideheader{1}{Bìa báo cáo đề tài}{01 phút 00 giây}{00:00 -- 01:00}
+
+\begin{itemize}
+    \item \textbf{Nguồn gốc báo cáo:} Trang bìa chính, Lời mở đầu (trang iii) trong \texttt{tex-report/code/main.tex}.
+    \item \textbf{Cơ sở lý thuyết \& Tham khảo:} Bài giảng Thống kê Tính toán, Chương 4 (Bootstrap và Jackknife), tr. 45--65 (ThS. Bùi Thùy Trang, 2026); Efron \& Tibshirani (1993), Chương 1--2.
+\end{itemize}
+
+\begin{scriptbox}{Kịch bản lời thoại thuyết trình (Slide 1)}
+    ``Kính thưa cô ThS. Bùi Thùy Trang cùng toàn thể các bạn sinh viên! 
+    
+    Hôm nay, đại diện cho Nhóm D, em xin phép được trình bày bài báo cáo kết thúc học phần môn Thống kê Tính toán với đề tài: \textbf{`Khoảng tin cậy Bootstrap chuẩn tắc và Bootstrap cơ bản: Cơ sở lý thuyết, phương pháp xây dựng và đánh giá hiệu năng'}.
+    
+    Trong thực hành suy diễn thống kê cổ điển, việc xây dựng khoảng tin cậy thường đòi hỏi chúng ta phải áp đặt các giả định rất ngặt nghèo về phân phối tổng thể (chẳng hạn như tổng thể phải tuân theo phân phối chuẩn) hoặc đòi hỏi cỡ mẫu phải đủ lớn để dựa vào Định lý Giới hạn Trung tâm. Tuy nhiên, trong dữ liệu thực tế hiện đại, các giả định này thường xuyên bị vi phạm. Phương pháp Bootstrap ra đời như một cuộc cách mạng tính toán, cho phép suy diễn thống kê từ chính dữ liệu thông qua cơ chế lấy mẫu lại có hoàn lại. Trong bài báo cáo này, nhóm chúng em sẽ làm rõ bản chất toán học của hai phương pháp nền tảng nhất: Normal CI và Basic CI, thực hiện mô phỏng Monte Carlo quy mô lớn để kiểm chứng độ bao phủ và mở rộng sang các bài toán sinh y thực tế.''
+\end{scriptbox}
+
+\begin{actionbox}{accentorange}{Chỉ dẫn hành động: Slide 1}
+    \begin{itemize}
+        \item \textbf{Thao tác trình chiếu:} Chiếu toàn màn hình trang bìa; người thuyết trình đứng thẳng, hướng về phía giảng viên và người nghe, phát âm to rõ ràng, tự tin.
+        \item \textbf{Chuyển tiếp:} Sau khi dứt lời mở đầu, bấm chuyển sang Slide 2 để giới thiệu lộ trình bài giảng.
+    \end{itemize}
+\end{actionbox}
+
+% =========================================================================
+% SLIDE 2
+% =========================================================================
+\slideheader{2}{Mục lục nội dung bài giảng}{01 phút 30 giây}{01:00 -- 02:30}
+
+\begin{itemize}
+    \item \textbf{Nguồn gốc báo cáo:} Mục lục chi tiết (trang iv--v) trong \texttt{tex-report/code/main.tex}.
+    \item \textbf{Cơ sở lý thuyết \& Tham khảo:} Cấu trúc nghiên cứu thực nghiệm và suy diễn tính toán chuẩn mực (Robert \& Casella, 2010; Davison \& Hinkley, 1997).
+\end{itemize}
+
+\begin{scriptbox}{Kịch bản lời thoại thuyết trình (Slide 2)}
+    ``Để giúp cô và các bạn tiện theo dõi, bài trình bày 30 phút của nhóm được cấu trúc tuần tự thành 6 phần lớn:
+    \begin{enumerate}
+        \item \textbf{Phần 1: Mức tin cậy và cách lấy mẫu Bootstrap:} Làm rõ khái niệm mức danh nghĩa, phân phối thực nghiệm ECDF và nguyên lý Plug-in.
+        \item \textbf{Phần 2: Dựng khoảng Normal và Basic:} Phân tích cơ sở toán học, cách tính sai số chuẩn và logic đảo hai cận đặc trưng của Basic CI.
+        \item \textbf{Phần 3: Hai ví dụ tính từ mẫu nhỏ:} Thực hành tính tay và chạy giải thuật trên mẫu đối xứng $(1,2,3)$ và mẫu lệch phải $(1,1,1,9)$.
+        \item \textbf{Phần 4: Mô phỏng Monte Carlo:} Đánh giá hiệu năng thực tế qua $10\,000$ bộ dữ liệu với $B=1\,999$ lần lấy mẫu lại trên 4 kịch bản, giải thích cơ chế hụt độ bao phủ bằng lý thuyết phân phối Student $t$.
+        \item \textbf{Phần 5: Ứng dụng và mở rộng:} Áp dụng Bootstrap trong mô hình hồi quy sống còn Cox Hazard Ratio, phân tích chỉ số Relative Validity trong y tế, và kiểm chứng tính chất bất biến dưới phép đổi thang log.
+        \item \textbf{Phần 6: Kết luận và khuyến nghị thực hành.}
+    \end{enumerate}
+    Sau đây, em xin phép giới thiệu nhanh các thành viên của Nhóm D trước khi bước vào nội dung chi tiết.''
+\end{scriptbox}
+
+\begin{actionbox}{accentorange}{Chỉ dẫn hành động: Slide 2}
+    \begin{itemize}
+        \item \textbf{Thao tác trình chiếu:} Dùng chuột lướt nhẹ qua 6 đề mục theo hình chữ Z. Nhấn mạnh rằng phần 4 (Mô phỏng Monte Carlo) là trái tim thực nghiệm của đề tài.
+    \end{itemize}
+\end{actionbox}
+
+% =========================================================================
+% SLIDE 3
+% =========================================================================
+\slideheader{3}{Thành viên nhóm D}{01 phút 00 giây}{02:30 -- 03:30}
+
+\begin{itemize}
+    \item \textbf{Nguồn gốc báo cáo:} Bảng phân công nhiệm vụ thành viên (trang i) trong \texttt{tex-report/code/main.tex}.
+    \item \textbf{Cơ sở lý thuyết \& Tham khảo:} Hồ sơ thực hiện đề tài môn học C03107.
+\end{itemize}
+
+\begin{scriptbox}{Kịch bản lời thoại thuyết trình (Slide 3)}
+    ``Nhóm D gồm có 4 thành viên cùng phối hợp thực hiện đề tài dưới sự hướng dẫn của cô:
+    \begin{itemize}
+        \item Bạn Phan Trí Thịnh (MSSV: C2400121): Phụ trách thiết kế giải thuật mô phỏng Monte Carlo và kiểm tra độ bao phủ theo cặp.
+        \item Bạn Ngô Cẩm Quí (MSSV: C2400115): Phụ trách cơ sở toán học của Normal CI, Basic CI và chứng minh tính bất biến dưới phép biến đổi thang đo.
+        \item Bạn Nguyễn Văn Kiệt (MSSV: C2400203): Phụ trách triển khai phân tích ứng dụng sinh y (Hazard Ratio và Relative Validity BCa).
+        \item Em là Trần Quốc Khang (MSSV: C2400199): Phụ trách xây dựng các ví dụ liệt kê tổ hợp chính xác, tổng hợp báo cáo LaTeX và điều phối buổi thuyết trình.
+    \end{itemize}
+    Bây giờ, chúng ta sẽ cùng bước vào Phần 1: Tìm hiểu mức tin cậy và cơ chế lấy mẫu Bootstrap.''
+\end{scriptbox}
+
+\begin{actionbox}{accentorange}{Chỉ dẫn hành động: Slide 3}
+    \begin{itemize}
+        \item \textbf{Thao tác trình chiếu:} Cúi đầu nhẹ chào giảng viên, giới thiệu dứt khoát tên và mã số sinh viên, sau đó lập tức chuyển sang Slide 4 để bắt đầu bài học.
+    \end{itemize}
+\end{actionbox}
+
+\newpage
+
+% =========================================================================
+% SLIDE 4
+% =========================================================================
+\slideheader{4}{1.1. Mức danh nghĩa và độ bao phủ}{01 phút 30 giây}{03:30 -- 05:00}
+
+\begin{itemize}
+    \item \textbf{Nguồn gốc báo cáo:} Lời mở đầu (trang iii), Mục 6.1 (trang 15), Bảng 6.1 trong \texttt{tex-report/code/main.tex}.
+    \item \textbf{Cơ sở lý thuyết \& Tham khảo:} Robert \& Casella (2010), Mục 3.3 (Monte Carlo Integration and Confidence Limits); Efron \& Tibshirani (1993), Chương 12--13; Bài giảng Ch. 4, tr. 55.
+\end{itemize}
+
+\begin{scriptbox}{Kịch bản lời thoại thuyết trình (Slide 4)}
+    \textbf{[Lời dẫn chuyển tiếp]:} ``Trước khi bắt đầu viết bất kỳ dòng mã hay giải bất kỳ phương trình nào, chúng ta cần phân biệt thật rạch ròi hai khái niệm cốt tử: Mức danh nghĩa và Độ bao phủ thực tế.
+    
+    \textbf{[Nội dung diễn giải]:} 
+    \begin{itemize}
+        \item \textbf{Mức danh nghĩa ($1-\alpha$):} Đây là con số kỳ vọng được đặt ra tiên nghiệm (a priori). Khi ta đặt $\alpha = 0{,}05$, ta kỳ vọng khoảng tin cậy sẽ có xác suất $95\%$ chứa tham số thật $\theta$ của tổng thể.
+        \item \textbf{Độ bao phủ thực tế (Coverage Probability -- $CP$):} Đây là xác suất thực nghiệm khi lặp lại quá trình lấy mẫu nhiều lần. Trong môi trường mô phỏng với $K$ bộ dữ liệu độc lập, độ bao phủ được ước lượng bằng tỷ lệ:
+        \[
+        \widehat{CP} = \frac{1}{K}\sum_{k=1}^K \mathbb{I}(L_k \le \theta \le U_k).
+        \]
+        \item \textbf{Ví dụ thực chứng:} Trong nghiên cứu của nhóm, khi sinh $K=10\,000$ mẫu từ phân phối mũ $\operatorname{Exp}(1)$ với cỡ mẫu nhỏ $n=12$, ta thu được đúng $8\,547$ khoảng Basic chứa tham số thật $\theta=1$. Như vậy, tỷ lệ bao phủ quan sát được là:
+        \[
+        \widehat{CP} = \frac{8\,547}{10\,000} = 85{,}47\%.
+        \]
+    \end{itemize}
+    \textbf{[Liên hệ tương lai]:} Con số $85{,}47\%$ này hụt tới gần $10\%$ so với mức danh nghĩa $95\%$! Đây chính là bằng chứng thực tế cho thấy khoảng tin cậy không phải lúc nào cũng đạt được độ tin cậy như lý thuyết hứa hẹn. Chi tiết hiện tượng này sẽ được nhóm phân tích sâu ở Slide 14. Vậy câu hỏi đặt ra là: Bootstrap sinh mẫu từ đâu để dựng nên các khoảng này? Xin mời cô và các bạn sang Slide 5.''
+\end{scriptbox}
+
+\begin{actionbox}{accentorange}{Chỉ dẫn hành động: Slide 4}
+    \begin{itemize}
+        \item \textbf{Thao tác trình chiếu:} Trỏ tay vào phân số $\frac{8\,547}{10\,000} = 85{,}47\%$; nhấn giọng ở cụm từ: ``Mức danh nghĩa là kỳ vọng, Độ bao phủ thực tế là hiện thực''.
+    \end{itemize}
+\end{actionbox}
+
+% =========================================================================
+% SLIDE 5
+% =========================================================================
+\slideheader{5}{1.2. Phân phối thực nghiệm và nguyên lý plug-in}{02 phút 00 giây}{05:00 -- 07:00}
+
+\begin{itemize}
+    \item \textbf{Nguồn gốc báo cáo:} Chương 2, Mục 2.1 (Phân phối thực nghiệm) \& Mục 2.2 (Nguyên lý Plug-in), trang 3--5 trong \texttt{tex-report/code/main.tex}.
+    \item \textbf{Cơ sở lý thuyết \& Tham khảo:} Efron (1979), tr. 1--2; Efron \& Tibshirani (1993), Chương 3 (The Empirical Distribution Function) và Chương 4 (The Plug-in Principle); Justus et al. (2024) về Định lý Glivenko--Cantelli.
+\end{itemize}
+
+\begin{scriptbox}{Kịch bản lời thoại thuyết trình (Slide 5)}
+    \textbf{[Lời dẫn chuyển tiếp]:} ``Trong thực tế, hàm phân phối tích lũy $F$ của tổng thể là hoàn toàn chưa biết. Vậy làm thế nào để ta có thể suy diễn?
+    
+    \textbf{[Nội dung diễn giải]:} 
+    \begin{itemize}
+        \item Thay vì đoán mò $F$, Bradley Efron đã đề xuất sử dụng ngay dữ liệu mẫu để xây dựng \textbf{Hàm phân phối thực nghiệm (ECDF)}, ký hiệu là $F_n^*(t)$:
+        \[
+        F_n^*(t) = \frac{1}{n}\sum_{i=1}^n \mathbb{I}_{(-\infty,t]}(x_i) = \frac{\#\{x_i \le t\}}{n}, \quad \forall t \in \mathbb{R}.
+        \]
+        \item Hàm $F_n^*(t)$ gán một khối lượng xác suất đều nhau là $1/n$ cho mỗi quan sát trong mẫu gốc. Theo \textit{Định lý Glivenko--Cantelli}, khi cỡ mẫu $n \to \infty$, $F_n^*$ sẽ hội tụ đều hầu chắc chắn về $F$.
+        \item \textbf{Nguyên lý Plug-in:} Nếu tham số $\theta$ được định nghĩa như một hàm phiếm hàm của phân phối tổng thể $\theta = t(F)$, thì ước lượng tự nhiên của nó chính là thay $F$ bằng $F_n^*$, tức $\hat\theta_n = t(F_n^*)$. Và khi lấy mẫu lại, ta rút từ $F_n^*$ để sinh ra các bản sao Bootstrap $\hat\theta^{*(b)} = t(x^{*(b)})$.''
+    \end{itemize}
+\end{scriptbox}
+
+\begin{actionbox}{accentgreen}{Chỉ dẫn hành động: Show Code R (Listing 1)}
+    \textbf{Chiếu đoạn mã R dòng 1--11 trong \texttt{r/Nhom\_D\_TKTT.R}:}
+\begin{verbatim}
+set.seed(2026); n_sizes <- c(10, 30, 100, 1000); cols <- c("red", "orange", "blue", "forestgreen")
+curve(pnorm(x), from = -3, to = 3, lwd = 2, ylab = "F(t)", xlab = "t")
+for (i in seq_along(n_sizes)) {
+  lines(ecdf(rnorm(n_sizes[i])), col = cols[i], verticals = TRUE, do.points = FALSE)
+}
+\end{verbatim}
+    \textbf{Giải thích mã:} Vòng lặp sinh dữ liệu chuẩn với 4 cỡ mẫu khác nhau và vẽ các đường bậc thang ECDF so với đường chuẩn lý thuyết \texttt{pnorm}.
+\end{actionbox}
+
+\begin{actionbox}{accentorange}{Chỉ dẫn hành động: Show Hình ảnh (\texttt{ecdf-convergence.pdf})}
+    \textbf{Trình chiếu tệp:} \path{output/figures/ecdf-convergence.pdf}.\\
+    \textbf{Thao tác trỏ hình:} Chỉ tay vào đường cong màu đen (True Normal), sau đó chỉ vào đường bậc thang màu đỏ ($n=10$) thấy dao động rất thô; chuyển dần sang cam ($n=30$), xanh dương ($n=100$) và nhấn mạnh đường xanh lục ($n=1000$) gần như dán chặt vào đường cong lý thuyết. Kết luận: $F_n^*$ là đại diện tin cậy cho $F$ khi $n$ tăng.
+\end{actionbox}
+
+\newpage
+
+% =========================================================================
+% SLIDE 6
+% =========================================================================
+\slideheader{6}{1.3. Lấy mẫu lại có hoàn lại}{01 phút 30 giây}{07:00 -- 08:30}
+
+\begin{itemize}
+    \item \textbf{Nguồn gốc báo cáo:} Chương 3, Mục 3.1 (Quy trình lấy mẫu lại) \& Mục 5.1, trang 6, 10, 13 trong \texttt{tex-report/code/main.tex}.
+    \item \textbf{Cơ sở lý thuyết \& Tham khảo:} Efron \& Tibshirani (1993), Chương 2 (The Jackknife and the Bootstrap); Davison \& Hinkley (1997), Chương 2 (Basic Ideas).
+\end{itemize}
+
+\begin{scriptbox}{Kịch bản lời thoại thuyết trình (Slide 6)}
+    \textbf{[Lời dẫn chuyển tiếp]:} ``Bây giờ, chúng ta hãy xem việc lấy mẫu lại từ $F_n^*$ diễn ra trên thực tế như thế nào thông qua một ví dụ trực quan cực kỳ đơn giản.
+    
+    \textbf{[Nội dung diễn giải]:} 
+    \begin{itemize}
+        \item Giả sử mẫu gốc của chúng ta chỉ gồm 3 phần tử: $x = (1, 2, 3)$. Trung bình mẫu gốc là $\hat\theta_n = (1+2+3)/3 = 2$.
+        \item Ta tiến hành rút $n=3$ quan sát \textbf{có hoàn lại} (with replacement). Vì có hoàn lại, nên mỗi lượt rút, mỗi phần tử đều có xác suất $1/3$ được chọn, và một giá trị có thể xuất hiện nhiều lần hoặc không xuất hiện lần nào:
+        \begin{itemize}
+            \item Mẫu 1 rút được $(1, 1, 3) \implies \hat\theta^{*(1)} = 5/3 \approx 1{,}67$.
+            \item Mẫu 2 rút được $(2, 3, 2) \implies \hat\theta^{*(2)} = 7/3 \approx 2{,}33$.
+            \item Mẫu 3 rút được $(3, 3, 3) \implies \hat\theta^{*(3)} = 3/1 = 3{,}00$.
+        \end{itemize}
+        \item Ta lặp lại quá trình này $B$ lần để tạo ra một tập hợp $B$ bản sao thống kê $\{\hat\theta^{*(1)}, \hat\theta^{*(2)}, \ldots, \hat\theta^{*(B)}\}$.
+    \end{itemize}
+    \textbf{[Liên hệ tương lai]:} Có được tập bản sao này rồi, chúng ta sẽ biến chúng thành khoảng tin cậy như thế nào? Đây chính là lúc hai trường phái Normal và Basic bước lên sân khấu ở Slide 7 và Slide 8.''
+\end{scriptbox}
+
+\begin{actionbox}{accentgreen}{Chỉ dẫn hành động: Show Code R (Thao tác lấy mẫu)}
+    \textbf{Nhắc đến cú pháp lệnh cơ bản trong R:}
+\begin{verbatim}
+x_star <- sample(x, size = length(x), replace = TRUE)
+theta_star <- mean(x_star)
+\end{verbatim}
+    \textbf{Giải thích mã:} Tham số bắt buộc \texttt{replace = TRUE} là linh hồn của phương pháp Bootstrap. Nếu để mặc định \texttt{replace = FALSE}, ta chỉ đảo vị trí mẫu gốc và không tạo ra thông tin mới.
+\end{actionbox}
+
+% =========================================================================
+% SLIDE 7
+% =========================================================================
+\slideheader{7}{2.1. Normal CI và sai số chuẩn Bootstrap}{01 phút 30 giây}{08:30 -- 10:00}
+
+\begin{itemize}
+    \item \textbf{Nguồn gốc báo cáo:} Chương 3, Mục 3.2 \& Chương 4, Mục 4.1 (Khoảng tin cậy Normal), trang 6, 8 trong \texttt{tex-report/code/main.tex}.
+    \item \textbf{Cơ sở lý thuyết \& Tham khảo:} Efron \& Tibshirani (1993), Mục 12.2 (The standard normal approximation, tr. 153--154) và Mục 13.2 (tr. 168--170); Bài giảng ThS. Bùi Thùy Trang, Ch. 4, tr. 52--54.
+\end{itemize}
+
+\begin{scriptbox}{Kịch bản lời thoại thuyết trình (Slide 7)}
+    \textbf{[Lời dẫn chuyển tiếp]:} ``Phương pháp đầu tiên và cổ điển nhất là Normal CI (Khoảng tin cậy chuẩn tắc).
+    
+    \textbf{[Nội dung diễn giải]:} 
+    \begin{itemize}
+        \item \textbf{Ý tưởng cốt lõi:} Normal CI dựa trên giả định rằng ước lượng $\hat\theta_n$ xấp xỉ phân phối chuẩn không chệch quanh $\theta$, tức $\frac{\hat\theta_n - \theta}{se} \sim N(0,1)$. Nhưng vì sai số chuẩn thực sự $se$ không biết, ta dùng Bootstrap để ước lượng nó.
+        \item Sai số chuẩn Bootstrap $\widehat{se}^*$ được tính từ $B$ bản sao (dùng mẫu số hiệu chỉnh $B-1$ để không chệch):
+        \[
+        \widehat{se}^* = \sqrt{\frac{1}{B-1}\sum_{b=1}^{B}(\hat\theta^{*(b)} - \bar\theta^*)^2}, \quad \text{với } \bar\theta^* = \frac{1}{B}\sum_{b=1}^{B}\hat\theta^{*(b)}.
+        \]
+        \item Sau đó, ta dùng phân vị chuẩn $z_{1-\alpha/2}$ (với mức $95\%$ thì $z_{0{,}975} \approx 1{,}96$) để dựng khoảng:
+        \[
+        CI_{\text{Normal}} = \left[\hat\theta_n - z_{1-\alpha/2}\widehat{se}^*,\; \hat\theta_n + z_{1-\alpha/2}\widehat{se}^*\right].
+        \]
+    \end{itemize}
+    \textbf{[Cảnh báo sư phạm]:} Khoảng Normal hoàn toàn đối xứng qua $\hat\theta_n$. Do đó, nếu phân phối của ước lượng bị lệch, hoặc nếu cỡ mẫu nhỏ khiến phân phối có đuôi nặng hơn phân phối chuẩn, mốc $1{,}96$ sẽ đánh giá thấp độ rộng cần thiết và làm hỏng độ bao phủ!''
+\end{scriptbox}
+
+\begin{actionbox}{accentorange}{Chỉ dẫn hành động: Slide 7}
+    \begin{itemize}
+        \item \textbf{Thao tác trình chiếu:} Gõ ngón tay vào công thức $CI_{\text{Normal}}$, nhấn mạnh cấu trúc: `Tâm đối xứng $\hat\theta_n \pm$ Lề sai số'.
+    \end{itemize}
+\end{actionbox}
+
+\newpage
+
+% =========================================================================
+% SLIDE 8
+% =========================================================================
+\slideheader{8}{2.2. Basic CI và cách đảo hai cận}{01 phút 30 giây}{10:00 -- 11:30}
+
+\begin{itemize}
+    \item \textbf{Nguồn gốc báo cáo:} Chương 4, Mục 4.2 (Khoảng tin cậy Basic), trang 8--9 trong \texttt{tex-report/code/main.tex}.
+    \item \textbf{Cơ sở lý thuyết \& Tham khảo:} Davison \& Hinkley (1997), Chương 5, tr. 194--195 (Empirical Basic Bootstrap / Pivot method); Efron \& Tibshirani (1993), tr. 174--175.
+\end{itemize}
+
+\begin{scriptbox}{Kịch bản lời thoại thuyết trình (Slide 8)}
+    \textbf{[Lời dẫn chuyển tiếp]:} ``Nếu không muốn ép phân phối phải là hình chuông đối xứng chuẩn tắc, ta có thể dùng phương pháp Pivot thực nghiệm, được gọi là \textbf{Basic CI (Khoảng tin cậy cơ bản)}.
+    
+    \textbf{[Nội dung diễn giải]:} 
+    \begin{itemize}
+        \item \textbf{Nguyên lý then chốt:} Xét sai số lấy mẫu $D = \hat\theta_n - \theta$. Ta dùng phân phối của sai số Bootstrap $D^* = \hat\theta^* - \hat\theta_n$ để xấp xỉ phân phối của $D$.
+        \item Gọi $q_{\alpha/2}^*$ và $q_{1-\alpha/2}^*$ là hai phân vị mức $\alpha/2$ và $1-\alpha/2$ của dãy bản sao $\hat\theta^*$. Ta có xác suất $1-\alpha$:
+        \[
+        q_{\alpha/2}^* - \hat\theta_n \le \hat\theta_n - \theta \le q_{1-\alpha/2}^* - \hat\theta_n.
+        \]
+        \item Bây giờ, hãy thực hiện phép biến đổi đại số để cô lập tham số thật $\theta$:
+        \begin{align*}
+        -\left(q_{1-\alpha/2}^* - \hat\theta_n\right) &\le \theta - \hat\theta_n \le -\left(q_{\alpha/2}^* - \hat\theta_n\right)\\
+        \iff 2\hat\theta_n - q_{1-\alpha/2}^* &\le \theta \le 2\hat\theta_n - q_{\alpha/2}^*.
+        \end{align*}
+        \item \textbf{Hiện tượng đảo cận:} Hãy nhìn vào kết quả cuối cùng:
+        \[
+        CI_{\text{Basic}} = \left[2\hat\theta_n - q_{1-\alpha/2}^*,\; 2\hat\theta_n - q_{\alpha/2}^*\right].
+        \]
+        Phân vị trên $q_{1-\alpha/2}^*$ bị đổi dấu và tạo ra \textbf{cận dưới}, còn phân vị dưới $q_{\alpha/2}^*$ lại tạo ra \textbf{cận trên}! Đây là cơ chế phản chiếu sai số qua giá trị ước lượng $\hat\theta_n$.''
+    \end{itemize}
+\end{scriptbox}
+
+\begin{actionbox}{accentorange}{Chỉ dẫn hành động: Slide 8}
+    \begin{itemize}
+        \item \textbf{Thao tác trình chiếu:} Dùng chuột khoanh tròn $q_{1-\alpha/2}^*$ ở vế phải bất đẳng thức đầu tiên và mũi tên chỉ xuống cận dưới $2\hat\theta_n - q_{1-\alpha/2}^*$. Giải thích: ``Dấu trừ phía trước $\theta$ đã lật ngược chiều bất đẳng thức''.
+    \end{itemize}
+\end{actionbox}
+
+% =========================================================================
+% SLIDE 9
+% =========================================================================
+\slideheader{9}{2.3. Cùng mẫu, hai cách đặt cận}{01 phút 00 giây}{11:30 -- 12:30}
+
+\begin{itemize}
+    \item \textbf{Nguồn gốc báo cáo:} Chương 4, Mục 4.3 (So sánh lý thuyết Normal và Basic), trang 10--12, Bảng 4.1 trong \texttt{tex-report/code/main.tex}.
+    \item \textbf{Cơ sở lý thuyết \& Tham khảo:} Carpenter \& Bithell (2000), Bootstrap confidence intervals: when, which, where to use, tr. 1145--1148; Bài giảng ThS. Bùi Thùy Trang, Ch. 4.
+\end{itemize}
+
+\begin{scriptbox}{Kịch bản lời thoại thuyết trình (Slide 9)}
+    \textbf{[Lời dẫn chuyển tiếp]:} ``Tại Slide 9, nhóm tổng kết thành một bảng đối chiếu trực quan để cô và các bạn thấy rõ sự tương phản giữa hai phương pháp khi chạy trên cùng một bộ dữ liệu:
+    
+    \textbf{[Nội dung diễn giải]:} 
+    \begin{itemize}
+        \item \textbf{Về đầu vào tính toán:} Normal chỉ cần trích xuất một số duy nhất là sai số chuẩn $\widehat{se}^*$. Trong khi đó, Basic đòi hỏi xác định hai phân vị thực nghiệm $q_{\alpha/2}^*$ và $q_{1-\alpha/2}^*$.
+        \item \textbf{Về cấu trúc vị trí cận:} Hai cận của Normal hoàn toàn đối xứng qua $\hat\theta_n$. Ngược lại, hai cận của Basic được tạo ra bằng phép phản chiếu từng phân vị qua $\hat\theta_n$ rồi đảo trật tự, cho phép khoảng lệch về một phía nếu dữ liệu bất đối xứng.
+        \item \textbf{Về giả định kiểm tra:} Normal đòi hỏi xấp xỉ chuẩn và độ chệch nhỏ. Basic đòi hỏi phân phối của sai số lấy mẫu phải ổn định và được mô phỏng tốt bởi sai số Bootstrap.
+    \end{itemize}
+    \textbf{[Bắc cầu sang Phần 3]:} Để thấy sự khác biệt này bằng xương bằng thịt, chúng ta hãy bước ngay sang Phần 3 với hai ví dụ tính toán số học cụ thể trên mẫu nhỏ.''
+\end{scriptbox}
+
+\begin{actionbox}{accentorange}{Chỉ dẫn hành động: Slide 9}
+    \begin{itemize}
+        \item \textbf{Thao tác trình chiếu:} Quét qua 3 dòng của bảng so sánh, nhấn mạnh: ``Cùng một tập bản sao Bootstrap sinh ra, nhưng cách tư duy toán học khác nhau dẫn đến hai khoảng hoàn toàn khác biệt''.
+    \end{itemize}
+\end{actionbox}
+
+\newpage
+
+% =========================================================================
+% SLIDE 10
+% =========================================================================
+\slideheader{10}{3.1. Ví dụ 1: mẫu đối xứng}{01 phút 30 giây}{12:30 -- 14:00}
+
+\begin{itemize}
+    \item \textbf{Nguồn gốc báo cáo:} Chương 5, Mục 5.1 (Ví dụ liệt kê chính xác), trang 13, Bảng 5.1 \& Hình 5.1 trong \texttt{tex-report/code/main.tex}.
+    \item \textbf{Cơ sở lý thuyết \& Tham khảo:} Efron \& Tibshirani (1993), Chương 2; Khái niệm phân phối Bootstrap chính xác (Exact Bootstrap Distribution).
+\end{itemize}
+
+\begin{scriptbox}{Kịch bản lời thoại thuyết trình (Slide 10)}
+    \textbf{[Lời dẫn chuyển tiếp]:} ``Ví dụ đầu tiên là mẫu đối xứng $x = (1, 2, 3)$. Cỡ mẫu $n=3$, trung bình mẫu là $\hat\theta_n = 2$.
+    
+    \textbf{[Nội dung diễn giải]:} 
+    \begin{itemize}
+        \item Vì không gian mẫu rất nhỏ, ta không cần bốc ngẫu nhiên mà có thể \textbf{liệt kê toàn bộ} $3^3 = 27$ mẫu lấy lại có hoàn lại.
+        \item Do liệt kê chính xác toàn bộ không gian mẫu, phương sai của phân phối Bootstrap được tính với mẫu số chuẩn là $27$:
+        \[
+        \widehat{se}^* = \sqrt{\frac{2\left[1 + 3(2/3)^2 + 6(1/3)^2\right]}{27}} = \sqrt{\frac{2}{9}} \approx 0{,}4714.
+        \]
+        \item Với quy tắc phân vị loại 1 (Type 1), mẫu có 27 phần tử nên ở mức $95\%$, ta chọn hạng 1 và hạng 27, thu được $(q_{0{,}025}^*, q_{0{,}975}^*) = (1, 3)$.
+        \item \textbf{Kết quả hai khoảng:}
+        \begin{itemize}
+            \item Normal $95\%$: $2 \pm 1{,}96(0{,}4714) \implies [1{,}076;\; 2{,}924]$.
+            \item Basic $95\%$: $[2(2) - 3;\; 2(2) - 1] = [1{,}000;\; 3{,}000]$.
+        \end{itemize}
+        \item Nhận xét: Cả hai khoảng đều đối xứng quanh $2$, bao trùm giá trị trung bình mẫu và nằm gọn trong khoảng dữ liệu gốc $[1, 3]$.''
+    \end{itemize}
+\end{scriptbox}
+
+\begin{actionbox}{accentgreen}{Chỉ dẫn hành động: Show Code R (Listing 2)}
+    \textbf{Chiếu đoạn mã R dòng 13--20 trong \texttt{r/Nhom\_D\_TKTT.R}:}
+\begin{verbatim}
+x <- c(1, 2, 3)
+means <- rowMeans(expand.grid(x, x, x))
+prob <- prop.table(table(means)); se <- sd(means)
+\end{verbatim}
+    \textbf{Giải thích mã:} Lệnh \texttt{expand.grid(x, x, x)} tạo ra toàn bộ 27 tích Descartes của 3 lượt rút mẫu; \texttt{rowMeans} tính trung bình của từng mẫu con.
+\end{actionbox}
+
+\begin{actionbox}{accentorange}{Chỉ dẫn hành động: Show Hình ảnh (Hình 5.1 -- Panel trái)}
+    \textbf{Trình chiếu tệp:} \path{output/figures/example-bootstrap-distributions.pdf} (Panel bên trái: \textit{Symmetric sample}).\\
+    \textbf{Thao tác trỏ hình:} Chỉ vào đồ thị cột hình tam giác đối xứng hoàn hảo qua đường đứt nét $\hat\theta_n = 2$, đỉnh cao nhất tại giá trị $2$ với xác suất $7/27$.
+\end{actionbox}
+
+% =========================================================================
+% SLIDE 11
+% =========================================================================
+\slideheader{11}{3.2. Ví dụ 2: mẫu lệch phải}{01 phút 30 giây}{14:00 -- 15:30}
+
+\begin{itemize}
+    \item \textbf{Nguồn gốc báo cáo:} Chương 5, Mục 5.1, trang 13--14, Bảng 5.1 \& Hình 5.1 trong \texttt{tex-report/code/main.tex}.
+    \item \textbf{Cơ sở lý thuyết \& Tham khảo:} Efron \& Tibshirani (1993), Chương 2 \& Chương 13; Phân tích khuyết tật cận âm của Normal và Basic khi dữ liệu có outlier.
+\end{itemize}
+
+\begin{scriptbox}{Kịch bản lời thoại thuyết trình (Slide 11)}
+    \textbf{[Lời dẫn chuyển tiếp]:} ``Bây giờ, hãy chuyển sang một kịch bản phức tạp hơn: Mẫu lệch phải với một giá trị ngoại lai (outlier): $x = (1, 1, 1, 9)$.
+    
+    \textbf{[Nội dung diễn giải]:} 
+    \begin{itemize}
+        \item Cỡ mẫu $n=4$, trung bình mẫu là $\hat\theta_n = (1+1+1+9)/4 = 3$. Tổng số mẫu con liệt kê là $4^4 = 256$ mẫu.
+        \item Sai số chuẩn tính trên toàn bộ 256 mẫu là $\widehat{se}^* = \sqrt{3} \approx 1{,}7321$. Phân vị Type 1 ở hạng 7 và hạng 250 là $(q_{0{,}025}^*, q_{0{,}975}^*) = (1, 7)$.
+        \item \textbf{Khoảng Normal:} $3 \pm 1{,}96(1{,}7321) \implies \mathbf{[-0{,}395;\; 6{,}395]}$. Cận dưới bị âm!
+        \item \textbf{Khoảng Basic:} $[2(3) - 7;\; 2(3) - 1] = \mathbf{[-1{,}000;\; 5{,}000]}$. Cận dưới cũng bị âm sâu!
+        \item \textbf{So sánh với Percentile:} Khoảng Percentile lấy trực tiếp phân vị là $[1{,}000;\; 7{,}000]$, hoàn toàn dương!
+    \end{itemize}
+    \textbf{[Bình luận phản biện đắt giá]:} Tại sao dữ liệu gốc là các số dương $\{1, 9\}$, mà cả Normal và Basic lại đưa ra cận dưới là số âm? Vì Normal giả định tính đối xứng không tồn tại ở dữ liệu này, còn Basic phản chiếu phân vị trên $q=7$ qua tâm $3$, đẩy cận dưới rơi xuống $3 - (7 - 3) = -1$! Đây là minh chứng hùng hồn cho thấy: Khi dữ liệu bị lệch, Normal và Basic rất dễ cho ra các cận vô lý về mặt vật lý.''
+\end{scriptbox}
+
+\begin{actionbox}{accentorange}{Chỉ dẫn hành động: Show Hình ảnh (Hình 5.1 -- Panel phải)}
+    \textbf{Trình chiếu tệp:} \path{output/figures/example-bootstrap-distributions.pdf} (Panel bên phải: \textit{Right-skewed sample}).\\
+    \textbf{Thao tác trỏ hình:} Chỉ vào cột xác suất cao chót vót tại $1$ ($81/256$), đuôi dài dẹt kéo dài đến $9$ ($1/256$). Nhấn mạnh khoảng cách lệch tâm của đường đứt nét $\hat\theta_n=3$.
+\end{actionbox}
+
+\newpage
+
+% =========================================================================
+% SLIDE 12
+% =========================================================================
+\slideheader{12}{4.1. Thiết kế mô phỏng Monte Carlo}{01 phút 30 giây}{15:30 -- 17:00}
+
+\begin{itemize}
+    \item \textbf{Nguồn gốc báo cáo:} Chương 6, Mục 6.1 (Thiết kế thực nghiệm mô phỏng), trang 15 trong \texttt{tex-report/code/main.tex}.
+    \item \textbf{Cơ sở lý thuyết \& Tham khảo:} Robert \& Casella (2010), Introducing Monte Carlo Methods with R; Efron \& Tibshirani (1993), Chương 19 (Monte Carlo and bootstrap estimation of standard errors); Bùi Thùy Trang (2026).
+\end{itemize}
+
+\begin{scriptbox}{Kịch bản lời thoại thuyết trình (Slide 12)}
+    \textbf{[Lời dẫn chuyển tiếp]:} ``Các ví dụ mẫu nhỏ vừa rồi giúp chúng ta hiểu cơ chế, nhưng để đánh giá hiệu năng thống kê một cách khách quan trên quy mô lớn, chúng ta bắt buộc phải dùng \textbf{Mô phỏng Monte Carlo}.
+    
+    \textbf{[Nội dung diễn giải]:} 
+    \begin{itemize}
+        \item \textbf{4 Kịch bản thực nghiệm:}
+        \begin{itemize}
+            \item Phân phối chuẩn $N(0, 1)$ với tham số thật $\theta = 0$ (đại diện tổng thể đối xứng).
+            \item Phân phối mũ $\operatorname{Exp}(1)$ với tham số thật $\theta = 1$ (đại diện tổng thể lệch phải mạnh, đuôi bất đối xứng).
+            \item Mỗi phân phối thử nghiệm ở 2 cỡ mẫu: $n=12$ (mẫu nhỏ, kiểm tra tính ổn định) và $n=40$ (mẫu trung bình, kiểm tra tốc độ tiệm cận).
+        \end{itemize}
+        \item \textbf{Quy mô tính toán:}
+        \begin{itemize}
+            \item $K = 10\,000$ bộ dữ liệu độc lập cho mỗi kịch bản để giảm thiểu sai số Monte Carlo.
+            \item $B = 1\,999$ bản sao Bootstrap trên từng bộ dữ liệu để xác định chính xác các phân vị.
+            \item Cố định hạt giống ngẫu nhiên \texttt{set.seed(20260925)} để bảo đảm khả năng tái lập hoàn toàn kết quả.
+        \end{itemize}
+    \end{itemize}
+    \textbf{[Ý nghĩa của $K$ và $B$]:} Cần phân biệt rõ: Tăng $B$ giúp khoảng tin cậy của một mẫu cụ thể ổn định hơn; còn tăng $K$ giúp ước lượng độ bao phủ trên toàn bộ kịch bản chính xác hơn.''
+\end{scriptbox}
+
+\begin{actionbox}{accentgreen}{Chỉ dẫn hành động: Show Code R (Cấu trúc vòng lặp mô phỏng)}
+    \textbf{Nhắc đến cấu trúc lồng nhau trong \texttt{r/generate\_figures.R}:}
+\begin{verbatim}
+for (k in 1:K) {
+  x <- generate_data(n)
+  boot_mat <- matrix(sample(x, n * B, replace = TRUE), nrow = n)
+  boot_means <- colMeans(boot_mat)
+  # Tính CI và kiểm tra chỉ báo bao phủ
+}
+\end{verbatim}
+    \textbf{Giải thích mã:} Kỹ thuật tạo ma trận $n \times B$ giúp vector hóa quá trình tính toán, tăng tốc độ chạy mô phỏng lên gấp hàng chục lần so với vòng lặp đơn thuần trong R.
+\end{actionbox}
+
+% =========================================================================
+% SLIDE 13
+% =========================================================================
+\slideheader{13}{4.2. Tính độ bao phủ và độ dài trung bình}{01 phút 30 giây}{17:00 -- 18:30}
+
+\begin{itemize}
+    \item \textbf{Nguồn gốc báo cáo:} Chương 6, Mục 6.1 (Công thức ước lượng), trang 15 trong \texttt{tex-report/code/main.tex}.
+    \item \textbf{Cơ sở lý thuyết \& Tham khảo:} Robert \& Casella (2010); Efron \& Tibshirani (1993); Davison \& Hinkley (1997).
+\end{itemize}
+
+\begin{scriptbox}{Kịch bản lời thoại thuyết trình (Slide 13)}
+    \textbf{[Lời dẫn chuyển tiếp]:} ``Từ $K=10\,000$ khoảng tin cậy thu được $[L_k, U_k]$, nhóm tính toán hai tiêu chí định lượng chuẩn mực:
+    
+    \textbf{[Nội dung diễn giải]:} 
+    \begin{itemize}
+        \item \textbf{Độ bao phủ thực tế ($\widehat{CP}$):}
+        \[
+        \widehat{CP} = \frac{1}{K}\sum_{k=1}^K \mathbb{I}(L_k \le \theta \le U_k).
+        \]
+        Sai số chuẩn Monte Carlo của ước lượng này là $\widehat{MCSE} = \sqrt{\widehat{CP}(1-\widehat{CP})/K}$. Với $K=10\,000$ và mức $95\%$, $\widehat{MCSE} \approx \sqrt{0{,}95 \times 0{,}05 / 10000} \approx 0{,}00218$ (tức khoảng $0{,}22\%$).
+        \item \textbf{Độ dài trung bình ($AL$):}
+        \[
+        AL = \frac{1}{K}\sum_{k=1}^K (U_k - L_k).
+        \]
+        \item \textbf{Đặc tính đại số quan trọng của Basic:} Độ dài của Basic CI trên mẫu thứ $k$ là:
+        \[
+        \text{Length}_{\text{Basic}} = (2\hat\theta_n - q_{\alpha/2}^*) - (2\hat\theta_n - q_{1-\alpha/2}^*) = q_{1-\alpha/2}^* - q_{\alpha/2}^*.
+        \]
+        Độ dài này bằng đúng độ dài của Percentile CI trên từng mẫu! Hai phương pháp có độ dài giống hệt nhau nhưng vị trí đặt cận lại khác nhau. Điều này đặt ra câu hỏi: Khoảng nào sẽ bao phủ tốt hơn?''
+    \end{itemize}
+\end{scriptbox}
+
+\begin{actionbox}{accentorange}{Chỉ dẫn hành động: Slide 13}
+    \begin{itemize}
+        \item \textbf{Thao tác trình chiếu:} Gạch chân biểu thức đại số $q_{1-\alpha/2}^* - q_{\alpha/2}^*$, nhấn mạnh rằng hai số $2\hat\theta_n$ đã tự triệt tiêu lẫn nhau khi lấy cận trên trừ cận dưới.
+    \end{itemize}
+\end{actionbox}
+
+\newpage
+
+% =========================================================================
+% SLIDE 14
+% =========================================================================
+\slideheader{14}{4.3. Kết quả độ bao phủ}{01 phút 30 giây}{18:30 -- 20:00}
+
+\begin{itemize}
+    \item \textbf{Nguồn gốc báo cáo:} Chương 6, Mục 6.2 (Độ bao phủ thực tế), trang 15--16, Bảng 6.1 \& Hình 6.1 trong \texttt{tex-report/code/main.tex}.
+    \item \textbf{Cơ sở lý thuyết \& Tham khảo:} Hall (1992), The Bootstrap and Edgeworth Expansion; Davison \& Hinkley (1997), Chương 5.
+\end{itemize}
+
+\begin{scriptbox}{Kịch bản lời thoại thuyết trình (Slide 14)}
+    \textbf{[Lời dẫn chuyển tiếp]:} ``Và đây là bảng kết quả mô phỏng thực nghiệm tổng hợp của nhóm trên $10\,000$ lần lặp:
+    
+    \textbf{[Nội dung diễn giải]:} 
+    \begin{itemize}
+        \item \textbf{Tổng thể Chuẩn $N(0, 1)$:}
+        \begin{itemize}
+            \item Ở $n=12$, cả ba phương pháp đều chỉ đạt khoảng $91\%$ (Normal $91{,}05\%$, Basic $91{,}01\%$, Percentile $90{,}74\%$).
+            \item Ở $n=40$, độ bao phủ của cả ba cùng cải thiện lên gần $94\%$ (Normal $93{,}91\%$).
+        \end{itemize}
+        \item \textbf{Tổng thể Mũ $\operatorname{Exp}(1)$:}
+        \begin{itemize}
+            \item Ở $n=12$, Basic CI bị sụp đổ nghiêm trọng, chỉ đạt \textbf{$85{,}47\%$}, thấp hơn mức danh nghĩa tới gần $10\%$. Trong khi đó, Percentile đạt $87{,}59\%$ và Normal đạt $87{,}06\%$.
+            \item Ở $n=40$, Percentile dẫn đầu với $92{,}21\%$, Normal đạt $91{,}92\%$, còn Basic vẫn thấp nhất với $90{,}99\%$.
+        \end{itemize}
+    \end{itemize}
+    \textbf{[Câu hỏi gợi mở then chốt]:} Nhìn vào bảng số liệu này, có một câu hỏi vô cùng kỳ lạ mà bất kỳ nhà thống kê nào cũng phải thắc mắc: Tại sao ngay cả khi lấy mẫu từ phân phối chuẩn hoàn hảo $N(0,1)$, ở $n=12$, Normal Bootstrap vẫn hụt $95\%$ và chỉ đạt $91{,}05\%$? Slide 15 sẽ giải mã bí mật toán học này!''
+\end{scriptbox}
+
+\begin{actionbox}{accentorange}{Chỉ dẫn hành động: Show Hình ảnh (Hình 6.1 -- Coverage Comparison)}
+    \textbf{Trình chiếu tệp:} \path{output/figures/simulation-coverage.pdf}.\\
+    \textbf{Thao tác trỏ hình:} Chỉ tay vào đường đứt ngang $0{,}95$. Nhấn mạnh cả 4 panel đồ thị đều nằm dưới đường này. Sau đó chỉ vào điểm chấm màu cam của Basic ở panel dưới cùng bên trái ($\text{Exp}, n=12$) tụt sâu hẳn xuống mốc $0{,}85$.
+\end{actionbox}
+
+% =========================================================================
+% SLIDE 15
+% =========================================================================
+\slideheader{15}{4.4. Vì sao Normal Bootstrap hụt 95\%?}{01 phút 30 giây}{20:00 -- 21:30}
+
+\begin{itemize}
+    \item \textbf{Nguồn gốc báo cáo:} Chương 6, Mục 6.2, trang 16, Bảng 6.1; NIST/SEMATECH e-Handbook of Statistical Methods, Section 3.5.2 (Confidence Limits for the Mean).
+    \item \textbf{Cơ sở lý thuyết \& Tham khảo:} Bickel \& Freedman (1981), Some asymptotic theory for the bootstrap; Lý thuyết phân phối Student $t$ cổ điển của William Sealy Gosset (1908).
+\end{itemize}
+
+\begin{scriptbox}{Kịch bản lời thoại thuyết trình (Slide 15)}
+    \textbf{[Lời dẫn chuyển tiếp]:} ``Đây là một trong những phát hiện lý thuyết sâu sắc nhất trong báo cáo của Nhóm D.
+    
+    \textbf{[Nội dung diễn giải]:} 
+    \begin{itemize}
+        \item Với mẫu i.i.d chuẩn và độ lệch chuẩn mẫu $s$, khi số lượng bản sao $B \to \infty$, phương sai Bootstrap tiến về phương sai mẫu nhân hệ số $(n-1)/n$:
+        \[
+        \widehat{se}^* = \sqrt{\frac{n-1}{n}}\,\frac{s}{\sqrt{n}}.
+        \]
+        \item Nhưng đại lượng $\frac{\bar X - \theta}{s/\sqrt{n}}$ trên thực tế tuân theo \textbf{phân phối Student $t_{n-1}$} với $n-1$ bậc tự do, chứ KHÔNG phải phân phối chuẩn $N(0,1)$!
+        \item Normal Bootstrap áp đặt mốc hằng số $z_{0{,}975} = 1{,}96$. Do đó, xác suất bao phủ giới hạn lý thuyết thực sự là:
+        \[
+        \Pr\left(|T| \le 1{,}96\sqrt{\frac{n-1}{n}}\right), \quad \text{với } T \sim t_{n-1}.
+        \]
+        \item Với $n=12$, bậc tự do là 11, mốc tới hạn thực tế là $1{,}96\sqrt{11/12} \approx 1{,}876$. Tra bảng Student $t_{11}$, xác suất này đúng bằng \textbf{$91{,}27\%$}.
+        \item Đối chiếu lại mô phỏng $B=1\,999$: Nhóm quan sát được \textbf{$91{,}05\%$}. Con số mô phỏng khớp hoàn hảo với lý thuyết toán học (chênh lệch chỉ $0{,}22\%$, nằm trọn trong khoảng sai số $\widehat{MCSE}$)!
+    \end{itemize}
+    \textbf{[Kết luận]:} Khoảng Student $t$ chuẩn mực $\bar X \pm t_{n-1;\,0{,}975}\,s/\sqrt{n}$ dùng mốc tới hạn $2{,}201$ nên đạt đúng $95\%$. Normal Bootstrap dùng mốc $1{,}96$ nên tất yếu bị hụt ở mẫu nhỏ!''
+\end{scriptbox}
+
+\begin{actionbox}{accentorange}{Chỉ dẫn hành động: Slide 15}
+    \begin{itemize}
+        \item \textbf{Thao tác trình chiếu:} Trỏ vào bảng so sánh: $n=12$: Lý thuyết $91{,}27\%$ vs Quan sát $91{,}05\%$; $n=40$: Lý thuyết $93{,}98\%$ vs Quan sát $93{,}91\%$. Giọng nói hào hứng khẳng định kết quả thực nghiệm đã làm sáng tỏ lý thuyết.
+    \end{itemize}
+\end{actionbox}
+
+\newpage
+
+% =========================================================================
+% SLIDE 16
+% =========================================================================
+\slideheader{16}{4.5. So sánh độ bao phủ theo cặp}{01 phút 30 giây}{21:30 -- 23:00}
+
+\begin{itemize}
+    \item \textbf{Nguồn gốc báo cáo:} Chương 6, Mục 6.3 (So sánh ghép cặp và kiểm định sai số Monte Carlo), trang 16 trong \texttt{tex-report/code/main.tex}.
+    \item \textbf{Cơ sở lý thuyết \& Tham khảo:} Robert \& Casella (2010), Mục Biến đổi đối ngẫu và Phương pháp ghép cặp giảm phương sai (Paired differences for variance reduction in Monte Carlo experiments).
+\end{itemize}
+
+\begin{scriptbox}{Kịch bản lời thoại thuyết trình (Slide 16)}
+    \textbf{[Lời dẫn chuyển tiếp]:} ``Khi so sánh giữa các phương pháp trên cùng một bộ dữ liệu, nếu so sánh hai số trung bình độc lập, ta sẽ bị ảnh hưởng bởi phương sai ngẫu nhiên giữa các mẫu. Vì vậy, nhóm sử dụng kỹ thuật \textbf{So sánh theo cặp (Paired comparison)}.
+    
+    \textbf{[Nội dung diễn giải]:} 
+    \begin{itemize}
+        \item Trên cùng một mẫu thứ $k$, ta tính hiệu của hai biến chỉ báo bao phủ:
+        \[
+        D_k = \mathbb{I}_{\text{Percentile},k} - \mathbb{I}_{\text{đối chiếu},k}.
+        \]
+        Chênh lệch trung bình là $\bar D = \frac{1}{K}\sum D_k$, với sai số chuẩn Monte Carlo là $\widehat{MCSE} = s_D/\sqrt{K}$.
+        \item Nhờ ghép cặp, phương sai nền của việc sinh mẫu bị triệt tiêu, giúp khoảng tin cậy Monte Carlo $95\%$ cho chênh lệch hẹp lại đáng kể.
+        \item \textbf{Kết quả với phân phối Mũ $\operatorname{Exp}(1)$:}
+        \begin{itemize}
+            \item So với Normal ở $n=12$: Percentile cao hơn $+0{,}53$ điểm phần trăm, khoảng MC là $[0{,}29;\; 0{,}77]$.
+            \item So với Basic ở $n=12$: Percentile vượt trội tới \textbf{$+2{,}12$} điểm phần trăm, khoảng MC là $[1{,}76;\; 2{,}48]$.
+            \item Ở $n=40$: Percentile vẫn cao hơn Basic $+1{,}22$ điểm phần trăm, khoảng MC là $[0{,}90;\; 1{,}54]$.
+        \end{itemize}
+        \item \textbf{Ý nghĩa thống kê:} Cả 4 khoảng tin cậy Monte Carlo đều nằm hoàn toàn phía trên số $0$. Điều này chứng minh một cách chặt chẽ rằng: Sự vượt trội về độ bao phủ của Percentile trước Basic trong phân phối lệch là hoàn toàn có ý nghĩa thống kê, không phải do may rủi mô phỏng!''
+    \end{itemize}
+\end{scriptbox}
+
+\begin{actionbox}{accentorange}{Chỉ dẫn hành động: Slide 16}
+    \begin{itemize}
+        \item \textbf{Thao tác trình chiếu:} Khoanh vùng cột `Khoảng MC 95\%', chỉ rõ cận dưới của tất cả các khoảng đều lớn hơn 0 ($>0$).
+    \end{itemize}
+\end{actionbox}
+
+% =========================================================================
+% SLIDE 17
+% =========================================================================
+\slideheader{17}{4.6. Đọc độ dài cùng độ bao phủ}{01 phút 30 giây}{23:00 -- 24:30}
+
+\begin{itemize}
+    \item \textbf{Nguồn gốc báo cáo:} Chương 6, Mục 6.2, trang 15--16, Bảng 6.1 \& Hình 6.2 trong \texttt{tex-report/code/main.tex}.
+    \item \textbf{Cơ sở lý thuyết \& Tham khảo:} Efron \& Tibshirani (1993), Chương 13; Nguyên lý đánh đổi giữa độ dài và độ bao phủ (Length-coverage trade-off).
+\end{itemize}
+
+\begin{scriptbox}{Kịch bản lời thoại thuyết trình (Slide 17)}
+    \textbf{[Lời dẫn chuyển tiếp]:} ``Trong thống kê, ta không thể chỉ chăm chăm nhìn vào độ bao phủ. Một khoảng tin cậy vô dụng có thể bao phủ $100\%$ nếu ta nới rộng nó ra từ $-\infty$ đến $+\infty$. Vì vậy, nguyên tắc vàng là: \textbf{Phải luôn đọc độ dài cùng với độ bao phủ}.
+    
+    \textbf{[Nội dung diễn giải]:} 
+    \begin{itemize}
+        \item Khi cỡ mẫu tăng từ $n=12$ lên $n=40$, độ dài trung bình của tất cả các phương pháp đều giảm gần một nửa (từ khoảng $1{,}05$ xuống còn khoảng $0{,}60$). Điều này phản ánh quy luật căn bậc hai của cỡ mẫu: $SE \propto 1/\sqrt{n}$.
+        \item Nhìn vào cột Basic và Percentile: Ở mọi kịch bản, độ dài trung bình của chúng luôn bằng nhau chằn chặn trên từng chữ số thập phân (ví dụ: ở Chuẩn $n=12$ là $1{,}0528$; ở Mũ $n=12$ là $1{,}0002$).
+        \item \textbf{Kết luận so sánh then chốt:} Basic và Percentile có cùng độ dài chính xác trên từng mẫu dữ liệu. Nhưng tại sao ở phân phối mũ $n=12$, Percentile lại đạt độ bao phủ $87{,}59\%$ trong khi Basic chỉ đạt $85{,}47\%$? 
+        \item Đó là vì Basic đã dịch khoảng sai hướng (bị kéo lệch về phía âm do phép phản chiếu), còn Percentile dịch khoảng về đúng phía có đuôi dữ liệu dày hơn. Do đó, với cùng một cái giá độ dài bỏ ra, Percentile bao trùm tham số hiệu quả hơn hẳn!''
+    \end{itemize}
+\end{scriptbox}
+
+\begin{actionbox}{accentorange}{Chỉ dẫn hành động: Show Hình ảnh (Hình 6.2 -- Average Length)}
+    \textbf{Trình chiếu tệp:} \path{output/figures/simulation-average-length.pdf}.\\
+    \textbf{Thao tác trỏ hình:} Chỉ vào sự co hẹp của các cột khi chuyển từ cột $n=12$ (trái) sang $n=40$ (phải); chỉ vào sự bằng nhau tuyệt đối giữa hai điểm màu cam (Basic) và màu xanh lá (Percentile).
+\end{actionbox}
+
+\newpage
+
+% =========================================================================
+% SLIDE 18
+% =========================================================================
+\slideheader{18}{5.1. Ví dụ giả định: khoảng cho Hazard Ratio}{01 phút 30 giây}{24:30 -- 26:00}
+
+\begin{itemize}
+    \item \textbf{Nguồn gốc báo cáo:} Chương 7, Mục 7.2 (Mô hình rủi ro tỷ lệ Cox và Hazard Ratio), trang 18 trong \texttt{tex-report/code/main.tex}.
+    \item \textbf{Cơ sở lý thuyết \& Tham khảo:} Cox (1972), Regression Models and Life-Tables; Efron \& Tibshirani (1993), Chương 8 (Stratified resampling).
+\end{itemize}
+
+\begin{scriptbox}{Kịch bản lời thoại thuyết trình (Slide 18)}
+    \textbf{[Lời dẫn chuyển tiếp]:} ``Bây giờ, chúng ta bước sang Phần 5 để xem Bootstrap giải quyết các bài toán sinh y thực tế như thế nào. Ứng dụng đầu tiên là ước lượng \textbf{Tỷ số rủi ro (Hazard Ratio -- HR)} trong mô hình hồi quy Cox.
+    
+    \textbf{[Nội dung diễn giải]:} 
+    \begin{itemize}
+        \item Trong nghiên cứu sống còn, mốc kiểm định quan trọng nhất là $HR = 1$ (tương đương với việc can thiệp không có tác dụng).
+        \item Giả sử từ dữ liệu mẫu, ta ước lượng được $\widehat{HR}_n = 1{,}85$. Thực hiện $B=2\,000$ lần lấy mẫu lại phân tầng theo nhóm bệnh nhân, ta thu được $\widehat{se}^* = 0{,}42$ và phân vị $(q_{0{,}025}^*, q_{0{,}975}^*) = (1{,}15;\; 2{,}82)$.
+        \item \textbf{Dựng hai khoảng tin cậy $95\%$:}
+        \begin{itemize}
+            \item $CI_{\text{Normal}} = 1{,}85 \pm 1{,}96(0{,}42) \implies \mathbf{[1{,}027;\; 2{,}673]}$.
+            \item $CI_{\text{Basic}} = [2(1{,}85) - 2{,}82;\; 2(1{,}85) - 1{,}15] \implies \mathbf{[0{,}880;\; 2{,}550]}$.
+        \end{itemize}
+        \item \textbf{Hậu quả lâm sàng nghiêm trọng:}
+        \begin{itemize}
+            \item Normal CI nằm hoàn toàn phía trên 1 $\implies$ Bác sĩ kết luận can thiệp làm tăng rủi ro có ý nghĩa thống kê ($p < 0{,}05$).
+            \item Basic CI lại bao trùm mốc 1 $\implies$ Bác sĩ kết luận chưa đủ bằng chứng kết luận rủi ro khác biệt ($p \ge 0{,}05$)!
+        \end{itemize}
+        \item Sự lựa chọn phương pháp dựng khoảng Bootstrap đã đảo ngược hoàn toàn kết luận y khoa!''
+    \end{itemize}
+\end{scriptbox}
+
+\begin{actionbox}{accentgreen}{Chỉ dẫn hành động: Show Code R (Listing 5)}
+    \textbf{Chiếu đoạn mã R dòng 148--152 trong \texttt{r/Nhom\_D\_TKTT.R}:}
+\begin{verbatim}
+for (b in 1:B) {
+  idx <- c(sample(g0, replace = TRUE), sample(g1, replace = TRUE))
+  fit_b <- coxph(Surv(time[idx], status[idx]) ~ group[idx])
+  boot_hr[b] <- exp(coef(fit_b))
+}
+\end{verbatim}
+    \textbf{Giải thích mã:} Nhấn mạnh biến \texttt{idx}: Ta phải rút mẫu riêng trong nhóm đối chứng \texttt{g0} và riêng trong nhóm điều trị \texttt{g1} (\textit{stratified resampling}) để không làm thay đổi tỷ lệ phân bổ bệnh nhân giữa hai nhánh thử nghiệm.
+\end{actionbox}
+
+% =========================================================================
+% SLIDE 19
+% =========================================================================
+\slideheader{19}{5.2. Bài báo: so sánh thang đo bằng RV}{01 phút 30 giây}{26:00 -- 27:30}
+
+\begin{itemize}
+    \item \textbf{Nguồn gốc báo cáo:} Chương 7, Mục 7.1 (Nghiên cứu của Deng và cộng sự), trang 18, Bảng 7.1 trong \texttt{tex-report/code/main.tex}.
+    \item \textbf{Cơ sở lý thuyết \& Tham khảo:} Deng et al. (2013), Health and Quality of Life Outcomes; Efron (1987), Better Bootstrap Confidence Intervals (BCa method).
+\end{itemize}
+
+\begin{scriptbox}{Kịch bản lời thoại thuyết trình (Slide 19)}
+    \textbf{[Lời dẫn chuyển tiếp]:} ``Ứng dụng thứ hai là tái hiện và diễn giải kết quả từ một công trình nghiên cứu y tế quốc tế thực tế của Deng và cộng sự (2013) trên $453$ bệnh nhân thận mạn.
+    
+    \textbf{[Nội dung diễn giải]:} 
+    \begin{itemize}
+        \item Nghiên cứu so sánh hiệu quả phân biệt của các thang đo chất lượng cuộc sống thông qua chỉ số \textbf{Relative Validity (Độ giá trị tương đối -- RV)}:
+        \[
+        RV = \frac{F_{\text{công cụ so sánh}}}{F_{\text{công cụ tham chiếu}}}.
+        \]
+        Nếu $RV > 1$, công cụ tốt hơn chuẩn tham chiếu; nếu $RV < 1$, công cụ kém hơn; nếu khoảng tin cậy bao trùm $1$, chưa có bằng chứng khác biệt.
+        \item Nhóm tác giả đã sử dụng phương pháp nâng cao \textbf{BCa (Bias-Corrected and Accelerated Bootstrap)} với $B=2\,000$ lần lấy mẫu:
+        \begin{itemize}
+            \item Thang đo \textbf{KDQOL Burden}: $RV = 0{,}77$, khoảng BCa $95\%$ là $[0{,}53;\; 1{,}09]$. Khoảng này \textbf{bao trùm mốc 1}, do đó chưa đủ cơ sở bác bỏ giả thuyết $RV=1$.
+            \item Thang đo \textbf{QDIS-CKD Static-34}: $RV = 0{,}84$, khoảng BCa $95\%$ là $[0{,}71;\; 0{,}97]$. Khoảng này \textbf{nằm hoàn toàn dưới 1}, khẳng định công cụ này kém nhạy hơn công cụ tham chiếu một cách có ý nghĩa thống kê.''
+        \end{itemize}
+    \end{itemize}
+\end{scriptbox}
+
+\begin{actionbox}{accentgreen}{Chỉ dẫn hành động: Show Code R (Listing 4)}
+    \textbf{Chiếu đoạn mã R dòng 124--129 trong \texttt{r/Nhom\_D\_TKTT.R}:}
+\begin{verbatim}
+plot(rv, y, xlim = c(0, 1.3), ylim = c(0.5, 4.5), yaxt = "n", pch = 19,
+     xlab = "Relative validity (RV) & BCa 95% CI", ylab = "")
+segments(lower, y, upper, y, lwd = 2); abline(v = 1, lty = 2, col = "red")
+\end{verbatim}
+    \textbf{Giải thích mã:} Hàm \texttt{segments} vẽ các đoạn thẳng khoảng tin cậy nằm ngang (Forest plot) cắt ngang qua đường chuẩn đỏ $RV=1$.
+\end{actionbox}
+
+\begin{actionbox}{accentorange}{Chỉ dẫn hành động: Show Hình ảnh (\texttt{deng-bca-forest.pdf})}
+    \textbf{Trình chiếu tệp:} \path{output/figures/deng-bca-forest.pdf}.\\
+    \textbf{Thao tác trỏ hình:} Chỉ vào đường thẳng đứng màu đỏ tại mốc $1{,}0$. Trỏ vào thanh thứ hai từ dưới lên (KDQOL Burden) thấy nó cắt ngang qua vạch đỏ; sau đó trỏ vào thanh thứ ba (Static-34) nằm thụt hẳn về bên trái vạch đỏ.
+\end{actionbox}
+
+\newpage
+
+% =========================================================================
+% SLIDE 20
+% =========================================================================
+\slideheader{20}{5.3. Đổi thang đo: từ trung bình sang log}{01 phút 15 giây}{27:30 -- 28:45}
+
+\begin{itemize}
+    \item \textbf{Nguồn gốc báo cáo:} Chương 8, Mục 8.1 (Tính bất biến của các phép biến đổi), trang 20--22, Bảng 8.2 \& Hình 8.1 trong \texttt{tex-report/code/main.tex}.
+    \item \textbf{Cơ sở lý thuyết \& Tham khảo:} Efron \& Tibshirani (1993), Mục 13.3 (Transformation-invariance, tr. 162--163).
+\end{itemize}
+
+\begin{scriptbox}{Kịch bản lời thoại thuyết trình (Slide 20)}
+    \textbf{[Lời dẫn chuyển tiếp]:} ``Một tính chất toán học cực kỳ đẹp mắt nhưng thường bị bỏ quên là: \textbf{Tính bất biến dưới phép biến đổi thang đo (Transformation Invariance)}.
+    
+    \textbf{[Nội dung diễn giải]:} 
+    \begin{itemize}
+        \item Giả sử ta muốn dựng khoảng cho $\eta = \log(\theta)$. Có hai cách làm:
+        \begin{itemize}
+            \item \textit{Cách 1:} Dựng khoảng cho $\theta$ trước, rồi lấy $\log$ hai cận: $[\log(L_\theta), \log(U_\theta)]$.
+            \item \textit{Cách 2:} Lấy $\log$ của từng bản sao $\hat\theta^*$ ngay từ đầu, rồi dựng khoảng trực tiếp cho $\eta$: $[L_\eta, U_\eta]$.
+        \end{itemize}
+        \item Nếu một phương pháp có tính bất biến, hai cách làm trên phải cho kết quả y hệt nhau, tức sai khác tối đa bằng $0$.
+        \item Nhóm chạy thực nghiệm trên mẫu $x=(2, 3, 4, 5, 9)$ và thu được kết quả:
+        \begin{itemize}
+            \item \textbf{Percentile CI:} Sai khác đúng bằng \textbf{$0{,}000000$}. Hoàn toàn bất biến!
+            \item \textbf{Normal CI:} Sai khác lên tới \textbf{$0{,}156645$}.
+            \item \textbf{Basic CI:} Sai khác lên tới \textbf{$0{,}318021$}.
+        \end{itemize}
+        \item \textbf{Giải thích toán học:} Phép biến đổi $\log$ là hàm đồng biến đơn điệu, nó bảo toàn nguyên vẹn thứ tự xếp hạng của các phân vị thực nghiệm. Do Percentile lấy mốc thuần túy theo phân vị, nó tự động thừa hưởng tính bất biến. Ngược lại, Normal có phép cộng trừ $z \cdot se$, còn Basic có phép phản chiếu $2\hat\theta$, vốn là các phép toán tuyến tính nên bị phá vỡ khi đi qua hàm phi tuyến $\log$!''
+    \end{itemize}
+\end{scriptbox}
+
+\begin{actionbox}{accentgreen}{Chỉ dẫn hành động: Show Code R (Listing 6)}
+    \textbf{Chiếu đoạn mã R dòng 176--183 trong \texttt{r/Nhom\_D\_TKTT.R}:}
+\begin{verbatim}
+diff_percentile <- max(abs(log(q_theta) - q_eta))       # Bằng 0 tuyệt đối
+diff_basic <- max(abs(log(ci_basic_theta) - ci_basic_eta)) # Khác 0 (0.318)
+\end{verbatim}
+    \textbf{Giải thích mã:} Tính độ chênh lệch tuyệt đối lớn nhất giữa hai đầu mút của hai cách tính.
+\end{actionbox}
+
+\begin{actionbox}{accentorange}{Chỉ dẫn hành động: Show Hình ảnh (Hình 8.1 -- Log Invariance)}
+    \textbf{Trình chiếu tệp:} \path{output/figures/invariance-log-comparison.pdf}.\\
+    \textbf{Thao tác trỏ hình:} Chỉ vào điểm chấm màu xanh lá của Percentile nằm dính sát trục hoành tại $0$; sau đó chỉ vào hai điểm màu xanh dương (Normal) và màu cam (Basic) nhô cao lên khỏi đường số 0.
+\end{actionbox}
+
+% =========================================================================
+% SLIDE 21
+% =========================================================================
+\slideheader{21}{6. Kết luận và khuyến nghị thực hành}{00 phút 45 giây}{28:45 -- 29:30}
+
+\begin{itemize}
+    \item \textbf{Nguồn gốc báo cáo:} Chương 8, Mục 8.3 (Hướng dẫn lựa chọn phương pháp) \& Kết luận, trang 24--25 trong \texttt{tex-report/code/main.tex}.
+    \item \textbf{Cơ sở lý thuyết \& Tham khảo:} Efron \& Tibshirani (1993), Chương 26; Carpenter \& Bithell (2000).
+\end{itemize}
+
+\begin{scriptbox}{Kịch bản lời thoại thuyết trình (Slide 21)}
+    \textbf{[Lời dẫn chuyển tiếp]:} ``Kính thưa cô và các bạn, qua toàn bộ quá trình nghiên cứu lý thuyết, tính toán mẫu nhỏ và thực nghiệm Monte Carlo $10\,000$ lần, nhóm xin đúc kết 3 thông điệp then chốt:
+    
+    \textbf{[Nội dung diễn giải]:} 
+    \begin{enumerate}
+        \item \textbf{Cảnh giác với mức danh nghĩa ở mẫu nhỏ:} Cả Normal và Basic đều bị hụt độ bao phủ nghiêm trọng khi dữ liệu bị lệch và cỡ mẫu nhỏ ($n=12$), trong đó Basic rớt xuống $85{,}47\%$.
+        \item \textbf{Ưu thế vượt trội của Percentile trong thực hành:} Dù có cùng độ dài với Basic, Percentile bao phủ tốt hơn ở phân phối lệch, bảo toàn tính bất biến qua hàm biến đổi đơn điệu, và quan trọng nhất: \textbf{không bao giờ vi phạm miền xác định tự nhiên của dữ liệu} (không sinh ra cận âm vô lý).
+        \item \textbf{Khuyến nghị thực tế:} Khi phương sai chưa biết ở mẫu nhỏ, nếu giả định chuẩn hãy ưu tiên khoảng Student $t$ truyền thống; nếu dùng Bootstrap trên dữ liệu lệch, hãy ưu tiên Percentile hoặc nâng cấp lên khoảng BCa; luôn kiểm tra độ bao phủ song hành với độ dài của khoảng.''
+    \end{enumerate}
+\end{scriptbox}
+
+\begin{actionbox}{accentorange}{Chỉ dẫn hành động: Slide 21}
+    \begin{itemize}
+        \item \textbf{Thao tác trình chiếu:} Trình bày dứt khoát, tự tin, nhấn mạnh 3 gạch đầu dòng kết luận như kim chỉ nam cho môn học.
+    \end{itemize}
+\end{actionbox}
+
+% =========================================================================
+% SLIDE 22
+% =========================================================================
+\slideheader{22}{Lời cảm ơn và Phần hỏi đáp (Q\&A)}{00 phút 30 giây}{29:30 -- 30:00}
+
+\begin{itemize}
+    \item \textbf{Nguồn gốc báo cáo:} Phần Lời cảm ơn và Tài liệu tham khảo, trang 26--27 trong \texttt{tex-report/code/main.tex}.
+    \item \textbf{Cơ sở lý thuyết \& Tham khảo:} Nghi thức báo cáo khoa học tại Trường Đại học Tôn Đức Thắng.
+\end{itemize}
+
+\begin{scriptbox}{Kịch bản lời thoại thuyết trình (Slide 22)}
+    ``Bài thuyết trình của Nhóm D đến đây là kết thúc. Chúng em xin trân trọng gửi lời cảm ơn sâu sắc đến cô ThS. Bùi Thùy Trang đã tận tình truyền đạt kiến thức và định hướng cho nhóm trong suốt học kỳ vừa qua, và xin cảm ơn các bạn sinh viên đã chú ý lắng nghe.
+    
+    Bây giờ, nhóm chúng em rất mong nhận được những lời nhận xét, góp ý quý báu từ cô cũng như sẵn sàng trả lời các câu hỏi phản biện từ cô và các bạn. Em xin trân trọng cảm ơn!''
+\end{scriptbox}
+
+\begin{actionbox}{accentorange}{Chỉ dẫn hành động: Slide 22}
+    \begin{itemize}
+        \item \textbf{Thao tác trình chiếu:} Cúi đầu cảm ơn trang trọng; sẵn sàng mở sẵn các tệp dữ liệu, mã nguồn R \texttt{r/Nhom\_D\_TKTT.R} và báo cáo \texttt{main.pdf} trên máy chiếu để phản hồi câu hỏi của giảng viên.
+    \end{itemize}
+\end{actionbox}
+
+\vspace{0.6cm}
+\begin{center}
+    {\small\color{gray} --- HẾT GIÁO ÁN VÀ KỊCH BẢN THUYẾT TRÌNH ---}
+\end{center}
+
+\end{document}
