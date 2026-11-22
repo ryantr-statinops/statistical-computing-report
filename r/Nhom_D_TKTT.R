@@ -15,7 +15,7 @@ x <- c(1, 2, 3)
 means <- rowMeans(expand.grid(x, x, x))
 prob <- prop.table(table(means))
 prob
-se <- sd(means)
+se <- sqrt(mean((means - mean(means))^2))
 se
 
 # Hinh 5.1

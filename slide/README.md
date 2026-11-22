@@ -1,6 +1,6 @@
 # Slide Bootstrap nhóm D
 
-Bộ trình chiếu gồm 22 frame tỷ lệ 4:3 trong beamer.tex. Báo cáo nhóm D là nguồn chính. Chân slide ghi nguồn và số trang in khi trích báo cáo.
+Bộ trình chiếu gồm 22 frame tỷ lệ 4:3 trong beamer.tex. Báo cáo nhóm D là nguồn chính.
 
 | Thời gian | Trang | Nội dung |
 |---|---:|---|
