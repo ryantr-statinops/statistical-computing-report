@@ -36,13 +36,10 @@
 \setlength{\parskip}{0pt}
 \setlength{\parindent}{1.5em}
 \usepackage{fancyhdr}
-\usepackage{lastpage}
-\usepackage[para]{footmisc}
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\small BÁO CÁO CUỐI KỲ -- THỐNG KÊ TÍNH TOÁN}
 \fancyhead[R]{\small Khoảng tin cậy Bootstrap}
-\fancyfoot[R]{\small\itshape Trang \thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \setlength{\headheight}{14pt}
 
@@ -50,7 +47,6 @@
 	\fancyhf{}%
 	\fancyhead[L]{\small BÁO CÁO CUỐI KỲ -- THỐNG KÊ TÍNH TOÁN}%
 	\fancyhead[R]{\small Khoảng tin cậy Bootstrap}%
-	\fancyfoot[R]{\small\itshape Trang \thepage}%
 	\renewcommand{\headrulewidth}{0.4pt}%
 }
 
@@ -231,7 +227,7 @@
 	\end{center}
 
 	\vspace{0.5cm}
-	Nhóm D xin chân thành cảm ơn ThS. Bùi Thùy Trang, giảng viên môn Thống kê Tính toán (C03107), Khoa Toán – Thống kê, Trường Đại học Tôn Đức Thắng, vì những hướng dẫn trong quá trình học tập và thực hiện báo cáo. Tài liệu bài giảng về Bootstrap và Jackknife là nguồn tham khảo chính cho phần cơ sở lý thuyết của nhóm \footnote{Bùi Thùy Trang (2026, Chương 4; Đề tài 8, tr.~8); Rizzo (2019, Chương 8, tr.~213--244)}.
+	Nhóm D xin chân thành cảm ơn ThS. Bùi Thùy Trang, giảng viên môn Thống kê Tính toán (C03107), Khoa Toán – Thống kê, Trường Đại học Tôn Đức Thắng, vì những hướng dẫn trong quá trình học tập và thực hiện báo cáo. Tài liệu bài giảng về Bootstrap và Jackknife là nguồn tham khảo chính cho phần cơ sở lý thuyết của nhóm~\cite{buithuytrang2026,rizzo2019}.
 
 Qua quá trình tìm hiểu các khoảng tin cậy Bootstrap và triển khai mô phỏng bằng R, nhóm có cơ hội vận dụng kiến thức của học phần vào các ví dụ và kịch bản cụ thể. Báo cáo vẫn còn những hạn chế; nhóm mong nhận được góp ý của cô để tiếp tục hoàn thiện. Nhóm xin chân thành cảm ơn cô!
 
@@ -245,20 +241,20 @@ Qua quá trình tìm hiểu các khoảng tin cậy Bootstrap và triển khai m
 	\end{center}
 
 	\vspace{0.5cm}
-	Trong suy diễn thống kê, khoảng tin cậy thường được xây dựng dựa trên giả định về phân phối hoặc các xấp xỉ tiệm cận, chẳng hạn xấp xỉ Chuẩn khi cỡ mẫu đủ lớn. Với mẫu nhỏ, phân phối lệch hoặc dữ liệu có ngoại lai, các xấp xỉ này có thể chưa phù hợp và xác suất bao phủ thực tế có thể khác mức danh nghĩa \footnote{Bùi Thùy Trang (2026, Chương 4); Rizzo (2019, Mục 8.3, tr.~224--226); Efron and Tibshirani (1993, tr.~153--155); Davison and Hinkley (1997, tr.~193--196)}.
+	Trong suy diễn thống kê, khoảng tin cậy thường được xây dựng dựa trên giả định về phân phối hoặc các xấp xỉ tiệm cận, chẳng hạn xấp xỉ Chuẩn khi cỡ mẫu đủ lớn. Với mẫu nhỏ, phân phối lệch hoặc dữ liệu có ngoại lai, các xấp xỉ này có thể chưa phù hợp và xác suất bao phủ thực tế có thể khác mức danh nghĩa~\cite{buithuytrang2026,rizzo2019,efron1993,davison1997}.
 
-Bootstrap thay phân phối tổng thể chưa biết bằng phân phối thực nghiệm của mẫu và lấy mẫu lại có hoàn lại. Phân phối Bootstrap có điều kiện này được dùng để xấp xỉ phân phối lấy mẫu của thống kê; khi chỉ tạo hữu hạn bản sao, ta còn có xấp xỉ Monte Carlo của phân phối Bootstrap \footnote{Efron and Tibshirani (1993); Efron (1979)}. Chất lượng xấp xỉ phụ thuộc vào dữ liệu, thống kê và cách lấy mẫu lại.
+Bootstrap thay phân phối tổng thể chưa biết bằng phân phối thực nghiệm của mẫu và lấy mẫu lại có hoàn lại. Phân phối Bootstrap có điều kiện này được dùng để xấp xỉ phân phối lấy mẫu của thống kê; khi chỉ tạo hữu hạn bản sao, ta còn có xấp xỉ Monte Carlo của phân phối Bootstrap~\cite{efron1979,efron1993}. Chất lượng xấp xỉ phụ thuộc vào dữ liệu, thống kê và cách lấy mẫu lại.
 
 	Báo cáo gồm chín phần, trình bày cơ sở lý thuyết, ví dụ, mô phỏng và ứng dụng:
 	\begin{itemize}
-		\item \textbf{Phần 1: Giới thiệu tổng quan và bối cảnh nghiên cứu:} Nêu động lực, mục tiêu, phạm vi và một số mốc phát triển của kỹ thuật lấy mẫu lại (resampling) \footnote{Efron (1979)}.
-		\item \textbf{Phần 2: Cơ sở toán học của ECDF và thuật toán Monte Carlo:} Trình bày các tính chất của $F_n^*$, nguyên lý Plug-in và mô hình xác suất Bootstrap \footnote{Bùi Thùy Trang (2026, Chương 4); Rizzo (2019, Mục 8.1, tr.~213--215)}.
-		\item \textbf{Phần 3: Phương pháp xây dựng khoảng tin cậy Normal CI và Basic CI:} Trình bày cơ sở, công thức và thuật toán xây dựng hai khoảng; với Basic CI, giải thích phép đảo phân vị (quantile flipping) \footnote{Rizzo (2019, Mục 8.3.2, tr.~225--226); Efron and Tibshirani (1993, tr.~153--155)}.
-		\item \textbf{Phần 4: So sánh Normal CI và Basic CI:} So sánh giả định và cách hai phương pháp phản ánh độ lệch của phân phối \footnote{Davison and Hinkley (1997)}.
+		\item \textbf{Phần 1: Giới thiệu tổng quan và bối cảnh nghiên cứu:} Nêu động lực, mục tiêu, phạm vi và một số mốc phát triển của kỹ thuật lấy mẫu lại (resampling)~\cite{efron1979}.
+		\item \textbf{Phần 2: Cơ sở toán học của ECDF và thuật toán Monte Carlo:} Trình bày các tính chất của $F_n$, nguyên lý Plug-in và mô hình xác suất Bootstrap~\cite{buithuytrang2026,rizzo2019}.
+		\item \textbf{Phần 3: Phương pháp xây dựng khoảng tin cậy Normal CI và Basic CI:} Trình bày cơ sở, công thức và thuật toán xây dựng hai khoảng; với Basic CI, giải thích phép đảo phân vị (quantile flipping)~\cite{rizzo2019,efron1993}.
+		\item \textbf{Phần 4: So sánh Normal CI và Basic CI:} So sánh giả định và cách hai phương pháp phản ánh độ lệch của phân phối~\cite{davison1997}.
 		\item \textbf{Phần 5: Ví dụ Bootstrap:} Phân tích mẫu đối xứng và mẫu lệch phải bằng cách liệt kê các mẫu Bootstrap trong R.
 		\item \textbf{Phần 6: Mô phỏng Monte Carlo bằng R:} Đánh giá coverage và độ dài trung bình trong bốn kịch bản đã xác định.
-		\item \textbf{Phần 7: Ứng dụng trong bài báo khoa học:} Trình bày cách Deng và cộng sự dùng khoảng BCa để phân tích relative validity \footnote{Deng et al. (2013)}.
-		\item \textbf{Phần 8: Percentile CI và tính bất biến:} So sánh ba phương pháp và xét tính bất biến dưới phép biến đổi tham số $g(\theta)$ \footnote{Efron and Tibshirani (1993)}.
+		\item \textbf{Phần 7: Ứng dụng trong bài báo khoa học:} Trình bày cách Deng và cộng sự dùng khoảng BCa để phân tích relative validity~\cite{deng2013}.
+		\item \textbf{Phần 8: Percentile CI và tính bất biến:} So sánh ba phương pháp và xét tính bất biến dưới phép biến đổi tham số $g(\theta)$~\cite{efron1993}.
 		\item \textbf{Phần 9: Kết luận và khuyến nghị:} Tóm tắt kết quả và nêu khuyến nghị trong phạm vi các ví dụ, kịch bản đã xét.
 	\end{itemize}
 
@@ -271,50 +267,42 @@ Bootstrap thay phân phối tổng thể chưa biết bằng phân phối thực
 	\newpage
 	\pagenumbering{arabic}
 	\setcounter{page}{1}
-	\fancyfoot[R]{\small\itshape Trang \thepage\ / \pageref{LastPage}}
-	\fancypagestyle{plain}{%
-		\fancyhf{}%
-		\fancyhead[L]{\small BÁO CÁO CUỐI KỲ -- THỐNG KÊ TÍNH TOÁN}%
-		\fancyhead[R]{\small Khoảng tin cậy Bootstrap}%
-		\fancyfoot[R]{\small\itshape Trang \thepage\ / \pageref{LastPage}}%
-		\renewcommand{\headrulewidth}{0.4pt}%
-	}
 
 	% ==================== PHẦN 1 ====================
 
 	\section{GIỚI THIỆU TỔNG QUAN VÀ BỐI CẢNH NGHIÊN CỨU}
 
 	\subsection{Bối cảnh và động lực nghiên cứu}
-	Trong lý thuyết suy diễn thống kê truyền thống, việc xây dựng khoảng tin cậy cho một tham số tổng thể $\theta$ (như trung bình $\mu$, phương sai $\sigma^2$, hay tỷ số Odds Ratio) thường dựa vào các giả định phân phối tham số chặt chẽ (chẳng hạn như giả định mẫu rút ra từ phân phối Chuẩn $N(\mu, \sigma^2)$) hoặc dựa trên các kết quả tiệm cận khi kích thước mẫu $n \to \infty$ thông qua Định lý Giới hạn Trung tâm (CLT) \footnote{Bùi Thùy Trang (2026, Chương 4); Rizzo (2019, Mục 8.3.1, tr.~224--225); Nguyễn Thị Quyên et al. (2025, tr.~31--34)}.
+	Trong lý thuyết suy diễn thống kê truyền thống, việc xây dựng khoảng tin cậy cho một tham số tổng thể $\theta$ (như trung bình $\mu$, phương sai $\sigma^2$, hay tỷ số Odds Ratio) thường dựa vào các giả định phân phối tham số chặt chẽ (chẳng hạn như giả định mẫu rút ra từ phân phối Chuẩn $N(\mu, \sigma^2)$) hoặc dựa trên các kết quả tiệm cận khi kích thước mẫu $n \to \infty$ thông qua Định lý Giới hạn Trung tâm (CLT)~\cite{buithuytrang2026,rizzo2019,quyen2025}.
 
-	Trong một số ứng dụng, dữ liệu có thể không đáp ứng tốt các giả định này; một số tình huống thường gặp gồm \footnote{Efron and Tibshirani (1993, tr. 11--14, 258--261)}:
+	Trong một số ứng dụng, dữ liệu có thể không đáp ứng tốt các giả định này; một số tình huống thường gặp gồm~\cite[tr. 11--14, 258--261]{efron1993}:
 	\begin{itemize}
-		\item \textbf{Cỡ mẫu nhỏ:} Chi phí, độ hiếm của đối tượng hoặc thời gian thu thập có thể giới hạn cỡ mẫu. Khi đó, xấp xỉ tiệm cận có thể chưa chính xác; mức độ ảnh hưởng phụ thuộc vào bài toán cụ thể \footnote{Efron and Tibshirani (1993, tr. 258--261)}.
-		\item \textbf{Phân phối lệch hoặc có ngoại lai:} Thu nhập, chi phí bồi thường bảo hiểm, thời gian sống sót và nồng độ độc tố có thể có phân phối lệch hoặc đuôi dày \footnote{Davison and Hinkley (1997, tr. 11--15)}.
-		\item \textbf{Thống kê ước lượng phức tạp:} Trong nhiều bài toán thực tế, nhà nghiên cứu quan tâm đến các tham số không có công thức phương sai giải tích đơn giản, chẳng hạn như Trung vị (Median), Hệ số Gini, Tỷ số rủi ro (Hazard Ratio), hay các trọng số tối ưu trong danh mục đầu tư \footnote{Efron and Tibshirani (1993, tr. 14--16, 38--41)}.
+		\item \textbf{Cỡ mẫu nhỏ:} Chi phí, độ hiếm của đối tượng hoặc thời gian thu thập có thể giới hạn cỡ mẫu. Khi đó, xấp xỉ tiệm cận có thể chưa chính xác; mức độ ảnh hưởng phụ thuộc vào bài toán cụ thể~\cite[tr. 258--261]{efron1993}.
+		\item \textbf{Phân phối lệch hoặc có ngoại lai:} Thu nhập, chi phí bồi thường bảo hiểm, thời gian sống sót và nồng độ độc tố có thể có phân phối lệch hoặc đuôi dày~\cite[tr. 11--15]{davison1997}.
+		\item \textbf{Thống kê ước lượng phức tạp:} Trong nhiều bài toán thực tế, nhà nghiên cứu quan tâm đến các tham số không có công thức phương sai giải tích đơn giản, chẳng hạn như Trung vị (Median), Hệ số Gini, Tỷ số rủi ro (Hazard Ratio), hay các trọng số tối ưu trong danh mục đầu tư~\cite[tr. 14--16, 38--41]{efron1993}.
 	\end{itemize}
 
-	Khi các giả định của phương pháp cổ điển không phù hợp, khoảng thu được có thể phản ánh chưa đúng độ bất định và coverage thực tế có thể khác mức danh nghĩa $1-\alpha$. Bootstrap là một phương pháp khác để ước lượng độ bất định, nhưng hiệu năng của khoảng vẫn phụ thuộc vào dữ liệu và cách lấy mẫu lại \footnote{Davison and Hinkley (1997, tr. 15--18); Efron (1979, tr. 1--3)}.
+	Khi các giả định của phương pháp cổ điển không phù hợp, khoảng thu được có thể phản ánh chưa đúng độ bất định và coverage thực tế có thể khác mức danh nghĩa $1-\alpha$. Bootstrap là một phương pháp khác để ước lượng độ bất định, nhưng hiệu năng của khoảng vẫn phụ thuộc vào dữ liệu và cách lấy mẫu lại~\cite{efron1979,davison1997}.
 
 	\subsection{Mục tiêu và phạm vi nghiên cứu}
-	Báo cáo tập trung vào hai phương pháp khoảng tin cậy Bootstrap: \textbf{Normal CI} và \textbf{Basic CI} \footnote{Bùi Thùy Trang (2026, Đề tài 8, tr.~8); Rizzo (2019, Mục 8.3, tr.~224--226)}. Percentile CI được đưa vào phần mở rộng.
+	Báo cáo tập trung vào hai phương pháp khoảng tin cậy Bootstrap: \textbf{Normal CI} và \textbf{Basic CI}~\cite{buithuytrang2026,rizzo2019}. Percentile CI được đưa vào phần mở rộng.
 
 	Báo cáo hướng đến các mục tiêu sau:
 	\begin{enumerate}
-		\item \textbf{Trình bày cơ sở toán học:} Giới thiệu ECDF, một số tính chất cơ bản, nguyên lý Plug-in và mô hình xác suất Bootstrap \footnote{Efron and Tibshirani (1993, tr. 28--32, 45--48); Rizzo (2019, Mục 8.1, tr.~213--217)}.
-		\item \textbf{So sánh phương pháp:} Trình bày công thức Normal CI và Basic CI, đồng thời giải thích phép biến đổi phân vị trong Basic CI \footnote{Davison and Hinkley (1997, tr. 193--204); Rizzo (2019, Mục 8.3.1--8.3.2, tr.~224--226); Justus et al. (2024, tr.~2--4)}.
+		\item \textbf{Trình bày cơ sở toán học:} Giới thiệu ECDF, một số tính chất cơ bản, nguyên lý Plug-in và mô hình xác suất Bootstrap~\cite{rizzo2019,efron1993}.
+		\item \textbf{So sánh phương pháp:} Trình bày công thức Normal CI và Basic CI, đồng thời giải thích phép biến đổi phân vị trong Basic CI~\cite{rizzo2019,davison1997,justus2024}.
 		\item \textbf{Minh họa và mô phỏng:} Phân tích hai ví dụ bằng cách liệt kê chính xác trong R; mô phỏng Monte Carlo với $K=10{,}000$ lần lặp để ước lượng coverage và độ dài trung bình trong bốn kịch bản.
-		\item \textbf{Ứng dụng và mở rộng:} Mô tả một ứng dụng BCa trong bài báo khoa học, so sánh Percentile CI và khảo sát tính bất biến dưới phép biến đổi $g(\theta)$; khuyến nghị giới hạn theo kết quả đã trình bày \footnote{Efron and Tibshirani (1993, tr. 162--163, 178--188); Deng et al. (2013, tr. 2--4)}.
+		\item \textbf{Ứng dụng và mở rộng:} Mô tả một ứng dụng BCa trong bài báo khoa học, so sánh Percentile CI và khảo sát tính bất biến dưới phép biến đổi $g(\theta)$; khuyến nghị giới hạn theo kết quả đã trình bày~\cite{efron1993,deng2013}.
 	\end{enumerate}
 
-	Phạm vi lý thuyết tập trung vào dữ liệu i.i.d. và ba phương pháp Normal, Basic, Percentile CI. Phần mô phỏng chỉ xét hai phân phối, hai cỡ mẫu và các thiết lập nêu tại Phần 6; kết quả không đại diện cho mọi dạng dữ liệu \footnote{Davison and Hinkley (1997, tr. 18--22)}.
+	Phạm vi lý thuyết tập trung vào dữ liệu i.i.d. và ba phương pháp Normal, Basic, Percentile CI. Phần mô phỏng chỉ xét hai phân phối, hai cỡ mẫu và các thiết lập nêu tại Phần 6; kết quả không đại diện cho mọi dạng dữ liệu~\cite[tr. 18--22]{davison1997}.
 
 	\subsection{Bối cảnh ra đời của thống kê phi tham số và resampling}
 	Sự phát triển của một số phương pháp lấy mẫu lại gắn với tiến bộ về tính toán. Các mốc tiêu biểu gồm:
 	\begin{itemize}
-		\item \textbf{Kiểm định hoán vị (thập niên 1930):} Ronald Fisher (1935) và E. J. G. Pitman (1937) phát triển các phép kiểm định dựa trên việc xét các cách gán nhãn lại dữ liệu. Khi số cấu hình tăng theo giai thừa của cỡ mẫu, việc liệt kê đầy đủ bị giới hạn bởi chi phí tính toán \footnote{Efron and Tibshirani (1993, tr. 202--219); Efron (1979, tr. 1--3)}.
-		\item \textbf{Jackknife (1949, 1958):} Maurice Quenouille (1949) đề xuất loại lần lượt từng quan sát để giảm độ chệch của ước lượng. John Tukey (1958) mở rộng phương pháp này để ước lượng phương sai và đặt tên là Jackknife. Phương pháp có hạn chế với một số thống kê không trơn, chẳng hạn trung vị \footnote{Efron and Tibshirani (1993, tr. 133--145); Efron (1979, tr. 6--10)}.
-		\item \textbf{Bootstrap (1979):} Efron giới thiệu phương pháp trong bài báo \textit{"Bootstrap Methods: Another Look at the Jackknife"}. Bootstrap thay phân phối tổng thể bằng phân phối thực nghiệm $F_n^*$ rồi lấy mẫu lại có hoàn lại. Khi không liệt kê toàn bộ các mẫu, mô phỏng Monte Carlo được dùng để xấp xỉ phân phối Bootstrap \footnote{Efron and Tibshirani (1993, tr. 45--50); Efron (1979, tr. 3--6)}.
+		\item \textbf{Kiểm định hoán vị (thập niên 1930):} Ronald Fisher (1935) và E. J. G. Pitman (1937) phát triển các phép kiểm định dựa trên việc xét các cách gán nhãn lại dữ liệu. Khi số cấu hình tăng theo giai thừa của cỡ mẫu, việc liệt kê đầy đủ bị giới hạn bởi chi phí tính toán~\cite{efron1979,efron1993}.
+		\item \textbf{Jackknife (1949, 1958):} Maurice Quenouille (1949) đề xuất loại lần lượt từng quan sát để giảm độ chệch của ước lượng. John Tukey (1958) mở rộng phương pháp này để ước lượng phương sai và đặt tên là Jackknife. Phương pháp có hạn chế với một số thống kê không trơn, chẳng hạn trung vị~\cite{efron1979,efron1993}.
+		\item \textbf{Bootstrap (1979):} Efron giới thiệu phương pháp trong bài báo \textit{"Bootstrap Methods: Another Look at the Jackknife"}. Bootstrap thay phân phối tổng thể bằng phân phối thực nghiệm của mẫu gốc rồi lấy mẫu lại có hoàn lại. Khi không liệt kê toàn bộ các mẫu, mô phỏng Monte Carlo được dùng để xấp xỉ phân phối Bootstrap~\cite{efron1979,efron1993}.
 	\end{itemize}
 
 
@@ -324,14 +312,21 @@ Bootstrap thay phân phối tổng thể chưa biết bằng phân phối thực
 	\section{CƠ SỞ TOÁN HỌC CỦA ECDF VÀ THUẬT TOÁN MONTE CARLO}
 
 	\subsection{Phân phối thực nghiệm (\textit{Empirical Distribution}) và các đặc trưng đại số}
-	Cho $x = (x_1, x_2, \dots, x_n)$ là một mẫu ngẫu nhiên gồm $n$ quan sát độc lập cùng phân phối (i.i.d.) rút từ hàm phân phối tích lũy $F(t) = \mathbb{P}(X \le t)$ chưa biết của tổng thể \footnote{Bùi Thùy Trang (2026, Chương 4)}.
+	Cho $X_{1:n}=(X_1,\ldots,X_n)$ là mẫu ngẫu nhiên gồm $n$ biến i.i.d.\ có
+    hàm phân phối $F(t)=\mathbb P(X_1\le t)$. Ký hiệu $x=(x_1,\ldots,x_n)$
+    là một mẫu đã quan sát từ $X_{1:n}$~\cite[Chương 4]{buithuytrang2026}.
 
-	\begin{definition}[\textbf{Hàm phân phối thực nghiệm ECDF}]
-		Hàm phân phối thực nghiệm $F_n^*(t)$ (hoặc $F_x^*(t)$) của mẫu quan sát $x$ được định nghĩa là hàm nấc thang đo tỷ lệ các quan sát trong mẫu nhỏ hơn hoặc bằng $t$ \footnote{Bùi Thùy Trang (2026, Chương 4)}:
-		\begin{equation}
-			F_n^*(t) = \frac{1}{n}\sum_{i=1}^{n} \mathbb{I}_{(-\infty, t]}(x_i) = \frac{\#\{x_i \le t\}}{n}, \quad \forall t \in \mathbb{R}
-		\end{equation}
-		trong đó $\mathbb{I}_A(\cdot)$ là hàm chỉ thị (indicator function):
+    \begin{definition}[\textbf{Hàm phân phối thực nghiệm ECDF}]
+        Với mỗi $t\in\mathbb R$, $F_n(t)$ là đại lượng ngẫu nhiên trước khi
+        quan sát, còn $F_{n,x}(t)$ là giá trị tính từ mẫu đã quan sát~\cite[Chương 4]{buithuytrang2026}:
+        \begin{equation}
+            \begin{aligned}
+                F_n(t)&=\frac1n\sum_{i=1}^n \mathbb I_{(-\infty,t]}(X_i),\\
+                F_{n,x}(t)&=\frac1n\sum_{i=1}^n\mathbb I_{(-\infty,t]}(x_i)
+                    =\frac{\#\{i:x_i\le t\}}{n}.
+            \end{aligned}
+        \end{equation}
+        trong đó $\mathbb{I}_A(\cdot)$ là hàm chỉ thị (indicator function):
 		\begin{equation}
 			\mathbb{I}_A(y) = \begin{cases}
 				1 & \text{nếu } y \in A \\
@@ -339,7 +334,7 @@ Bootstrap thay phân phối tổng thể chưa biết bằng phân phối thực
 			\end{cases}
 		\end{equation}
 	\end{definition}
-		Xét mẫu minh họa $x=\{12,15,18,21,24\}$. Tại mỗi giá trị quan sát
+		Xét mẫu minh họa $x=(12,15,18,21,24)$. Tại mỗi giá trị quan sát
 		$x_{(i)}$, hàm ECDF bằng tỷ lệ số quan sát không vượt quá giá trị đó:
 
 		\begin{table}[htbp]
@@ -348,7 +343,7 @@ Bootstrap thay phân phối tổng thể chưa biết bằng phân phối thực
 			\label{tab:ecdf-values}
 			\begin{tabular}{ccc}
 				\toprule
-				Giá trị $x_{(i)}$ & Số quan sát $\leq x_{(i)}$ & $F_n^*(x_{(i)})$ \\
+				Giá trị $x_{(i)}$ & Số quan sát $\leq x_{(i)}$ & $F_{n,x}(x_{(i)})$ \\
 				\midrule
 				12 & 1 & 0.2 \\
 				15 & 2 & 0.4 \\
@@ -359,36 +354,34 @@ Bootstrap thay phân phối tổng thể chưa biết bằng phân phối thực
 			\end{tabular}
 		\end{table}
 
-	\textbf{Các tính chất xác suất của $F_n^*(t)$:}
+	\textbf{Các tính chất xác suất của $F_n(t)$:}
 	\begin{enumerate}
 		\item \textbf{Tính chất phân phối nhị thức:}
-		Trước khi quan sát dữ liệu, ký hiệu $X_1,\dots,X_n$ là các biến ngẫu
-		nhiên độc lập cùng phân phối theo $F$. Với một giá trị $t$ cố định, đặt
-		$Y_i=\mathbf{1}\{X_i\leq t\}$. Khi đó $Y_i$ là biến Bernoulli với xác
-		suất thành công $F(t)$, nên:
-		\begin{equation}
-			nF_n^*(t)=\sum_{i=1}^{n}Y_i
+		Với $t$ cố định, đặt $Y_i=\mathbf{1}\{X_i\le t\}$. Các $Y_i$ là
+        biến Bernoulli độc lập cùng xác suất thành công $F(t)$, nên:
+        \begin{equation}
+			nF_n(t)=\sum_{i=1}^{n}Y_i
 			\sim \operatorname{Binomial}\bigl(n,F(t)\bigr).
 		\end{equation}
-		\item \textbf{Tính không chệch (Unbiasedness):} Kỳ vọng của $F_n^*(t)$ đúng bằng phân phối tổng thể thực sự $F(t)$ tại mọi điểm $t$ \footnote{Bùi Thùy Trang (2026, Chương 4)}:
+		\item \textbf{Tính không chệch (Unbiasedness):} Kỳ vọng của $F_n(t)$ đúng bằng phân phối tổng thể thực sự $F(t)$ tại mọi điểm $t$~\cite[Chương 4]{buithuytrang2026}:
 		\begin{equation}
-			\mathbb{E}[F_n^*(t)] = \mathbb{E}\left[\frac{1}{n}\sum_{i=1}^n Y_i\right] = \frac{1}{n} \cdot n F(t) = F(t)
+			\mathbb{E}[F_n(t)] = \mathbb{E}\left[\frac{1}{n}\sum_{i=1}^n Y_i\right] = \frac{1}{n} \cdot n F(t) = F(t)
 		\end{equation}
-		\item \textbf{Phương sai và hội tụ tại từng điểm:} Phương sai của $F_n^*(t)$ tiến về 0 khi $n \to \infty$ \footnote{Bùi Thùy Trang (2026, Chương 4)}:
+		\item \textbf{Phương sai và hội tụ tại từng điểm:} Phương sai của $F_n(t)$ tiến về 0 khi $n \to \infty$~\cite[Chương 4]{buithuytrang2026}:
 		\begin{equation}
-			\text{Var}\left(F_n^*(t)\right) = \text{Var}\left(\frac{1}{n}\sum_{i=1}^n Y_i\right) = \frac{n F(t)(1 - F(t))}{n^2} = \frac{F(t)(1 - F(t))}{n} \xrightarrow{n \to \infty} 0
+			\text{Var}\left(F_n(t)\right) = \text{Var}\left(\frac{1}{n}\sum_{i=1}^n Y_i\right) = \frac{n F(t)(1 - F(t))}{n^2} = \frac{F(t)(1 - F(t))}{n} \xrightarrow{n \to \infty} 0
 		\end{equation}
 		Với mỗi $t$ cố định, bất đẳng thức Chebyshev cho thấy:
 		\begin{equation}
-			\mathbb{P}\left(\left|F_n^*(t)-F(t)\right|>\varepsilon\right)
+			\mathbb{P}\left(\left|F_n(t)-F(t)\right|>\varepsilon\right)
 			\leq
 			\frac{F(t)(1-F(t))}{n\varepsilon^2}
 			\longrightarrow 0.
 		\end{equation}
-		Vì vậy, với mỗi $t$ cố định, $F_n^*(t)$ hội tụ theo xác suất về $F(t)$.
-		\item \textbf{Định lý Glivenko-Cantelli:} Hàm phân phối thực nghiệm $F_n^*(t)$ hội tụ đều về hàm phân phối tổng thể $F(t)$ hầu chắc chắn trên toàn bộ đường thẳng thực $\mathbb{R}$ \footnote{Efron and Tibshirani (1993, tr. 10--12)}:
+		Vì vậy, với mỗi $t$ cố định, $F_n(t)$ hội tụ theo xác suất về $F(t)$.
+		\item \textbf{Định lý Glivenko-Cantelli:} Hàm phân phối thực nghiệm $F_n(t)$ hội tụ đều về hàm phân phối tổng thể $F(t)$ hầu chắc chắn trên toàn bộ đường thẳng thực $\mathbb{R}$~\cite[tr. 10--12]{efron1993}:
 		\begin{equation}
-			\mathbb{P}\left( \lim_{n \to \infty} \sup_{t \in \mathbb{R}} |F_n^*(t) - F(t)| = 0 \right) = 1
+			\mathbb{P}\left( \lim_{n \to \infty} \sup_{t \in \mathbb{R}} |F_n(t) - F(t)| = 0 \right) = 1
 		\end{equation}
 
 	\newpage
@@ -412,42 +405,49 @@ legend("topleft", legend = c("True Normal", paste("n =", n_sizes)),
 	\subsection{Nguyên lý Plug-in và Mô hình Không gian Xác suất Bootstrap}
 
 	\begin{definition}[\textbf{Nguyên lý Plug-in}]
-		Giả sử tham số tổng thể cần nghiên cứu có thể biểu diễn dưới dạng một phiếm hàm (functional) $\theta = \theta(F)$ phụ thuộc vào hàm phân phối tổng thể $F$. Ước lượng Plug-in $\hat{\theta}_n$ của $\theta$ được xác định bằng cách thay thế hàm phân phối $F$ chưa biết bằng hàm phân phối thực nghiệm $F_n^*$ \footnote{Bùi Thùy Trang (2026, Chương 4); Rizzo (2019, Mục 8.1, tr.~213--215); Efron and Tibshirani (1993, tr. 28--30)}:
-		\begin{equation}
-			\hat{\theta}_n = \theta(F_n^*)
-		\end{equation}
-	\end{definition}
+		Nếu $\theta=T(F)$ là một phiếm hàm của phân phối tổng thể, ước lượng
+        plug-in là $T(F_n)$. Sau khi quan sát $X_{1:n}=x$, giá trị ước lượng
+        là $T(F_{n,x})$~\cite{buithuytrang2026,efron1993}.
+        \begin{equation}
+            \hat\theta_n=T(F_n),\qquad
+            \hat\theta_n(x)=T(F_{n,x}).
+        \end{equation}
+    \end{definition}
 
-	\textbf{Khai triển Đại số cho các Ước lượng Plug-in Thường gặp:}
-	\begin{itemize}
-		\item \textbf{Trung bình tổng thể $\mu(F) = \int x dF(x)$:} Thay $F$ bằng $F_n^*$, ta thu được trung bình mẫu $\bar{x}$ \footnote{Bùi Thùy Trang (2026, Chương 4)}:
-		\begin{equation}
-			\hat{\mu}_{\text{plug-in}} = \mu(F_n^*) = \int x dF_n^*(x) = \sum_{i=1}^n x_i \cdot \mathbb{P}_X^*(X^* = x_i) = \frac{1}{n}\sum_{i=1}^n x_i = \bar{x}
-		\end{equation}
-		\item \textbf{Phương sai tổng thể $\sigma^2(F) = \int (x - \mu)^2 dF(x)$:} Thay $F$ bằng $F_n^*$ và $\mu$ bằng $\bar{x}$, ta thu được phương sai thực nghiệm mẫu (mẫu số $n$) \footnote{Bùi Thùy Trang (2026, Chương 4)}:
-		\begin{equation}
-			\hat{\sigma}^2_{\text{plug-in}} = \sigma^2(F_n^*) = \int (x - \bar{x})^2 dF_n^*(x) = \frac{1}{n}\sum_{i=1}^n (x_i - \bar{x})^2
-		\end{equation}
-	\end{itemize}
+    \textbf{Hai ví dụ plug-in trên mẫu đã quan sát:}
+    \begin{itemize}
+        \item Với trung bình, $F_{n,x}$ gán trọng số $1/n$ cho mỗi vị trí $i$.
+        Nếu nhiều vị trí có cùng giá trị, các trọng số của chúng được cộng lại.
+        Do đó~\cite[Chương 4]{buithuytrang2026}:
+        \begin{equation}
+            \mu(F_{n,x})=\int u\,dF_{n,x}(u)=\frac1n\sum_{i=1}^n x_i=\bar x.
+        \end{equation}
+        \item Với phương sai, thay $F$ bằng $F_{n,x}$ và trung bình tổng thể
+        bằng $\bar x$ cho phương sai thực nghiệm với mẫu số $n$~\cite[Chương 4]{buithuytrang2026}:
+        \begin{equation}
+            \sigma^2(F_{n,x})=\int (u-\bar x)^2\,dF_{n,x}(u)
+            =\frac1n\sum_{i=1}^n (x_i-\bar x)^2.
+        \end{equation}
+    \end{itemize}
 
-	\newpage
+    \newpage
 
-	\textbf{Sơ đồ Tương đương trong "Thế giới Bootstrap":}
-	Trong cơ chế Bootstrap, phân phối thực nghiệm $F_n^*$ đóng vai trò phân phối tổng thể thay thế; mẫu quan sát $x$ vì vậy được xem như một tổng thể giả lập \footnote{Efron and Tibshirani (1993, tr. 34--36)}:
+    \textbf{Sơ đồ Tương đương trong "Thế giới Bootstrap":}
+	Trong cơ chế Bootstrap, phân phối thực nghiệm $F_{n,x}$ đóng vai trò phân phối tổng thể thay thế; mẫu quan sát $x$ vì vậy được xem như một tổng thể giả lập~\cite[tr. 34--36]{efron1993}:
 	\begin{equation}
 		\begin{array}{r c l c l c l}
 			\textbf{Thế giới thực:}
 			& F
 			& \xrightarrow{\text{lấy mẫu ngẫu nhiên}}
-			& x
+			& X_{1:n}
 			& \xrightarrow{\text{tính thống kê}}
 			& \hat{\theta}_n
 			& \\[1.2em]
 
 			\textbf{Thế giới Bootstrap:}
-			& F_n^*
+			& F_{n,x}
 			& \xrightarrow{\text{lấy mẫu có hoàn lại}}
-			& x^*
+			& X_{1:n}^*
 			& \xrightarrow{\text{tính thống kê}}
 			& \hat{\theta}_n^*
 			&
@@ -456,51 +456,82 @@ legend("topleft", legend = c("True Normal", paste("n =", n_sizes)),
 
 	\subsection{Mẫu Bootstrap và Thuật toán Lấy mẫu lại Monte Carlo}
 
-	Một \textbf{Mẫu Bootstrap} $x^* = (x_1^*, x_2^*, \dots, x_n^*)$ là một mẫu ngẫu nhiên kích thước $n$ được rút ngẫu nhiên có hoàn lại từ mẫu quan sát gốc $x = (x_1, \dots, x_n)$. Mọi phần tử $x_i^*$ đều nhận giá trị $x_j$ bất kỳ trong mẫu gốc với xác suất đồng đều $\mathbb{P}(x_i^* = x_j) = 1/n$ \footnote{Bùi Thùy Trang (2026, Chương 4); Rizzo (2019, Mục 8.1, tr.~214--215); Efron and Tibshirani (1993, tr. 45--47)}. Giá trị $\hat{\theta}_n^* = t(x^*)$ tính trên mẫu Bootstrap được gọi là một \textbf{Bản sao Bootstrap (Bootstrap Replicate)}.
+	Cho trước $X_{1:n}=x$, rút độc lập $n$ chỉ số $J_1,\ldots,J_n$,
+    mỗi chỉ số đều trên $\{1,\ldots,n\}$, rồi đặt $X_i^*=x_{J_i}$.
+    Ký hiệu $\mathbb P^*$ là xác suất có điều kiện theo mẫu gốc.
+    Khi đánh giá tại mẫu $x$:
+    \[
+        \mathbb P^*(J_i=j)=\frac1n,\qquad
+        \mathbb P^*(X_i^*=v)=\frac{\#\{j:x_j=v\}}{n}.
+    \]
+    Vì vậy, các $X_i^*$ có phân phối có điều kiện $F_{n,x}$.
+    Chẳng hạn, với $x=(1,1,1,9)$, mỗi vị trí có xác suất $1/4$, còn giá trị
+    $1$ có xác suất $3/4$. ECDF $F_n^*$ của mẫu lấy lại được tính từ các
+    $X_i^*$. Dùng cùng quy tắc thống kê $t$ trên mẫu đó cho bản sao
+    $\hat\theta_n^*=t(X_{1:n}^*)$. Với ước lượng plug-in, bản sao là $T(F_n^*)$~\cite{buithuytrang2026,rizzo2019,efron1993}.
 
-	Nếu $n$ quan sát ban đầu đôi một khác nhau, số mẫu Bootstrap khác
+    Nếu $n$ quan sát ban đầu đôi một khác nhau, số mẫu Bootstrap khác
 	nhau khi xem mỗi mẫu như một đa tập, không xét thứ tự, là
 	$\binom{2n-1}{n}$. Với $n=20$, con số này bằng
 	$\binom{39}{20}=68{,}923{,}264{,}410$. Số lượng lớn này cho thấy việc
 	liệt kê toàn bộ các cấu hình thường không thuận tiện, vì vậy ta dùng
-	mô phỏng Monte Carlo để xấp xỉ phân phối Bootstrap \footnote{Efron and Tibshirani (1993, tr. 46--47); Rizzo (2019, Thuật toán 8.1, tr.~214--215)}.
+	mô phỏng Monte Carlo để xấp xỉ phân phối Bootstrap~\cite{rizzo2019,efron1993}.
 
 	\begin{algorithm}[H]
-	\Input{Mẫu dữ liệu gốc $x=(x_1,\dots,x_n)$; số lần lấy mẫu lại $B$; hàm thống kê $t(\cdot)$ \footnote{Bùi Thùy Trang (2026, Chương 4); Rizzo (2019, Mục 8.1.1, tr.~215--216)}.}
-	\Output{$B$ bản sao Bootstrap $\{\hat{\theta}^{*(1)},\dots,\hat{\theta}^{*(B)}\}$ và sai số chuẩn Bootstrap $\widehat{se}^*$.}
-		\BlankLine
-		Tính giá trị ước lượng điểm trên mẫu gốc: $\hat{\theta}_n = t(x)$ \;
-		\For{$b = 1, 2, \dots, B$}{
-			Rút ngẫu nhiên có hoàn lại $n$ phần tử từ mẫu $x$ để tạo mẫu Bootstrap $x^{*(b)} = (x_1^{*(b)}, \dots, x_n^{*(b)})$ \;
-			Tính giá trị bản sao Bootstrap thứ $b$: $\hat{\theta}^{*(b)} = t\left(x^{*(b)}\right)$ \;
-		}
-		Tính trung bình đại số của $B$ bản sao Bootstrap: $\bar{\theta}^* = \frac{1}{B}\sum_{b=1}^{B} \hat{\theta}^{*(b)}$ \;
-		Tính Ước lượng Sai số chuẩn Bootstrap $\widehat{se}^*$:
-		\begin{equation}
-			\widehat{se}^* = \sqrt{\frac{1}{B-1}\sum_{b=1}^{B} \left(\hat{\theta}^{*(b)} - \bar{\theta}^*\right)^2} \quad
-		\end{equation}\
-		\Return Tập hợp các bản sao $\{\hat{\theta}^{*(b)}\}_{b=1}^B$ và $\widehat{se}^*$ \;
-		\caption{Thuật toán lấy mẫu lại Monte Carlo cho Bootstrap}
-	\end{algorithm}
-	\subsubsection{Ảnh hưởng của số lần lấy mẫu Bootstrap $B$}
+        \Input{Mẫu đã quan sát $x=(x_1,\dots,x_n)$, hàm thống kê $t(\cdot)$ và $B\ge 2$.}
+        \Output{Giá trị $\hat\theta_n(x)$, dãy bản sao $(T_1^*,\ldots,T_B^*)$,
+        ước lượng phương sai $\widehat V_B^*$ và sai số chuẩn $\widehat{se}^*$.}
+        Tính $\hat\theta_n(x)=t(x)$\;
+        \For{$b=1,\ldots,B$}{
+            Rút độc lập $J_1^{(b)},\ldots,J_n^{(b)}$ đều trên $\{1,\ldots,n\}$\;
+            Lập mẫu lấy lại $X^{*(b)}=(x_{J_1^{(b)}},\ldots,x_{J_n^{(b)}})$\;
+            Tính và lưu $T_b^*=t(X^{*(b)})$\;
+        }
+        Tính $\bar T_B^*=\frac1B\sum_{b=1}^B T_b^*$\;
+        Tính $\widehat V_B^*=\frac1{B-1}\sum_{b=1}^B(T_b^*-\bar T_B^*)^2$,
+        rồi lấy $\widehat{se}^*=\sqrt{\widehat V_B^*}$\;
+        \Return $\hat\theta_n(x),\ (T_b^*)_{b=1}^B,\ \widehat V_B^*,\ \widehat{se}^*$\;
+        \caption{Lấy mẫu lại Monte Carlo và ước lượng sai số chuẩn Bootstrap}
+        \label{alg:bootstrap-monte-carlo}
+    \end{algorithm}
 
-	Sau khi cố định mẫu gốc, ký hiệu phân phối có điều kiện của bản sao
-	Bootstrap là
-	\[
-	G_n^*(t)
-	=
-	\mathbb{P}^*\left(\hat{\theta}_n^* \leq t \mid x\right).
-	\]
-	Trong tính toán, ta chỉ tạo $B$ bản sao Bootstrap nên ước lượng phân phối
-	này là
-	\[
-	\widehat{G}_{n,B}^*(t)
-	=
-	\frac{1}{B}\sum_{b=1}^{B}
-	\mathbf{1}\left\{\hat{\theta}^{*(b)}\leq t\right\}.
-	\]
+    Với mẫu gốc đã cố định, các lần lặp dùng dãy chỉ số độc lập nên
+    $T_1^*,\ldots,T_B^*$ độc lập cùng phân phối.
+    Đặt $\mu^*=\mathbb E^*[T_1^*]$ và $V^*=\operatorname{Var}^*(T_1^*)$
+    khi moment bậc hai hữu hạn. Khi đó
+    \[
+        \sum_{b=1}^B(T_b^*-\bar T_B^*)^2
+        =\sum_{b=1}^B(T_b^*-\mu^*)^2-B(\bar T_B^*-\mu^*)^2.
+    \]
+    Vì $\operatorname{Var}^*(\bar T_B^*)=V^*/B$, lấy kỳ vọng có điều kiện
+    cho $BV^*-V^*=(B-1)V^*$. Do đó $\mathbb E^*[\widehat V_B^*]=V^*$~\cite[Công thức 8.1, tr.~216]{rizzo2019}.
+    Sai số chuẩn Bootstrap cần ước lượng là $\sqrt{V^*}$.
+    Đại lượng $\sqrt{V^*/B}$ đo sai số Monte Carlo khi ước lượng $\mu^*$.
 
-	Với mẫu gốc đã cố định, các chỉ báo trong tổng có phân phối Bernoulli
+    Với thống kê trung bình, tính trực tiếp từ $F_{n,x}$ cho
+    \begin{equation}
+        \operatorname{Var}^*(\bar X^*)
+        =\frac{\operatorname{Var}^*(X_1^*)}{n}
+        =\frac1{n^2}\sum_{i=1}^n(x_i-\bar x)^2
+        =\frac{n-1}{n^2}S^2,
+        \label{eq:bootstrap-mean-variance}
+    \end{equation}
+    trong đó $S^2=\sum_i(x_i-\bar x)^2/(n-1)$ với $n\ge2$.
+    Khi liệt kê đủ $n^n$ dãy chỉ số, phương sai chính xác được tính với
+    trọng số $1/n^n$ trên mỗi dãy. Mẫu số $B-1$ dùng khi ước lượng $V^*$
+    từ $B$ lần lấy mẫu lại ngẫu nhiên.
+
+    \subsubsection{Ảnh hưởng của số lần lấy mẫu Bootstrap $B$}
+
+    Với mẫu gốc cố định, hàm phân phối có điều kiện và ước lượng Monte Carlo
+    từ $B$ bản sao lần lượt là
+    \[
+        G_n^*(t)=\mathbb P^*(\hat\theta_n^*\le t),
+        \qquad
+        \widehat G_{n,B}^*(t)=\frac1B\sum_{b=1}^B\mathbf{1}\{T_b^*\le t\}.
+    \]
+
+	Với mẫu gốc đã cố định, các chỉ báo từ $B$ lần lấy lại độc lập có phân phối Bernoulli
 	với xác suất thành công $G_n^*(t)$. Do đó:
 	\begin{align}
 		\mathbb{E}^*\left[\widehat{G}_{n,B}^*(t)\right]
@@ -518,10 +549,9 @@ legend("topleft", legend = c("True Normal", paste("n =", n_sizes)),
 \subsubsection{Điều kiện để phép xấp xỉ Bootstrap có ý nghĩa}
 
 Bootstrap thay phân phối tổng thể chưa biết $F$ bằng phân phối thực
-nghiệm $F_n^*$. Tuy nhiên, việc thay thế này không bảo đảm mọi phân phối
+nghiệm quan sát $F_{n,x}$. Tuy nhiên, việc thay thế này không bảo đảm mọi phân phối
 Bootstrap đều xấp xỉ tốt phân phối lấy mẫu của mọi thống kê. Ta cần xét
-điều kiện áp dụng và tính chất của thống kê đang nghiên cứu
-\footnote{Bickel and Freedman (1981, Theorem 2.1, tr. 1198)}.
+điều kiện áp dụng và tính chất của thống kê đang nghiên cứu~\cite[Theorem 2.1, tr. 1198]{bickelfreedman1981}.
 
 Xét trường hợp thống kê là trung bình mẫu. Giả sử
 $X_1,\ldots,X_n$ độc lập cùng phân phối, có kỳ vọng $\mu$ và phương sai
@@ -541,15 +571,15 @@ phối Chuẩn tắc:
 \end{equation}
 trong đó $\mathbb{P}^*$ là xác suất có điều kiện khi giữ cố định mẫu quan
 sát ban đầu, còn sự hội tụ theo xác suất được xét theo cơ chế lấy mẫu ban
-đầu. Kết quả này là cơ sở để dùng các bản sao Bootstrap xấp xỉ phân phối
+đầu. Tỷ số được xác định khi $s_n>0$. Có thể quy ước tỷ số bằng $0$ trên
+biến cố $s_n=0$, vì $s_n$ hội tụ về $\sigma>0$ theo xác suất. Kết quả này là cơ sở để dùng các bản sao Bootstrap xấp xỉ phân phối
 lấy mẫu của trung bình mẫu trong các điều kiện đã nêu.
 
 Kết quả trên chỉ áp dụng cho trung bình mẫu dưới các điều kiện đã nêu.
 Với mẫu nhỏ, phân phối thực nghiệm có thể chưa thể hiện tốt phần đuôi của
 tổng thể; với dữ liệu phụ thuộc, cách lấy mẫu lại cần giữ cấu trúc phụ
 thuộc. Khi áp dụng Bootstrap, cần xác định thống kê quan tâm, giả định về
-dữ liệu và đơn vị lấy mẫu lại
-\footnote{Davison and Hinkley (1997, tr. 35--38); Bickel and Freedman (1981, tr. 1201--1204)}.
+dữ liệu và đơn vị lấy mẫu lại~\cite{davison1997,bickelfreedman1981}.
 
 	% ==================== PHẦN 3 ====================
 
@@ -559,7 +589,7 @@ dữ liệu và đơn vị lấy mẫu lại
 	\subsection{Khoảng tin cậy Bootstrap chuẩn tắc (Normal CI)}
 
 	\subsubsection{Cơ sở và giả định}
-	Normal Bootstrap CI dùng sai số chuẩn Bootstrap trong công thức khoảng dựa trên xấp xỉ Chuẩn. Phương pháp giả định phân phối lấy mẫu của $\hat{\theta}_n$ xấp xỉ Chuẩn quanh tham số $\theta$ \footnote{Bùi Thùy Trang (2026, Chương 4; Đề tài 8, tr.~8); Rizzo (2019, Mục 8.3.1, tr.~224--225, Công thức 8.5); Efron and Tibshirani (1993, tr. 153--155)}:
+	Normal Bootstrap CI dùng sai số chuẩn Bootstrap trong công thức khoảng dựa trên xấp xỉ Chuẩn. Phương pháp giả định phân phối lấy mẫu của $\hat{\theta}_n$ xấp xỉ Chuẩn quanh tham số $\theta$~\cite{buithuytrang2026,rizzo2019,efron1993}:
 	\begin{equation}
 		\hat{\theta}_n \approx N\left(\theta, se(\hat{\theta}_n)^2\right) \quad \text{hoặc} \quad \frac{\hat{\theta}_n - \theta}{se(\hat{\theta}_n)} \approx N(0, 1)
 	\end{equation}
@@ -573,88 +603,89 @@ dữ liệu và đơn vị lấy mẫu lại
 	-z_{1-\alpha/2}\leq Z\leq z_{1-\alpha/2}
 	\right)\approx 1-\alpha.
 	\]
-	Giải bất đẳng thức theo $\theta$ cho ta khoảng
-	$\hat{\theta}_n\pm z_{1-\alpha/2}se(\hat{\theta}_n)$. Normal Bootstrap CI
-	thay sai số chuẩn chưa biết bằng sai số chuẩn Bootstrap $\widehat{se}^*$.
-	Thay vì tính toán $se(\hat{\theta}_n)$ bằng các công thức giải tích phức tạp, Normal CI sử dụng ước lượng sai số chuẩn Bootstrap $\widehat{se}^*$ thu được từ mô phỏng Monte Carlo \footnote{Efron and Tibshirani (1993, tr. 47, 154)}.
+    Đặt $\sigma_n=se(\hat{\theta}_n)$. Với $\sigma_n>0$, giải bất đẳng thức theo
+    $\theta$ cho ta khoảng $\hat{\theta}_n\pm z_{1-\alpha/2}\sigma_n$.
+    Trong thực tế, $\sigma_n$ chưa biết. Ta ước lượng nó bằng độ lệch chuẩn
+    mẫu $\widehat{se}^*$ của $B$ bản sao Bootstrap, tính khi giữ mẫu gốc cố định~\cite[tr.~47, 154]{efron1993}.
 
-	\subsubsection{Công thức xây dựng khoảng tin cậy}
-	Khoảng tin cậy Bootstrap Chuẩn tắc ở độ tin cậy $1 - \alpha$ được xác định bởi công thức \footnote{Bùi Thùy Trang (2026, Chương 4; Đề tài 8, tr.~8); Rizzo (2019, Công thức 8.5, tr.~224--225)}:
+    Xét $n\to\infty$ với số bản sao $B=B_n$. Để thay $\sigma_n$ bằng
+    $\widehat{se}^*$, giả sử hai điều kiện sau:
+    \[
+        Z=\frac{\hat{\theta}_n-\theta}{\sigma_n}
+        \xrightarrow{d}N(0,1),
+        \qquad
+        \frac{\widehat{se}^*}{\sigma_n}\xrightarrow{P}1.
+    \]
+    Theo định lý Slutsky,
+    \[
+        \frac{\hat{\theta}_n-\theta}{\widehat{se}^*}
+        = Z\,\frac{\sigma_n}{\widehat{se}^*}\xrightarrow{d}N(0,1).
+    \]
+    Dùng các mốc $\pm z_{1-\alpha/2}$ cho đại lượng này và giải theo $\theta$
+    dẫn đến công thức dưới đây. Độ bao phủ $1-\alpha$ là mức danh nghĩa.
+
+    \subsubsection{Công thức xây dựng khoảng tin cậy}
+	Khoảng tin cậy Bootstrap Chuẩn tắc ở độ tin cậy $1 - \alpha$ được xác định bởi công thức~\cite{buithuytrang2026,rizzo2019}:
 	\begin{equation}
 		CI_{\text{Normal}} = \left[ \hat{\theta}_n - z_{1-\alpha/2} \cdot \widehat{se}^*, \quad \hat{\theta}_n + z_{1-\alpha/2} \cdot \widehat{se}^* \right]
 	\end{equation}
 	trong đó:
 	\begin{itemize}
-		\item $\hat{\theta}_n = t(x)$ là ước lượng điểm tính trên mẫu dữ liệu gốc \footnote{Bùi Thùy Trang (2026, Chương 4)}.
-		\item $z_{1-\alpha/2} = \Phi^{-1}(1 - \alpha/2)$ là phân vị mức $1-\alpha/2$ của phân phối Chuẩn tắc $N(0,1)$ \footnote{Bùi Thùy Trang (2026, Chương 4)}. Với $\alpha=0.05$, giá trị này xấp xỉ $1.96$.
-		\item $\widehat{se}^* = \sqrt{\frac{1}{B-1}\sum_{b=1}^{B} \left(\hat{\theta}^{*(b)} - \bar{\theta}^*\right)^2}$ là độ lệch chuẩn mẫu của $B$ bản sao Bootstrap \footnote{Bùi Thùy Trang (2026, Chương 4); Rizzo (2019, Công thức 8.1, tr.~216)}.
+		\item $\hat\theta_n=t(X_{1:n})$ là ước lượng và $t(x)$ là giá trị tính từ mẫu gốc~\cite[Chương 4]{buithuytrang2026}.
+		\item $z_{1-\alpha/2} = \Phi^{-1}(1 - \alpha/2)$ là phân vị mức $1-\alpha/2$ của phân phối Chuẩn tắc $N(0,1)$~\cite[Chương 4]{buithuytrang2026}. Với $\alpha=0.05$, giá trị này xấp xỉ $1.96$.
+		\item $\widehat{se}^* = \sqrt{\frac{1}{B-1}\sum_{b=1}^{B} \left(\hat{\theta}^{*(b)} - \bar{\theta}^*\right)^2}$ là độ lệch chuẩn mẫu của $B$ bản sao Bootstrap~\cite{buithuytrang2026,rizzo2019}.
 	\end{itemize}
 
 	\subsection{Khoảng tin cậy Bootstrap cơ bản (Basic CI)}
 
 	\subsubsection{Cơ sở và phép đảo phân vị (quantile flipping)}
-	Basic CI không yêu cầu phân phối lấy mẫu của $\hat{\theta}_n$ là Chuẩn đối xứng. Phương pháp dùng phân phối Bootstrap của sai số $\delta^*=\hat{\theta}_n^*-\hat{\theta}_n$ để xấp xỉ phân phối lấy mẫu của $\delta=\hat{\theta}_n-\theta$ \footnote{Bùi Thùy Trang (2026, Chương 4; Đề tài 8, tr.~8); Davison and Hinkley (1997, tr. 193--196); Rizzo (2019, Mục 8.3.2, tr.~225--226)}:
+	Basic CI không yêu cầu phân phối lấy mẫu của $\hat{\theta}_n$ là Chuẩn đối xứng. Phương pháp dùng phân phối Bootstrap của sai số $\delta^*=\hat{\theta}_n^*-\hat{\theta}_n$ để xấp xỉ phân phối lấy mẫu của $\delta=\hat{\theta}_n-\theta$~\cite{buithuytrang2026,rizzo2019,davison1997}:
 	\begin{equation}
 		\mathbb{P}\left(\hat{\theta}_n - \theta \le t\right) \approx \mathbb{P}^*\left(\hat{\theta}_n^* - \hat{\theta}_n \le t\right)
 	\end{equation}
-	Ở đây, $\mathbb{P}^*$ là xác suất trong thế giới Bootstrap khi giữ cố định
-	mẫu quan sát ban đầu. Dấu xấp xỉ là giả định then chốt của Basic CI:
-	phân phối sai số Bootstrap được dùng để xấp xỉ phân phối sai số lấy mẫu.
-	Các phép biến đổi trong định lý sau đó là đại số dựa trên giả định này;
-	chúng không tự chứng minh rằng phép xấp xỉ luôn chính xác.
-	\begin{theorem}[\textbf{Chứng minh Đại số Cơ chế Quantile Flipping}]
-		Gọi $q_{\alpha/2}^*$ và $q_{1-\alpha/2}^*$ lần lượt là các phân vị mức $\alpha/2$ và $1-\alpha/2$ của tập hợp các bản sao Bootstrap $\{\hat{\theta}^{*(1)}, \dots, \hat{\theta}^{*(B)}\}$ \footnote{Davison and Hinkley (1997, tr. 194--195)}. Theo định nghĩa phân vị thực nghiệm:
-		\begin{equation}
-			\mathbb{P}^*\left( q_{\alpha/2}^* \le \hat{\theta}_n^* \le q_{1-\alpha/2}^* \right) \approx 1 - \alpha
-		\end{equation}
-		Biến đổi biểu thức trong dấu xác suất bằng cách trừ $\hat{\theta}_n$ ở tất cả các vế \footnote{Davison and Hinkley (1997, tr. 194--195); Rizzo (2019, tr.~225--226)}:
-		\begin{equation}
-			\mathbb{P}^*\left( q_{\alpha/2}^* - \hat{\theta}_n \le \hat{\theta}_n^* - \hat{\theta}_n \le q_{1-\alpha/2}^* - \hat{\theta}_n \right) \approx 1 - \alpha
-		\end{equation}
-		Áp dụng giả định xấp xỉ độ lệch, ta thay $\hat{\theta}_n^* - \hat{\theta}_n$ bằng $\hat{\theta}_n - \theta$ \footnote{Davison and Hinkley (1997, tr. 194--195)}:
-		\begin{equation}
-			\mathbb{P}\left( q_{\alpha/2}^* - \hat{\theta}_n \le \hat{\theta}_n - \theta \le q_{1-\alpha/2}^* - \hat{\theta}_n \right) \approx 1 - \alpha
-		\end{equation}
-		Giải bất phương trình trên đối với tham số tổng thể thực $\theta$ \footnote{Davison and Hinkley (1997, tr. 194--195)}:
-		\begin{align*}
-			& q_{\alpha/2}^* - \hat{\theta}_n \le \hat{\theta}_n - \theta \le q_{1-\alpha/2}^* - \hat{\theta}_n \\
-			\iff & q_{\alpha/2}^* - 2\hat{\theta}_n \le -\theta \le q_{1-\alpha/2}^* - 2\hat{\theta}_n \\
-			\iff & 2\hat{\theta}_n - q_{1-\alpha/2}^* \le \theta \le 2\hat{\theta}_n - q_{\alpha/2}^* \quad (\text{đpcm})
-		\end{align*}
-	\end{theorem}
+	Phân phối bên phải có điều kiện theo mẫu gốc. Gọi $q_L^*,q_U^*$
+    là các phân vị mức $\alpha/2$ và $1-\alpha/2$ của các bản sao thống kê.
+    Khi tâm hóa các bản sao, hai phân vị sai số tương ứng là
+    \[
+        d_L^*=q_L^*-\hat\theta_n,\qquad d_U^*=q_U^*-\hat\theta_n.
+    \]
+    Hai phân vị này ước lượng hai mốc của phân phối sai số lấy mẫu.
+    Nếu phân phối của sai số sau khi chuẩn hóa bằng cùng một hệ số dương
+    có giới hạn liên tục và tăng nghiêm ngặt quanh hai phân vị đích, và
+    các phân vị Bootstrap chuẩn hóa hội tụ về hai mốc đó, xác suất sai số
+    lấy mẫu nằm giữa $d_L^*$ và $d_U^*$ tiến về $1-\alpha$~\cite{rizzo2019,davison1997}.
+    Với phân phối Bootstrap rời rạc, khối xác suất nằm giữa hai phân vị
+    tính cả hai đầu có thể khác $1-\alpha$.
 
-	\subsubsection{Công thức xây dựng khoảng tin cậy}
-	Khoảng tin cậy Bootstrap Cơ bản ở độ tin cậy $1 - \alpha$ có dạng \footnote{Bùi Thùy Trang (2026, Chương 4; Đề tài 8, tr.~8); Rizzo (2019, Công thức 8.6, tr.~225--226); Davison and Hinkley (1997, tr. 194)}:
+    Giải bất đẳng thức theo $\theta$:
+    \[
+        d_L^*\le \hat\theta_n-\theta\le d_U^*
+        \iff 2\hat\theta_n-q_U^*\le\theta\le 2\hat\theta_n-q_L^*.
+    \]
+    Phân vị trên tạo cận dưới, còn phân vị dưới tạo cận trên.
+
+    \subsubsection{Công thức xây dựng khoảng tin cậy}
+	Khoảng tin cậy Bootstrap Cơ bản ở độ tin cậy $1 - \alpha$ có dạng~\cite{buithuytrang2026,rizzo2019,davison1997}:
 	\begin{equation}
 		CI_{\text{Basic}} = \left[ 2\hat{\theta}_n - q_{1-\alpha/2}^*, \quad 2\hat{\theta}_n - q_{\alpha/2}^* \right]
 	\end{equation}
 	\subsection{Thuật toán xây dựng hai khoảng tin cậy}
 	\begin{algorithm}[H]
-		\Input{Mẫu dữ liệu $x = (x_1, \dots, x_n)$; Số lần lấy mẫu lại $B$; Mức ý nghĩa $\alpha$ \footnote{Bùi Thùy Trang (2026, Chương 4; Đề tài 8, tr.~8); Rizzo (2019, Mục 8.3.2, tr.~225--226)}.}
-		\Output{Khoảng tin cậy $CI_{\text{Normal}}$ và $CI_{\text{Basic}}$ ở độ tin cậy $(1-\alpha) \cdot 100\%$.}
-		\BlankLine
-		\textbf{Bước 1: Tính ước lượng trên mẫu gốc}\;
-		Tính $\hat{\theta}_n = t(x_1, \dots, x_n)$ \;
+        \Input{Mẫu đã quan sát $x$, hàm thống kê $t(\cdot)$, $B\ge2$ và $0<\alpha<1$.}
+        \Output{Khoảng Normal và Basic với mức tin cậy danh nghĩa $1-\alpha$.}
+        Dùng Thuật toán~\ref{alg:bootstrap-monte-carlo} để tính
+        $\hat\theta_n(x)$, dãy $(T_b^*)_{b=1}^B$ và $\widehat{se}^*$\;
+        Tính $z=\Phi^{-1}(1-\alpha/2)$\;
+        Sắp xếp bản sao thành $T_{(1)}^*\le\cdots\le T_{(B)}^*$\;
+        Với type 1, đặt $q_L^*=T_{(\lceil B\alpha/2\rceil)}^*$ và
+        $q_U^*=T_{(\lceil B(1-\alpha/2)\rceil)}^*$\;
+        Tính $CI_{\text{Normal}}=\hat\theta_n(x)\pm z\widehat{se}^*$\;
+        Tính $CI_{\text{Basic}}=[2\hat\theta_n(x)-q_U^*,\,2\hat\theta_n(x)-q_L^*]$\;
+        \Return $CI_{\text{Normal}}$ và $CI_{\text{Basic}}$\;
+        \caption{Xây dựng khoảng Normal CI và Basic CI}
+    \end{algorithm}
 
-		\textbf{Bước 2: Rút mẫu Bootstrap Monte Carlo}\;
-		\For{$b = 1, 2, \dots, B$}{
-			Rút ngẫu nhiên có hoàn lại $n$ phần tử từ $x$ để tạo $x^{*(b)}$ \;
-			Tính bản sao Bootstrap: $\hat{\theta}^{*(b)} = t(x^{*(b)})$ \;
-		}
-
-		\textbf{Bước 3: Tính các đặc trưng phân phối Bootstrap}\;
-		Sắp xếp $B$ bản sao theo thứ tự tăng dần: $\hat{\theta}^{*(1)} \le \hat{\theta}^{*(2)} \le \dots \le \hat{\theta}^{*(B)}$ \;
-		Tính sai số chuẩn Bootstrap $\widehat{se}^* = \sqrt{\frac{1}{B-1}\sum_{b=1}^{B} (\hat{\theta}^{*(b)} - \bar{\theta}^*)^2}$ \;
-		Với phân vị thực nghiệm type 1, lấy chỉ số $k_L=\max\{1,\lceil B\alpha/2\rceil\}$ và $k_U=\lceil B(1-\alpha/2)\rceil$; đặt $q_{\alpha/2}^*=\hat{\theta}^{*(k_L)}$ và $q_{1-\alpha/2}^*=\hat{\theta}^{*(k_U)}$ \;
-
-		\textbf{Bước 4: Xây dựng khoảng tin cậy}\;
-		Tính $CI_{\text{Normal}} = [\hat{\theta}_n - z_{1-\alpha/2}\widehat{se}^*, \quad \hat{\theta}_n + z_{1-\alpha/2}\widehat{se}^*]$ \;
-		Tính $CI_{\text{Basic}} = [2\hat{\theta}_n - q_{1-\alpha/2}^*, \quad 2\hat{\theta}_n - q_{\alpha/2}^*]$ \;
-		\Return $CI_{\text{Normal}}$ và $CI_{\text{Basic}}$ \;
-		\caption{Thuật toán 4 bước xây dựng Khoảng tin cậy Normal CI và Basic CI}
-	\end{algorithm}
-
-	\subsection{Liên hệ với ví dụ tính toán}
+    \subsection{Liên hệ với ví dụ tính toán}
 
 Các bước tính số, mã R và kết quả minh họa được trình bày tập trung ở
 Phần~\ref{sec:examples}. Cách tổ chức này giúp phần lý thuyết tập trung vào
@@ -665,7 +696,7 @@ thuật toán, còn các ví dụ và đầu ra R được đối chiếu tại 
 \section{SO SÁNH NORMAL CI VÀ BASIC CI}
 
 	\subsection{So sánh cơ sở toán học của Normal CI và Basic CI}
-	Bảng \ref{tab:comparison_math} so sánh các giả định và đặc điểm toán học của hai phương pháp \footnote{Rizzo (2019, Mục 8.3.1--8.3.2, tr.~224--226); Efron and Tibshirani (1993, tr. 153--155); Davison and Hinkley (1997, tr. 194--199); Justus et al. (2024, tr.~2--4)}.
+	Bảng \ref{tab:comparison_math} so sánh các giả định và đặc điểm toán học của hai phương pháp~\cite{rizzo2019,efron1993,davison1997,justus2024}.
 	\begin{table}[htbp]
 		\centering
 		\renewcommand{\arraystretch}{1.4}
@@ -676,7 +707,7 @@ thuật toán, còn các ví dụ và đầu ra R được đối chiếu tại 
 			\toprule
 			\textbf{Tiêu chí} & \textbf{Normal Bootstrap CI} & \textbf{Basic Bootstrap CI} \\
 			\midrule
-			\textbf{Giả định phân phối} & Giả định $\hat{\theta}_n$ xấp xỉ phân phối Chuẩn $N(\theta, se^2)$. & Không giả định phân phối Chuẩn; giả định tính tương đồng độ lệch $\hat{\theta}_n - \theta \approx \hat{\theta}_n^* - \hat{\theta}_n$. \\
+			\textbf{Giả định phân phối} & Giả định $\hat{\theta}_n$ xấp xỉ phân phối Chuẩn $N(\theta, se^2)$. & Không giả định phân phối Chuẩn; dùng phân phối có điều kiện của $\hat\theta_n^*-\hat\theta_n$ để xấp xỉ phân phối của $\hat\theta_n-\theta$. \\
 			\textbf{Thông tin Bootstrap} & Khai thác phương sai và sai số chuẩn $\widehat{se}^*$. & Khai thác hình dạng phân phối thực nghiệm qua các phân vị $q^*$. \\
 			\textbf{Tính đối xứng} & Khoảng đối xứng quanh ước lượng điểm $\hat{\theta}_n$. & Khoảng có thể bất đối xứng, phản ánh độ lệch của phân phối. \\
 			\textbf{Hiệu chỉnh độ lệch} & Không hiệu chỉnh độ lệch. & Phản chiếu phân vị; không bảo đảm loại bỏ độ chệch. \\
@@ -687,23 +718,23 @@ thuật toán, còn các ví dụ và đầu ra R được đối chiếu tại 
 
 	\subsection{Hai phương pháp khi phân phối lệch}
 
-Khi tổng thể lệch phải, phân phối lấy mẫu của $\hat{\theta}_n$ cũng có thể lệch, nhất là với cỡ mẫu nhỏ. Dưới đây là cách hai khoảng phản ánh độ lệch đó \footnote{Davison and Hinkley (1997, tr. 197--199)}.
+Khi tổng thể lệch phải, phân phối lấy mẫu của $\hat{\theta}_n$ cũng có thể lệch, nhất là với cỡ mẫu nhỏ. Dưới đây là cách hai khoảng phản ánh độ lệch đó~\cite[tr. 197--199]{davison1997}.
 
 	\subsubsection{Đặc điểm của Normal CI}
-Công thức $CI_{\text{Normal}} = \hat{\theta}_n \pm z_{1-\alpha/2}\widehat{se}^*$ tạo khoảng đối xứng quanh ước lượng điểm nên không phản ánh trực tiếp độ lệch của phân phối Bootstrap. Tùy tham số và dữ liệu, một cận có thể nằm ngoài miền giá trị hợp lý hoặc coverage có thể khác mức danh nghĩa \footnote{Efron and Tibshirani (1993, tr. 153--155); Davison and Hinkley (1997, tr. 197--198)}.
+Công thức $CI_{\text{Normal}} = \hat{\theta}_n \pm z_{1-\alpha/2}\widehat{se}^*$ tạo khoảng đối xứng quanh ước lượng điểm nên không phản ánh trực tiếp độ lệch của phân phối Bootstrap. Tùy tham số và dữ liệu, một cận có thể nằm ngoài miền giá trị hợp lý hoặc coverage có thể khác mức danh nghĩa~\cite{efron1993,davison1997}.
 
 \subsubsection{Cách Basic CI phản ánh độ lệch qua phép đảo phân vị}
-	Trong trường hợp phân phối Bootstrap lệch phải và khoảng cách từ $\hat{\theta}_n$ đến phân vị trên $q_{1-\alpha/2}^*$ lớn hơn khoảng cách đến phân vị dưới $q_{\alpha/2}^*$ \footnote{Davison and Hinkley (1997, tr. 197--199)}:
+	Khi $q_{\alpha/2}^*\le\hat\theta_n\le q_{1-\alpha/2}^*$ và khoảng cách từ $\hat{\theta}_n$ đến phân vị trên $q_{1-\alpha/2}^*$ lớn hơn khoảng cách đến phân vị dưới $q_{\alpha/2}^*$~\cite[tr. 197--199]{davison1997}:
 	\begin{equation}
 		(q_{1-\alpha/2}^* - \hat{\theta}_n) > (\hat{\theta}_n - q_{\alpha/2}^*)
 	\end{equation}
 	Áp dụng công thức Basic CI:
 	\begin{itemize}
-		\item Cận dưới: $2\hat{\theta}_n - q_{1-\alpha/2}^* = \hat{\theta}_n - (q_{1-\alpha/2}^* - \hat{\theta}_n)$. Vì $(q_{1-\alpha/2}^* - \hat{\theta}_n)$ lớn, cận dưới bị đẩy lùi mạnh về bên trái \footnote{Davison and Hinkley (1997, tr. 197--199)}.
-		\item Cận trên: $2\hat{\theta}_n - q_{\alpha/2}^* = \hat{\theta}_n + (\hat{\theta}_n - q_{\alpha/2}^*)$. Vì $(\hat{\theta}_n - q_{\alpha/2}^*)$ nhỏ, cận trên tiến nhẹ về bên phải \footnote{Davison and Hinkley (1997, tr. 197--199)}.
+		\item Cận dưới: $2\hat{\theta}_n - q_{1-\alpha/2}^* = \hat{\theta}_n - (q_{1-\alpha/2}^* - \hat{\theta}_n)$. Vì $(q_{1-\alpha/2}^* - \hat{\theta}_n)$ lớn, cận dưới bị đẩy lùi mạnh về bên trái~\cite[tr. 197--199]{davison1997}.
+		\item Cận trên: $2\hat{\theta}_n - q_{\alpha/2}^* = \hat{\theta}_n + (\hat{\theta}_n - q_{\alpha/2}^*)$. Vì $(\hat{\theta}_n - q_{\alpha/2}^*)$ nhỏ, cận trên tiến nhẹ về bên phải~\cite[tr. 197--199]{davison1997}.
 			Cơ chế trên được minh họa bằng cùng dữ liệu lệch phải ở Ví dụ~\ref{sec:example-skewed}; các phân vị và cận khoảng được tính từ mã nguồn R thống nhất của báo cáo.
 	\end{itemize}
-	Quantile flipping phản chiếu các phân vị Bootstrap quanh ước lượng điểm và vì vậy có thể tạo khoảng bất đối xứng. Cơ chế này không đảm bảo Basic CI có coverage cao hơn Normal CI; hiệu năng cần được so sánh theo thiết kế mô phỏng, bằng các chỉ số như coverage và độ dài khoảng \footnote{Efron and Tibshirani (1993, tr. 154); Davison and Hinkley (1997, tr. 198--199)}.
+	Quantile flipping phản chiếu các phân vị Bootstrap quanh ước lượng điểm và vì vậy có thể tạo khoảng bất đối xứng. Cơ chế này không đảm bảo Basic CI có coverage cao hơn Normal CI; hiệu năng cần được so sánh theo thiết kế mô phỏng, bằng các chỉ số như coverage và độ dài khoảng~\cite{efron1993,davison1997}.
 
 \subsubsection{Điều kiện áp dụng và giới hạn của Bootstrap}
 
@@ -713,7 +744,7 @@ tổng thể và cách lấy mẫu lại có giữ đúng cấu trúc dữ liệ
 liệu ghép cặp, phân cụm hoặc phụ thuộc theo thời gian, cần chọn cách lấy mẫu
 lại phù hợp với cấu trúc đó thay vì xem mọi quan sát là độc lập.
 
-Mẫu nhỏ không tự động làm Bootstrap chính xác hơn \footnote{Efron and Tibshirani (1993, tr. 258--261); Davison and Hinkley (1997, tr. 198)}. Khi có ít quan sát, các bản sao chỉ chứa một số giá trị hạn chế, khiến phân vị và cận khoảng có thể thiếu ổn định. Cần nêu rõ giả định, đơn vị lấy mẫu lại và giới hạn khi diễn giải kết quả.
+Mẫu nhỏ không tự động làm Bootstrap chính xác hơn~\cite{efron1993,davison1997}. Khi có ít quan sát, các bản sao chỉ chứa một số giá trị hạn chế, khiến phân vị và cận khoảng có thể thiếu ổn định. Cần nêu rõ giả định, đơn vị lấy mẫu lại và giới hạn khi diễn giải kết quả.
 
 
 \newpage
@@ -737,7 +768,7 @@ x <- c(1, 2, 3)
 means <- rowMeans(expand.grid(x, x, x))
 prob <- prop.table(table(means))
 prob
-se <- sd(means)
+se <- sqrt(mean((means - mean(means))^2))
 se
 \end{lstlisting}
 
@@ -802,7 +833,7 @@ một phân phối Bootstrap.
 
 Mô phỏng đánh giá coverage và độ dài trung bình của Normal, Basic và
 Percentile CI với mức tin cậy danh nghĩa $95\%$. Mỗi trong bốn kịch bản
-được lặp $K=10{,}000$ lần; mỗi lần lặp tạo $B=1{,}999$ mẫu Bootstrap \footnote{Bùi Thùy Trang (2026, Đề tài 8, tr.~8); Justus et al. (2024, Mục 2.2--2.3, tr.~5--7); Davison and Hinkley (1997, Chương 9, tr.~334--340)}.
+được lặp $K=10{,}000$ lần; mỗi lần lặp tạo $B=1{,}999$ mẫu Bootstrap~\cite{buithuytrang2026,davison1997,justus2024}.
 Các kịch bản gồm tổng thể chuẩn $N(0,1)$ và mũ $\operatorname{Exp}(1)$,
 đều ở hai cỡ mẫu $n=12$ và $n=40$. Seed được cố định ở $20260925$ để có
 thể tái lập kết quả.
@@ -903,13 +934,27 @@ AL của Basic và Percentile trùng nhau trong từng kịch bản do hai kho�
 được phản chiếu từ cùng cặp phân vị. Các kết quả này mô tả đúng bốn kịch
 bản đã xét, không khẳng định thứ hạng phương pháp cho mọi phân phối.
 
+\paragraph{Độ bao phủ của Normal Bootstrap với mẫu chuẩn.}
+Gọi $S$ là độ lệch chuẩn mẫu với mẫu số $n-1$. Khi giữ $n$ cố định và
+$B\to\infty$, sai số chuẩn Bootstrap của trung bình tiến tới
+\[
+    se_\infty^*=\sqrt{\operatorname{Var}^*(\bar X^*)}
+    =\sqrt{\frac{n-1}{n}}\frac{S}{\sqrt n}.
+\]
+Công thức~\eqref{eq:bootstrap-mean-variance} cho phương sai có điều kiện của $\bar X^*$.
+Với $T=(\bar X-\mu)/(S/\sqrt n)\sim t_{n-1}$, độ bao phủ giới hạn là
+$\Pr(|T|\le z_{0.975}\sqrt{(n-1)/n})$: $91.27\%$ ở $n=12$ và $93.98\%$
+ở $n=40$, so với $91.05\%$ và $93.91\%$ trong Bảng~\ref{tab:simulation-results}.
+Mức hụt so với $95\%$ vẫn xuất hiện khi tính chính xác sai số chuẩn Bootstrap.
+
+
 
 \newpage
 \section{ỨNG DỤNG BOOTSTRAP CI TRONG Y SINH}
 
 \subsection{Bootstrap trong phân tích dữ liệu sống còn}
 
-Dữ liệu sống còn có thể bị kiểm duyệt nếu thời gian theo dõi kết thúc trước khi biến cố xuất hiện hoặc người tham gia rời nghiên cứu. Trong mô hình Cox, Hazard Ratio (HR) là hàm mũ của hệ số hồi quy. Khi Bootstrap được dùng để đánh giá độ bất định của HR, cách lấy mẫu lại cần phù hợp với cấu trúc dữ liệu \footnote{Davison and Hinkley (1997, tr. 334--340)}.
+Dữ liệu sống còn có thể bị kiểm duyệt nếu thời gian theo dõi kết thúc trước khi biến cố xuất hiện hoặc người tham gia rời nghiên cứu. Trong mô hình Cox, Hazard Ratio (HR) là hàm mũ của hệ số hồi quy. Khi Bootstrap được dùng để đánh giá độ bất định của HR, cách lấy mẫu lại cần phù hợp với cấu trúc dữ liệu~\cite[tr. 334--340]{davison1997}.
 
 Với hệ số ước lượng $\widehat{\beta}$, $\widehat{HR}=\exp(\widehat{\beta})$.
 Khoảng Wald được tính trên thang log-HR rồi chuyển về thang HR:
@@ -930,7 +975,7 @@ một nghiên cứu hay thử nghiệm lâm sàng cụ thể.}
 Quy trình minh họa gồm các bước sau:
 \begin{enumerate}
 	\item \textbf{Ước lượng Hazard Ratio:} Đặt $HR=h_{\text{điều trị}}/h_{\text{đối chứng}}$ và giả sử ước lượng trên mẫu gốc là $\widehat{HR}_n=1.85$. Nếu biến cố là tử vong, giá trị này biểu thị hazard tử vong tức thời ở nhóm điều trị cao hơn nhóm đối chứng theo mô hình Cox; cách diễn giải phụ thuộc vào quy ước mã hóa nhóm và biến cố.
-	\item \textbf{Bootstrap phân tầng ($B=2000$):} Rút $2000$ mẫu Bootstrap phân tầng (stratified bootstrap), lấy mẫu riêng trong từng nhóm để giữ nguyên cỡ nhóm \footnote{Davison and Hinkley (1997, tr. 86--91)}. Với mỗi mẫu $b$, tính lại $\widehat{\text{HR}}^{*(b)}$.
+	\item \textbf{Bootstrap phân tầng ($B=2000$):} Rút $2000$ mẫu Bootstrap phân tầng (stratified bootstrap), lấy mẫu riêng trong từng nhóm để giữ nguyên cỡ nhóm~\cite[tr. 86--91]{davison1997}. Với mỗi mẫu $b$, tính lại $\widehat{\text{HR}}^{*(b)}$.
 	\item \textbf{Phân phối Bootstrap giả định:} Giả sử phân phối các bản sao $\widehat{\text{HR}}^*$ lệch phải và có các đặc trưng sau:
 	\begin{itemize}
 		\item Sai số chuẩn Bootstrap: $\widehat{se}^* = 0.42$.
@@ -973,7 +1018,7 @@ Deng và cộng sự (2013) dùng Bootstrap để đánh giá ý nghĩa thống 
 relative validity (RV) và khảo sát các yếu tố ảnh hưởng đến kết luận.
 Phân tích dựa trên câu trả lời của 453 bệnh nhân bệnh thận mạn đối với 16
 thang đo đặc hiệu và tổng quát; RV cho biết mỗi thang đo phân biệt các
-nhóm lâm sàng tốt đến mức nào so với thang đo tham chiếu \footnote{Deng et al. (2013, tr. 2--4)}.
+nhóm lâm sàng tốt đến mức nào so với thang đo tham chiếu~\cite[tr. 2--4]{deng2013}.
 
 Đại lượng chính là relative validity (RV), được tính bằng tỷ số giữa
 thống kê $F$ của công cụ so sánh và thống kê $F$ của công cụ tham chiếu:
@@ -989,7 +1034,7 @@ hơn công cụ tham chiếu theo tiêu chí này.
 Bài báo sử dụng khoảng tin cậy Bootstrap $95\%$ cho RV. Chú thích bảng
 kết quả xác định đây là khoảng BCa (Bias-Corrected and Accelerated),
 không phải Normal CI hay Basic CI. Bảng dưới đây trích một số kết quả
-đại diện từ nghiên cứu \footnote{Deng et al. (2013, Table 2, tr. 5)}.
+đại diện từ nghiên cứu~\cite[Bảng 1, tr.~3]{deng2013}.
 
 \begin{table}[htbp]
 	\centering
@@ -1027,8 +1072,7 @@ $0.77$, nhưng khoảng BCa $[0.53;1.09]$ vẫn chứa giá trị tham chiếu $
 Ngược lại, khoảng của QDIS-CKD Static-34 là $[0.71;0.97]$, không chứa
 $1$. Vì vậy, theo cách diễn giải khoảng tin cậy trong nghiên cứu,
 Static-34 có RV thấp hơn có ý nghĩa thống kê so với công cụ tham chiếu,
-còn kết quả của KDQOL Burden chưa đủ để đưa ra kết luận tương tự
-\footnote{Deng et al. (2013)}.
+còn kết quả của KDQOL Burden chưa đủ để đưa ra kết luận tương tự~\cite{deng2013}.
 
 Nghiên cứu còn thực hiện mô phỏng để khảo sát ảnh hưởng của cỡ mẫu,
 thống kê $F$ của công cụ tham chiếu, tương quan giữa hai công cụ và số
@@ -1036,7 +1080,7 @@ lần lấy mẫu Bootstrap. Một kết quả đáng chú ý là khi $F$ của 
 tham chiếu khoảng $57$ và tương quan giữa hai công cụ bằng $0.7$, công
 suất đạt khoảng $80\%$ để phát hiện RV xấp xỉ $0.6$. Tác giả cũng nhận
 xét rằng tăng số lần lặp Bootstrap vượt quá $500$ đem lại ít thay đổi
-trong các kịch bản mô phỏng của bài báo \footnote{Deng et al. (2013)}.
+trong các kịch bản mô phỏng của bài báo~\cite{deng2013}.
 
 Ví dụ này minh họa BCa được dùng để lượng hóa độ bất định của một tỷ số
 thống kê phức tạp. Tuy nhiên, bài báo không phải là phép so sánh trực
@@ -1105,20 +1149,23 @@ round(ci, 3)
 
 \subsection{Khoảng tin cậy Bootstrap phân vị (Percentile CI)}
 
-Bên cạnh Normal CI và Basic CI, Percentile CI lấy trực tiếp các phân vị của phân phối Bootstrap làm hai cận khoảng \footnote{Rizzo (2019, Mục 8.3.3, tr.~226--228); Efron and Tibshirani (1993, tr. 160--162); Nguyễn Thị Quyên et al. (2025, Mục 3.3, tr.~36)}.
+Bên cạnh Normal CI và Basic CI, Percentile CI lấy trực tiếp các phân vị của phân phối Bootstrap làm hai cận khoảng~\cite{rizzo2019,efron1993,quyen2025}.
 
 \subsubsection{Cơ sở và công thức}
-Percentile CI đặt giả định rằng phân phối của bản sao Bootstrap $\hat{\theta}^*$ xấp xỉ trực tiếp phân phối lấy mẫu của ước lượng điểm $\hat{\theta}_n$. Tức là, các phân vị thực nghiệm của tập hợp $\{\hat{\theta}^{*(1)}, \dots, \hat{\theta}^{*(B)}\}$ được sử dụng trực tiếp làm cận của khoảng tin cậy mà không qua phép biến đổi độ lệch nào \footnote{Efron and Tibshirani (1993, tr. 160)}:
+Percentile CI dùng trực tiếp hai phân vị của các bản sao. Khi sai số
+Bootstrap gần đối xứng quanh $0$, hai phân vị thỏa xấp xỉ
+$q_L^*+q_U^*\approx2\hat\theta_n$, nên các cận gần với Basic CI.
+Lập luận có thể áp dụng trên một thang biến đổi đơn điệu thích hợp~\cite[tr.~160--163]{efron1993}.
 
 \begin{equation}
 	CI_{\text{Percentile}} = \left[ q_{\alpha/2}^*, \quad q_{1-\alpha/2}^* \right]
 \end{equation}
-trong đó $q_{\alpha/2}^*$ và $q_{1-\alpha/2}^*$ tương ứng là phân vị thực nghiệm mức $\alpha/2$ và $1-\alpha/2$ của các bản sao Bootstrap \footnote{Bùi Thùy Trang (2026, Chương 4; Đề tài 8, tr.~8); Rizzo (2019, Mục 8.3.3, tr.~226)}.
+trong đó $q_{\alpha/2}^*$ và $q_{1-\alpha/2}^*$ tương ứng là phân vị thực nghiệm mức $\alpha/2$ và $1-\alpha/2$ của các bản sao Bootstrap~\cite{buithuytrang2026,rizzo2019}.
 \subsection{Khoảng tin cậy Bootstrap BCa}
 
 Khoảng tin cậy Bootstrap BCa (Bias-Corrected and Accelerated) điều chỉnh
 các phân vị Bootstrap để phản ánh độ chệch và độ bất đối xứng của phân phối
-ước lượng \footnote{Efron and Tibshirani (1993, tr. 178--188); Davison and Hinkley (1997, tr. 203--211)}.
+ước lượng~\cite{efron1993,davison1997}.
 
 Gọi $\hat{\theta}_n$ là ước lượng từ mẫu gốc và
 $\hat{\theta}^{*(1)},\ldots,\hat{\theta}^{*(B)}$ là các bản sao Bootstrap.
@@ -1189,11 +1236,10 @@ Percentile CI lấy trực tiếp hai phân vị Bootstrap thông thường, cò
 điều chỉnh các mức phân vị để xét đến độ chệch và độ bất đối xứng.
 BCa có thể cải thiện độ chính xác trong những điều kiện thích hợp, nhưng
 không bảo đảm tốt hơn trong mọi trường hợp; kết quả còn phụ thuộc vào dữ
-liệu, thống kê đang xét và số lần lấy mẫu Bootstrap
-\footnote{Efron and Tibshirani (1993, tr. 186--188); Davison and Hinkley (1997, tr. 211)}.
+liệu, thống kê đang xét và số lần lấy mẫu Bootstrap~\cite{efron1993,davison1997}.
 \subsection{So sánh Normal CI, Basic CI và Percentile CI}
 
-Bảng \ref{tab:trio_comparison} so sánh ba phương pháp khoảng tin cậy Bootstrap \footnote{Bùi Thùy Trang (2026, Chương 4; Đề tài 8, tr.~8); Rizzo (2019, Mục 8.3, tr.~224--228, Ví dụ 8.9); Efron and Tibshirani (1993, tr. 160--163); Davison and Hinkley (1997, tr. 193--204); Justus et al. (2024, tr.~2--4)}. Đặt $q_L^*=q_{\alpha/2}^*$ và $q_U^*=q_{1-\alpha/2}^*$.
+Bảng \ref{tab:trio_comparison} so sánh ba phương pháp khoảng tin cậy Bootstrap~\cite{buithuytrang2026,rizzo2019,efron1993,davison1997,justus2024}. Đặt $q_L^*=q_{\alpha/2}^*$ và $q_U^*=q_{1-\alpha/2}^*$.
 
 \begin{table}[htbp]
 	\centering
@@ -1218,7 +1264,7 @@ Bảng \ref{tab:trio_comparison} so sánh ba phương pháp khoảng tin cậy B
 \subsection{Tính bất biến dưới phép biến đổi tham số $g(\theta)$}
 
 \begin{definition}[\textbf{Tính Bất biến của Khoảng Tin cậy}]
-	Một phương pháp xây dựng khoảng tin cậy cho tham số $\theta$ được gọi là \textbf{bất biến (invariant)} dưới phép biến đổi đơn điệu $g(\cdot)$ nếu khoảng tin cậy cho tham số mới $\eta = g(\theta)$ đúng bằng việc áp dụng ánh xạ $g(\cdot)$ lên các cận của khoảng tin cậy cho $\theta$ \footnote{Efron and Tibshirani (1993, Section 13.3, tr. 162--163)}:
+	Một phương pháp xây dựng khoảng tin cậy cho tham số $\theta$ được gọi là \textbf{bất biến (invariant)} dưới phép biến đổi đơn điệu $g(\cdot)$ nếu khoảng tin cậy cho tham số mới $\eta = g(\theta)$ đúng bằng việc áp dụng ánh xạ $g(\cdot)$ lên các cận của khoảng tin cậy cho $\theta$~\cite[Section 13.3, tr. 162--163]{efron1993}:
 	\begin{equation}
 		CI_{g(\theta)} =
     \begin{cases}
@@ -1230,25 +1276,25 @@ Bảng \ref{tab:trio_comparison} so sánh ba phương pháp khoảng tin cậy B
 
 		\subsubsection{Tính bất biến của Percentile CI}
 		Giả sử $g(\cdot)$ là một hàm số đồng biến nghiêm ngặt (strictly monotonic increasing function), chẳng hạn như phép biến đổi Logarithm $g(x) = \ln(x)$ hoặc phép biến đổi Lũy thừa $g(x) = x^2$ với $x > 0$.
-		Trong chứng minh này, dùng phân vị thực nghiệm type~1 (nghịch đảo tổng quát của ECDF), không nội suy giữa hai giá trị. Với nội suy tuyến tính type~7, phép biến đổi phi tuyến nói chung không giao hoán với nội suy. Vì $g(\cdot)$ đồng biến, thứ tự các phần tử trong tập hợp bản sao Bootstrap được giữ nguyên hoàn toàn \footnote{Efron and Tibshirani (1993, tr. 162--163)}:
+		Trong chứng minh này, dùng phân vị thực nghiệm type~1 (nghịch đảo tổng quát của ECDF), không nội suy giữa hai giá trị. Với nội suy tuyến tính type~7, phép biến đổi phi tuyến nói chung không giao hoán với nội suy. Vì $g(\cdot)$ đồng biến, thứ tự các phần tử trong tập hợp bản sao Bootstrap được giữ nguyên hoàn toàn~\cite[tr. 162--163]{efron1993}:
 		\begin{equation}
 			\hat{\theta}^{*(1)} \le \hat{\theta}^{*(2)} \le \dots \le \hat{\theta}^{*(B)} \iff g(\hat{\theta}^{*(1)}) \le g(\hat{\theta}^{*(2)}) \le \dots \le g(\hat{\theta}^{*(B)})
 		\end{equation}
-		Do đó, phân vị thực nghiệm mức $p$ của tham số mới $g(\hat{\theta}^*)$ chính bằng giá trị $g(\cdot)$ áp dụng lên phân vị thực nghiệm mức $p$ của $\hat{\theta}^*$ \footnote{Efron and Tibshirani (1993, tr. 162--163)}:
+		Do đó, phân vị thực nghiệm mức $p$ của tham số mới $g(\hat{\theta}^*)$ chính bằng giá trị $g(\cdot)$ áp dụng lên phân vị thực nghiệm mức $p$ của $\hat{\theta}^*$~\cite[tr. 162--163]{efron1993}:
 		\begin{equation}
 			q_p^*\left(g(\hat{\theta}^*)\right) = g\left(q_p^*(\hat{\theta}^*)\right)
 		\end{equation}
 
-		Từ đó, khoảng tin cậy Percentile CI cho tham số $g(\theta)$ là \footnote{Efron and Tibshirani (1993, tr. 162--163); Rizzo (2019, Mục 8.3.3, tr.~226--227)}:
+		Từ đó, khoảng tin cậy Percentile CI cho tham số $g(\theta)$ là~\cite{rizzo2019,efron1993}:
 		\begin{equation}
 			CI_{\text{Percentile}}(g(\theta)) = \left[ q_{\alpha/2}^*(g(\hat{\theta}^*)), \quad q_{1-\alpha/2}^*(g(\hat{\theta}^*)) \right] = \left[ g(q_{\alpha/2}^*), \quad g(q_{1-\alpha/2}^*) \right] \quad (\text{đpcm})
 		\end{equation}
 
 		\subsubsection{Normal CI và Basic CI dưới phép biến đổi phi tuyến}
-		Với phép biến đổi phi tuyến, Normal CI và Basic CI nói chung không bất biến \footnote{Efron and Tibshirani (1993, tr. 163); Davison and Hinkley (1997, tr. 203); Rizzo (2019, tr.~225--226)}:
+		Với phép biến đổi phi tuyến, Normal CI và Basic CI nói chung không bất biến~\cite{rizzo2019,efron1993,davison1997}:
 		\begin{itemize}
-			\item \textbf{Normal CI:} Sai số chuẩn và phép biến đổi phi tuyến nói chung không giao hoán; khoảng tính trực tiếp trên thang mới có thể khác với khoảng cũ sau biến đổi \footnote{Efron and Tibshirani (1993, tr. 163)}.
-			\item \textbf{Basic CI:} Phép phản chiếu phân vị quanh ước lượng điểm nói chung không giao hoán với phép biến đổi phi tuyến \footnote{Davison and Hinkley (1997, tr. 203)}.
+			\item \textbf{Normal CI:} Sai số chuẩn và phép biến đổi phi tuyến nói chung không giao hoán; khoảng tính trực tiếp trên thang mới có thể khác với khoảng cũ sau biến đổi~\cite[tr. 163]{efron1993}.
+			\item \textbf{Basic CI:} Phép phản chiếu phân vị quanh ước lượng điểm nói chung không giao hoán với phép biến đổi phi tuyến~\cite[tr. 203]{davison1997}.
 		\end{itemize}
 
 		\subsubsection{Kiểm chứng bằng phép biến đổi log}
@@ -1305,11 +1351,11 @@ Percentile & 0 & Có \\
 \label{fig:invariance-log}
 \end{figure}
 
-Trong kiểm chứng này, hai cách tính Percentile trùng nhau đến sai số máy;
-Normal và Basic cho kết quả khác nhau sau phép biến đổi log. Các số liệu
-chỉ minh họa ba công thức trên mẫu đã chọn. Với biến đổi đơn điệu giảm,
-thứ tự hai cận sau biến đổi được đảo lại; kết quả cũng phụ thuộc vào quy
-ước tính phân vị của phân phối thực nghiệm rời rạc. Cụ thể, với $g$ giảm, phân vị type~1 tại mức $p$ của mẫu đã biến đổi lấy phần tử gốc có hạng $B+1-\lceil Bp\rceil$, có thể khác hạng $\lceil B(1-p)\rceil$. Vì vậy, phép đảo hai cận chỉ khớp chính xác với khoảng tính lại khi quy tắc chọn hạng tương thích; không suy ra bất biến tuyệt đối cho mọi quy ước phân vị rời rạc.
+Trên mẫu đã chọn, hai cách tính Percentile trùng nhau đến sai số máy.
+Normal và Basic cho cận khác nhau. Với $g$ giảm, phân vị type~1 ở mức $p$
+trên thang mới lấy phần tử gốc có hạng $B+1-\lceil Bp\rceil$. Khoảng tính
+lại chỉ khớp với phép đảo hai cận khi hạng này tương thích với hạng
+$\lceil B(1-p)\rceil$.
 
 % ==================== PHẦN 9 ====================
 
@@ -1318,17 +1364,17 @@ thứ tự hai cận sau biến đổi được đảo lại; kết quả cũng 
 
 	\subsection{Kết quả chính}
 
-	Báo cáo trình bày cơ sở Bootstrap, ba cách xây dựng khoảng tin cậy, hai ví dụ liệt kê chính xác và mô phỏng Monte Carlo với $K=10{,}000$ lần lặp. Các kết luận sau được giới hạn trong phạm vi đó \footnote{Bùi Thùy Trang (2026); Efron and Tibshirani (1993); Davison and Hinkley (1997)}:
+	Báo cáo trình bày cơ sở Bootstrap, ba cách xây dựng khoảng tin cậy, hai ví dụ liệt kê chính xác và mô phỏng Monte Carlo với $K=10{,}000$ lần lặp. Các kết luận sau được giới hạn trong phạm vi đó~\cite{buithuytrang2026,efron1993,davison1997}:
 
 	\begin{enumerate}
-		\item Phân phối thực nghiệm xác định phân phối Bootstrap có điều kiện; số lần lấy mẫu hữu hạn tạo thêm sai số Monte Carlo. Độ chính xác của xấp xỉ còn phụ thuộc vào mẫu và thống kê đang xét \footnote{Efron and Tibshirani (1993)}.
+		\item Phân phối thực nghiệm xác định phân phối Bootstrap có điều kiện; số lần lấy mẫu hữu hạn tạo thêm sai số Monte Carlo. Độ chính xác của xấp xỉ còn phụ thuộc vào mẫu và thống kê đang xét~\cite{efron1993}.
 		\item Basic CI phản chiếu các phân vị Bootstrap quanh $\hat{\theta}_n$ và có thể tạo khoảng bất đối xứng. Trong các kịch bản mô phỏng của báo cáo, coverage của Basic thấp hơn Normal ở cả hai mẫu từ phân phối mũ.
 		\item \textbf{Tính bất biến của Percentile CI:} Với phép biến đổi đơn điệu tăng và quy ước phân vị tương thích, hai cận Percentile biến đổi theo cùng hàm $g$. Ví dụ log minh họa tính chất này trên mẫu đã chọn; với phép biến đổi giảm, cần đảo thứ tự hai cận.
 	\end{enumerate}
 
 	\subsection{Sơ đồ lựa chọn phương pháp}
 
-	Sơ đồ dưới đây tóm tắt các yếu tố liên quan đến việc chọn khoảng tin cậy. Lựa chọn cần phù hợp với mô hình, dữ liệu và mục tiêu suy luận \footnote{Efron and Tibshirani (1993); Davison and Hinkley (1997)}. Với dữ liệu phụ thuộc hoặc ngoại lai, cần kiểm tra mô hình và cơ chế lấy mẫu lại trước khi sử dụng sơ đồ.
+	Sơ đồ dưới đây tóm tắt các yếu tố liên quan đến việc chọn khoảng tin cậy. Lựa chọn cần phù hợp với mô hình, dữ liệu và mục tiêu suy luận~\cite{efron1993,davison1997}. Với dữ liệu phụ thuộc hoặc ngoại lai, cần kiểm tra mô hình và cơ chế lấy mẫu lại trước khi sử dụng sơ đồ.
 
 	\begin{figure}[H]
 		\centering
@@ -1386,7 +1432,7 @@ thứ tự hai cận sau biến đổi được đảo lại; kết quả cũng 
 	\newpage
 \subsection{Khuyến nghị thực hành}
 
-	Các khuyến nghị dưới đây giới hạn trong các thiết lập của báo cáo \footnote{Bùi Thùy Trang (2026, Đề tài 8, tr.~8); Rizzo (2019, Chương 8); Efron and Tibshirani (1993); Justus et al. (2024)}:
+	Các khuyến nghị dưới đây giới hạn trong các thiết lập của báo cáo~\cite{buithuytrang2026,rizzo2019,efron1993,justus2024}:
 	\begin{itemize}
     \item \textbf{Trong các kịch bản đã mô phỏng:} Coverage của cả ba phương pháp thấp hơn mức danh nghĩa $95\%$, nhưng cao hơn ở $n=40$ so với $n=12$. Kết quả chỉ áp dụng cho hai phân phối và hai cỡ mẫu đã xét; chưa đủ căn cứ để kết luận về $n\ge100$.
     \item \textbf{Với dữ liệu lệch và mẫu nhỏ:} Không phương pháp nào luôn dẫn đầu. Trong mô phỏng phân phối mũ ở $n=12$, Percentile có coverage $87.59\%$, Normal $87.06\%$, còn Basic $85.47\%$. Cần cân nhắc coverage, độ dài khoảng, giả định và mục tiêu phân tích; có thể khảo sát BCa như một phương pháp mở rộng.
