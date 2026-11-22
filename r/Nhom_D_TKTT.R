@@ -18,9 +18,33 @@ prob
 se <- sqrt(mean((means - mean(means))^2))
 se
 
-# Hinh 5.1
+# Hinh 5.1 & Bang 5.1: Hai vi du liet ke chinh xac (Doi xung & Lech phai)
 x2 <- c(1, 1, 1, 9)
 means2 <- rowMeans(expand.grid(x2, x2, x2, x2))
+
+# Tinh khoang tin cay chinh xac cho ca 2 mau (Bang 5.1 Bao cao & Frame 10-11 Slide)
+q1 <- unname(quantile(means, c(0.025, 0.975), type = 1))
+ci1 <- rbind(
+  Normal     = c(mean(x) - 1.96 * se, mean(x) + 1.96 * se),
+  Basic      = c(2 * mean(x) - q1[2], 2 * mean(x) - q1[1]),
+  Percentile = q1
+)
+colnames(ci1) <- c("Lower", "Upper")
+
+se2 <- sqrt(mean((means2 - mean(means2))^2))
+q2 <- unname(quantile(means2, c(0.025, 0.975), type = 1))
+ci2 <- rbind(
+  Normal     = c(mean(x2) - 1.96 * se2, mean(x2) + 1.96 * se2),
+  Basic      = c(2 * mean(x2) - q2[2], 2 * mean(x2) - q2[1]),
+  Percentile = q2
+)
+colnames(ci2) <- c("Lower", "Upper")
+
+cat("\n=== BANG 5.1: KHOANG TIN CAY TU HAI VI DU LIET KE CHINH XAC ===\n")
+cat("--- Mau doi xung x = (1, 2, 3), se = ", round(se, 4), " ---\n")
+print(round(ci1, 3))
+cat("--- Mau lech phai x = (1, 1, 1, 9), se = ", round(se2, 4), " ---\n")
+print(round(ci2, 3))
 
 par(mfrow = c(1, 2), las = 1)
 v1 <- sort(unique(means))
@@ -58,36 +82,69 @@ ci <- rbind(
 colnames(ci) <- c("Lower", "Upper")
 round(ci, 3)
 
-# Hinh 6.1 & 6.2: Mo phong
+# Hinh 6.1 & 6.2: Mo phong Monte Carlo (Bang 7.1 Bao cao & Slide Frame 12-17)
+RNGkind("Mersenne-Twister", "Inversion", "Rejection")
+set.seed(20260925)
+
 scenarios <- list(
-  "Normal n = 12"      = list(draw = function() rnorm(12), theta = 0, n = 12),
-  "Normal n = 40"      = list(draw = function() rnorm(40), theta = 0, n = 40),
-  "Exponential n = 12" = list(draw = function() rexp(12),  theta = 1, n = 12),
-  "Exponential n = 40" = list(draw = function() rexp(40),  theta = 1, n = 40)
+  "Normal n = 12"      = list(draw = rnorm, theta = 0, n = 12L),
+  "Normal n = 40"      = list(draw = rnorm, theta = 0, n = 40L),
+  "Exponential n = 12" = list(draw = rexp,  theta = 1, n = 12L),
+  "Exponential n = 40" = list(draw = rexp,  theta = 1, n = 40L)
 )
 methods <- c("Normal", "Basic", "Percentile")
 cols <- c("blue", "orange", "darkgreen")
-K <- 500
-B <- 499
+
+quick_test <- identical(Sys.getenv("QUICK_TEST"), "TRUE")
+K <- if (quick_test) 500L else 10000L
+B <- if (quick_test) 499L else 1999L
+z_val <- qnorm(1 - alpha / 2)
+tail_probs <- c(alpha / 2, 1 - alpha / 2)
 
 sim_res <- lapply(scenarios, function(sc) {
-  cov <- matrix(FALSE, K, 3)
-  len <- matrix(0, K, 3)
-  for (k in 1:K) {
-    x <- sc$draw()
-    b_means <- colMeans(matrix(sample(x, sc$n * B, replace = TRUE), nrow = sc$n))
+  cov <- matrix(FALSE, K, 3L)
+  len <- matrix(0, K, 3L)
+  for (k in seq_len(K)) {
+    x <- sc$draw(sc$n)
+    b_means <- colMeans(matrix(x[sample.int(sc$n, sc$n * B, replace = TRUE)], nrow = sc$n))
     se <- sd(b_means)
-    q <- quantile(b_means, c(0.025, 0.975))
+    q <- unname(quantile(b_means, tail_probs, type = 7))
     ci_mat <- rbind(
-      mean(x) + c(-1.96, 1.96) * se,
+      mean(x) + c(-z_val, z_val) * se,
       2 * mean(x) - c(q[2], q[1]),
       q
     )
     cov[k, ] <- (ci_mat[, 1] <= sc$theta) & (sc$theta <= ci_mat[, 2])
     len[k, ] <- ci_mat[, 2] - ci_mat[, 1]
   }
-  list(cov = colMeans(cov), len = colMeans(len))
+  cp <- colMeans(cov)
+  mcse <- sqrt(cp * (1 - cp) / K)
+  list(cov = cp, len = colMeans(len), mcse = mcse, raw_cov = cov)
 })
+
+cat(sprintf("\n=== BANG 7.1: KET QUA MO PHONG MONTE CARLO (K = %d, B = %d) ===\n", K, B))
+for (nm in names(sim_res)) {
+  res <- data.frame(
+    Method = methods,
+    Coverage_Pct = round(sim_res[[nm]]$cov * 100, 2),
+    AL = round(sim_res[[nm]]$len, 4),
+    MCSE_Pct = round(sim_res[[nm]]$mcse * 100, 2)
+  )
+  cat(paste("\n---", nm, "---\n"))
+  print(res)
+}
+
+# So sanh do bao phu theo cap trong Exponential (Slide Frame 16)
+cat("\n=== SO SANH DO BAO PHU THEO CAP TRONG EXPONENTIAL (FRAME 16 SLIDE) ===\n")
+for (idx in c("Exponential n = 12", "Exponential n = 40")) {
+  cov_m <- sim_res[[idx]]$raw_cov
+  diff_p_n <- (cov_m[, 3] - cov_m[, 1]) * 100
+  diff_p_b <- (cov_m[, 3] - cov_m[, 2]) * 100
+  cat(sprintf("%s: Percentile - Normal = %+0.2f%% (MCSE = %0.2f%%)\n",
+              idx, mean(diff_p_n), sd(diff_p_n) / sqrt(K)))
+  cat(sprintf("%s: Percentile - Basic  = %+0.2f%% (MCSE = %0.2f%%)\n",
+              idx, mean(diff_p_b), sd(diff_p_b) / sqrt(K)))
+}
 
 # Hinh 6.1
 par(mfrow = c(2, 2), las = 1)
@@ -162,6 +219,18 @@ ci <- rbind(
 colnames(ci) <- c("Lower", "Upper")
 round(ci, 3)
 
+# Vi du gia dinh Hazard Ratio (Frame 18 Slide & Muc 7.2 Bao cao)
+cat("\n=== VI DU GIA DINH HAZARD RATIO (FRAME 18 SLIDE & MUC 7.2 BAO CAO) ===\n")
+hr_hat_hypo <- 1.85
+se_hypo <- 0.42
+q_hypo <- c(1.15, 2.82)
+ci_hypo <- rbind(
+  Normal = c(hr_hat_hypo - 1.96 * se_hypo, hr_hat_hypo + 1.96 * se_hypo),
+  Basic  = c(2 * hr_hat_hypo - q_hypo[2], 2 * hr_hat_hypo - q_hypo[1])
+)
+colnames(ci_hypo) <- c("Lower", "Upper")
+print(round(ci_hypo, 3))
+
 # 6. Bat bien duoi log (Listing 6)
 x <- c(2, 3, 4, 5, 9)
 n <- length(x)
@@ -185,12 +254,25 @@ diff_basic <- max(abs(log(ci_basic_theta) - ci_basic_eta))
 result <- c(Percentile_Diff = diff_percentile, Basic_Diff = diff_basic)
 round(result, 6)
 
-# Hinh 8.1
-diff <- c(Normal = 0.156645, Basic = diff_basic, Percentile = diff_percentile)
+# Hinh 8.1 & Bang 7: Tinh toan diff_normal truc tiep, dong bo so lieu Bao cao & Slide
+se_theta <- sd(boot_theta)
+se_eta <- sd(boot_eta)
+ci_norm_theta <- c(theta_hat - 1.96 * se_theta, theta_hat + 1.96 * se_theta)
+ci_norm_eta <- c(eta_hat - 1.96 * se_eta, eta_hat + 1.96 * se_eta)
+diff_normal <- max(abs(log(ci_norm_theta) - ci_norm_eta))
 
+cat("\n=== PHAN VI TREN THANG LOG (FRAME 20 SLIDE) ===\n")
+cat("q_theta:", round(q_theta, 1), "\n")
+cat("[log(q_L), log(q_U)]:", round(log(q_theta), 3), "\n")
+
+cat("\n=== BANG 7: SAI KHAC LON NHAT TREN THANG LOG ===\n")
+diff_tbl <- c(Normal = diff_normal, Basic = diff_basic, Percentile = diff_percentile)
+print(round(diff_tbl, 7))
+
+# Hinh 8.1
 par(mfrow = c(1, 1), las = 1)
-plot(1:3, diff, pch = 19, cex = 1.4, col = cols,
+plot(1:3, diff_tbl, pch = 19, cex = 1.4, col = cols,
      xaxt = "n", xlab = "Method", ylab = "Max difference",
      main = "Invariance under log(theta)")
-axis(1, at = 1:3, labels = names(diff))
+axis(1, at = 1:3, labels = names(diff_tbl))
 abline(h = 0, lty = 2)
